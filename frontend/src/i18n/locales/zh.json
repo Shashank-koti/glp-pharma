@@ -1,0 +1,434 @@
+{
+  "navbar": {
+    "home": "首页",
+    "about": "关于我们",
+    "services": "服务",
+    "products": "产品",
+    "productCategories": "产品分类",
+    "gallery": "图库",
+    "careers": "招贤纳士",
+    "contact": "联系我们",
+    "search": "搜索产品...",
+    "language": "语言",
+    "searching": "搜索中...",
+    "productsFound": "找到的产品",
+    "noProductsFound": "未找到相关产品"
+  },
+  "contact": {
+    "letsConnect": "让我们联系吧",
+    "getIn": "保持",
+    "touch": "联系",
+    "weAreHere": "我们在这里为您提供帮助",
+    "desc": "有问题、咨询或需要支持？我们的团队已准备好为您提供正确的解决方案。",
+    "quickResponse": "快速响应",
+    "quickResponseDesc": "我们珍惜您的时间",
+    "trustedSupport": "可靠的支持",
+    "trustedSupportDesc": "专家协助",
+    "globalReach": "全球覆盖",
+    "globalReachDesc": "服务全球",
+    "sendUsMessage": "给我们留言",
+    "yourName": "您的姓名 *",
+    "yourEmail": "您的电子邮箱 *",
+    "companyName": "公司名称",
+    "subject": "主题",
+    "yourMessage": "您的留言 *",
+    "secureInfo": "您的信息是安全的，绝不会被分享。",
+    "sendMessage": "发送信息",
+    "contactInfo": "联系方式",
+    "ourLocation": "我们的位置",
+    "phone": "电话",
+    "email": "电子邮件",
+    "businessHours": "营业时间"
+  },
+  "footer": {
+    "desc": "通过创新的制药解决方案、毫不妥协的质量和卓越的科学技术，推动全球医疗保健的发展。",
+    "quickLinks": "快速链接",
+    "aboutUs": "关于我们",
+    "careers": "招贤纳士",
+    "latestNews": "最新新闻",
+    "gallery": "图库",
+    "contactUs": "联系我们",
+    "products": "产品",
+    "api": "活性药物成分 (API)",
+    "impurities": "杂质标准品",
+    "catalogue": "产品目录",
+    "technicalDocs": "技术文档",
+    "address": "123 Pharma 创新园区,<br />科学区, 环球城 10001",
+    "allRightsReserved": "GLP Pharma. 版权所有。",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款"
+  },
+  "home": {
+    "newsInsights": {
+      "knowledgeHub": "知识中心",
+      "industryInsights": "行业见解",
+      "andNews": "与新闻",
+      "viewAllArticles": "查看所有文章",
+      "readFullStory": "阅读全文",
+      "n1Category": "公司新闻",
+      "n1Title": "GLP Pharma 宣布扩大 API 制造设施",
+      "n1Date": "Oct 15, 2024",
+      "n2Category": "监管更新",
+      "n2Title": "应对新的 ISO 17034:2016 标准物质要求",
+      "n2Date": "Sep 28, 2024",
+      "n3Category": "研究",
+      "n3Title": "复杂中间体绿色合成路线取得突破",
+      "n3Date": "Sep 12, 2024"
+    },
+    "quality": {
+      "uncompromisingStandards": "毫不妥协的标准",
+      "ourJourney": "我们的历程",
+      "absoluteQuality": "绝对质量",
+      "desc": "质量不仅是一个部门，它还融入了我们制造过程的方方面面。 我们在每一步都保持全球最高标准。",
+      "s1Title": "原材料确认",
+      "s1Desc": "在合成开始前对所有进料进行严格测试，以保证绝对纯度。",
+      "s2Title": "过程中控制",
+      "s2Desc": "使用先进的 PAT 在制造周期的每个阶段进行持续监控和分析。",
+      "s3Title": "最终批次放行",
+      "s3Desc": "针对国际药典标准（USP/EP/BP）进行全面的多参数测试。",
+      "s4Title": "认证与审计",
+      "s4Desc": "提供完整的监管文件，并以 FDA 和 EMA 的持续合规审计为后盾。"
+    },
+    "globalTrust": {
+      "globalReach": "全球影响力",
+      "trustedBy": "深受全球制药领导者",
+      "worldwide": "的信赖",
+      "desc": "我们对卓越的承诺超越国界。 凭借强大的全球分销网络，我们确保将高质量的对照品无缝交付给 50 多个国家的顶级制药公司、CRO 和研究机构。",
+      "countriesServed": "服务的国家",
+      "productsAvailable": "可用产品",
+      "c1Title": "US FDA",
+      "c1Desc": "获得批准的制造设施确保顶级的监管合规性。",
+      "c2Title": "EU GMP",
+      "c2Desc": "认证的流程保证了欧洲市场的安全和质量。",
+      "c3Title": "ISO 9001",
+      "c3Desc": "质量管理体系确保一致的产品标准。",
+      "c4Title": "ISO 17034",
+      "c4Desc": "标准物质生产者能力的认证。"
+    },
+    "services": {
+      "ourExpertise": "我们的专业知识",
+      "title1": "综合的",
+      "title2": "制药解决方案",
+      "viewAll": "查看所有服务",
+      "s1": {
+        "title": "API杂质",
+        "desc": "在符合全球标准的最先进设施中制造的高质量API和杂质对照品。"
+      },
+      "s2": {
+        "title": "定制合成",
+        "desc": "定制合成复杂分子和对照品，以满足您的精确规格。"
+      },
+      "s3": {
+        "title": "质量控制",
+        "desc": "严格的测试协议，确保每一批次的绝对纯度、一致性和合规性。"
+      },
+      "s4": {
+        "title": "监管支持",
+        "desc": "全面的文件和支持，以应对复杂的全球监管环境。"
+      }
+    },
+    "newProducts": {
+      "latestInnovations": "最新创新",
+      "title": "新合成产品",
+      "casNo": "CAS号",
+      "details": "详情",
+      "enquire": "询价"
+    },
+    "companyIntro": {
+      "about": "关于 GLP Pharma",
+      "pioneering": "开创未来",
+      "pharmaceuticals": "制药",
+      "desc": "凭借二十多年对质量的坚定奉献，GLP Pharma 已成为全球首屈一指的制造商。",
+      "points": [
+        "美国 FDA 批准设施",
+        "欧盟 GMP 认证",
+        "先进的研发中心",
+        "可持续制造"
+      ],
+      "readOurStory": "阅读我们的完整故事",
+      "yearsOfExcellence": "年的卓越历程",
+      "inGlobalPharma": "在全球制药领域"
+    },
+    "hero": {
+      "slide1": {
+        "label": "立足研究，品质驱动",
+        "title": "开创性研究",
+        "highlight": "制药标准领域",
+        "desc": "利用我们最先进的设施和前沿的药物研究，树立全球标杆。"
+      },
+      "slide2": {
+        "label": "全球信赖",
+        "title": "全球影响力 &",
+        "highlight": "坚定不移的信任",
+        "desc": "连接全球创新。作为全球高质量API杂质和对照品的值得信赖的合作伙伴。"
+      },
+      "slide3": {
+        "label": "毫不妥协的标准",
+        "title": "绝对的质量",
+        "highlight": "& 精度",
+        "desc": "在无菌环境中制造，以确保最高纯度并符合全球监管标准。"
+      },
+      "exploreProducts": "探索产品",
+      "getInTouch": "联系我们",
+      "feature1": "10+ 年",
+      "feature1Sub": "专业经验",
+      "feature2": "广泛的",
+      "feature2Sub": "高质量产品",
+      "feature3": "全面的分析",
+      "feature3Sub": "支持",
+      "certified": "已认证"
+    }
+  },
+  "about": {
+    "infra": {
+      "title": "全球基础设施",
+      "worldClass": "世界一流",
+      "manufacturing": "制造业",
+      "desc": "我们最先进的制造设施旨在满足并超越 cGMP 标准。配备全自动控制系统和先进的密封技术，我们以绝对的精度和安全性处理复杂的化学合成。",
+      "p1": "零排放环保能力",
+      "p2": "用于最终 API 处理的 100,000 级洁净室",
+      "p3": "专用的高活性 API (HPAPI) 区块",
+      "p4": "持续监控和 DCS 自动化",
+      "s1": "先进设施",
+      "s2": "已开发产品",
+      "s3": "服务的国家",
+      "s4": "专家科学家"
+    },
+    "values": {
+      "title": "我们的核心价值观",
+      "desc": "指导我们的研究、管理我们的制造并塑造我们文化的原则。",
+      "v1Title": "精准",
+      "v1Desc": "在我们合成的每一个分子和设计的每一个过程中保持科学准确性和严谨性。",
+      "v2Title": "质量",
+      "v2Desc": "始终超越全球监管要求的毫不妥协的标准。",
+      "v3Title": "全球影响力",
+      "v3Desc": "打破地理障碍，使关键药物在全球范围内可用。",
+      "v4Title": "患者至上",
+      "v4Desc": "每一项战略决策都是由对患者生活和健康结果的最终影响所驱动的。"
+    },
+    "legacy": {
+      "years": "20+",
+      "yearsText": "多年的卓越科学成就",
+      "title1": "建立在",
+      "title2": "毫不妥协的质量基础上的卓越历程",
+      "p1": "自成立以来，GLP Pharma一直受一项独特使命的驱使：通过先进药物化学的力量改善全球医疗保健结果。",
+      "p2": "我们不只是制造原料；我们设计解决方案。我们最先进的设施和卓越的科学头脑协同工作，以解决复杂的合成挑战，确保我们生产的每一个分子都符合最严格的全球标准。",
+      "certTitle": "ISO 和 GMP 认证",
+      "certSub": "符合全球监管标准"
+    },
+    "hero": {
+      "title": "建立在毫不妥协的质量基础上的卓越历程",
+      "desc": "我们是一家以研究为导向的全球领导者，致力于开发、制造并向全球医疗保健提供商提供高质量的活性药物成分。",
+      "card1Val": "50+",
+      "card1Text": "全球使用我们优质 API 的国家/地区。",
+      "card2Val": "99.9%",
+      "card2Text": "我们整个杂质对照品目录的纯度。"
+    }
+  },
+  "services": {
+    "process": {
+      "title1": "合作",
+      "title2": "流程",
+      "desc": "一种透明、以里程碑为导向的方法，确保您的项目从概念顺利推进到商业化。",
+      "p1Title": "咨询和范围",
+      "p1Desc": "初步深入了解您的分子目标、所需规模和特定的监管环境。",
+      "p2Title": "研发与优化",
+      "p2Desc": "我们的科学家探索最佳合成路线，重点关注产量、纯度和环境可持续性。",
+      "p3Title": "技术转移与放大",
+      "p3Desc": "从实验室规模合成无缝过渡到我们的 cGMP 中试工厂，以进行可靠的工艺验证。",
+      "p4Title": "商业生产",
+      "p4Desc": "在严格的质量控制下进行全面制造，确保及时交付高质量的 API。"
+    },
+    "list": {
+      "ourExpertise": "我们的专业知识",
+      "excellence": "在每个生命周期阶段",
+      "stage": "都追求卓越。",
+      "desc": "我们为您最复杂的制药挑战提供定制的、可扩展的和合规的服务模型。",
+      "exploreCapability": "探索能力",
+      "s1Title": "合同制造",
+      "s1Sub": "商业规模的 API 制造",
+      "s1Desc": "为您的商业规模 API 制造需求提供毫不妥协的质量和绝对的监管合规性。我们的设施旨在以极高的效率处理复杂的合成路线。",
+      "s1f1": "符合 cGMP 的设施",
+      "s1f2": "放大能力",
+      "s1f3": "技术转移",
+      "s1f4": "连续处理",
+      "s2Title": "定制合成",
+      "s2Sub": "复杂分子的定制合成",
+      "s2Desc": "在定制合成复杂有机分子、中间体和专有 API 方面拥有丰富的经验。我们提供从毫克到多公斤的可扩展和稳健的工艺。",
+      "s2f1": "路线探索",
+      "s2f2": "工艺优化",
+      "s2f3": "多步合成",
+      "s2f4": "同位素标记",
+      "s3Title": "分析测试",
+      "s3Sub": "全面的质量控制",
+      "s3Desc": "利用最先进的仪器进行全面的杂质分析、稳定性研究和质量控制，以确保产品的完整性和合规性。",
+      "s3f1": "方法开发",
+      "s3f2": "稳定性测试 (ICH)",
+      "s3f3": "杂质分离",
+      "s3f4": "基因毒性评估",
+      "s4Title": "监管支持",
+      "s4Sub": "无缝的全球审批",
+      "s4Desc": "穿越复杂的全球监管环境的专家指导。我们专门的团队确保您的文件准确、全面，并为无缝审批做好准备。",
+      "s4f1": "DMF 编制 (eCTD)",
+      "s4f2": "监管策略",
+      "s4f3": "审计准备",
+      "s4f4": "查询回复"
+    },
+    "hero": {
+      "title1": "加速",
+      "title2": "药物创新",
+      "desc": "从复杂的定制合成到商业规模的合同制造，我们提供由尖端技术和无与伦比的科学专业知识提供支持的端到端服务。"
+    }
+  },
+  "careers": {
+    "life": {
+      "title": "在 GLP Pharma 的生活",
+      "teamCollab": "团队协作",
+      "culture": "创新文化",
+      "p1": "在 GLP Pharma，我们相信我们的员工是我们最大的资产。我们的文化促进协作、拥抱多样性，并鼓励各个层面的创新思维。",
+      "p2": "从团队建设务虚会到每周的知识分享会，我们确保每位员工都能感到被重视、受到启发并有能力在全球医疗保健领域有所作为。"
+    },
+    "why": {
+      "title": "为什么加入我们？",
+      "desc": "探索一个您的才华得到培养、您的福祉得到优先考虑、您的职业生涯可以真正蓬勃发展的工作场所。",
+      "b1Title": "有竞争力的薪酬",
+      "b1Desc": "我们提供行业领先的薪水、绩效奖金和股权选择，以确保您的辛勤工作得到丰厚回报。",
+      "b2Title": "健康与保健",
+      "b2Desc": "全面的医疗、牙科和视力保险，以及为您和您的家人设计的健康计划。",
+      "b3Title": "职业发展",
+      "b3Desc": "持续学习计划、指导和清晰的晋升路径，帮助您充分发挥潜力。",
+      "b4Title": "工作与生活的平衡",
+      "b4Desc": "灵活的工作时间、混合远程办公选项和慷慨的带薪休假，因为您的个人时间很重要。"
+    },
+    "banner": {
+      "title": "与我们共筑您的职业生涯",
+      "desc": "加入一个由热情的专业人士组成的团队，致力于通过科学创新和卓越改善全球健康。"
+    },
+    "tabs": {
+      "open": "空缺职位",
+      "why": "为什么加入我们",
+      "life": "GLP的生活"
+    },
+    "open": {
+      "title": "空缺职位",
+      "minExp": "至少 5 年经验",
+      "apply": "立即申请",
+      "noFitTitle": "没有看到合适的职位？",
+      "noFitDesc": "我们一直在寻找有才华的人才加入我们的团队。将您的简历发送给我们，我们将把它存档以备将来的机会。",
+      "submit": "提交通用申请",
+      "j1Title": "高级研究科学家",
+      "j1Dept": "研发",
+      "j1Loc": "全球城市，总部",
+      "j1Type": "全职",
+      "j2Title": "质量保证经理",
+      "j2Dept": "质量",
+      "j2Loc": "全球城市，总部",
+      "j2Type": "全职",
+      "j3Title": "监管事务专员",
+      "j3Dept": "监管",
+      "j3Loc": "远程/混合",
+      "j3Type": "全职",
+      "j4Title": "工艺工程师",
+      "j4Dept": "制造",
+      "j4Loc": "全球城市，二号工厂",
+      "j4Type": "全职"
+    }
+  },
+  "gallery": {
+    "tabs": {
+      "all": "全部",
+      "manufacturing": "制造",
+      "research": "研究",
+      "quality": "质量",
+      "corporate": "企业"
+    },
+    "images": {
+      "i1": "最先进的制造设施",
+      "i2": "高级研发实验室",
+      "i3": "质量控制部",
+      "i4": "全球总部",
+      "i5": "自动化包装线",
+      "i6": "分析测试设备",
+      "cManuf": "制造",
+      "cRes": "研究",
+      "cQual": "质量",
+      "cCorp": "企业"
+    }
+  },
+  "newsPage": {
+    "banner": {
+      "title": "最新新闻与更新",
+      "desc": "随时了解我们的最新创新、监管成就和公司活动。"
+    },
+    "readFull": "阅读全文",
+    "categoriesTitle": "类别",
+    "cats": {
+      "all": "所有新闻",
+      "company": "公司新闻",
+      "research": "研究",
+      "regulatory": "监管",
+      "events": "事件"
+    },
+    "newsletter": {
+      "title": "订阅时事通讯",
+      "desc": "直接在您的收件箱中获取有关我们产品、研究和公司新闻的最新更新。",
+      "placeholder": "您的电子邮件地址",
+      "subscribe": "订阅"
+    },
+    "articles": {
+      "n1Title": "GLP Pharma 宣布扩大 API 制造设施",
+      "n1Desc": "为了满足不断增长的全球需求，我们正在扩建我们的主要制造工厂，增加 50,000 平方英尺的符合 cGMP 标准的空间。",
+      "n1Cat": "公司新闻",
+      "n1Date": "2026年10月15日",
+      "n2Title": "绿色化学合成新突破",
+      "n2Desc": "我们的研发团队成功开发了一种新型环保的合成路线，用于关键的心血管 API。",
+      "n2Cat": "研究",
+      "n2Date": "2026年9月28日",
+      "n3Title": "圆满完成美国 FDA 检查",
+      "n3Desc": "我们很高兴地宣布，我们成功完成了一次例行的 FDA 检查，零 483 观察结果。",
+      "n3Cat": "监管",
+      "n3Date": "2026年8月12日",
+      "n4Title": "GLP Pharma 参展 CPHI Worldwide 2026",
+      "n4Desc": "欢迎光临我们的展台，讨论我们最新的活性药物成分和定制合成能力。",
+      "n4Cat": "事件",
+      "n4Date": "2026年7月5日"
+    }
+  },
+  "notFound": {
+    "title": "找不到页面",
+    "desc": "您正在寻找的页面可能已被删除、名称已更改或暂时不可用。",
+    "return": "返回首页"
+  },
+  "products": {
+    "loadingCat": "正在加载类别...",
+    "noCatFound": "未找到类别",
+    "noCatDesc": "我们找不到任何符合您条件的类别。",
+    "viewAll": "查看所有类别",
+    "searchFor": "搜索结果",
+    "prodFound": "找到产品",
+    "prodSingleFound": "找到产品",
+    "loadingProd": "正在加载产品...",
+    "noProdFound": "未找到产品",
+    "noProdDesc": "我们找不到任何符合您条件的产品。",
+    "clearFilter": "清除过滤器",
+    "commonName": "通用名",
+    "casNo": "CAS 编号",
+    "molWeight": "分子量",
+    "catNo": "目录号",
+    "moreInfo": "更多信息",
+    "getQuote": "获取报价",
+    "structure": "结构",
+    "loadingDet": "正在加载产品详细信息...",
+    "prodNotFnd": "未找到产品。",
+    "techSpec": "技术规格",
+    "molForm": "分子式",
+    "purity": "纯度 (HPLC)",
+    "appearance": "外观",
+    "storage": "存储",
+    "shipping": "运输条件",
+    "chemName": "化学名",
+    "interested": "感兴趣？",
+    "interestedDesc": "获取此产品的自定义定价、可用性和技术文档。",
+    "reqQuote": "请求报价"
+  }
+}

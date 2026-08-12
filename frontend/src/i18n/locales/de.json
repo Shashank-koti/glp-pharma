@@ -1,0 +1,434 @@
+{
+  "navbar": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "services": "Dienstleistungen",
+    "products": "Produkte",
+    "productCategories": "Produktkategorien",
+    "gallery": "Galerie",
+    "careers": "Karriere",
+    "contact": "Kontakt",
+    "search": "Produkte suchen...",
+    "language": "Sprache",
+    "searching": "Suchen...",
+    "productsFound": "Gefundene Produkte",
+    "noProductsFound": "Keine Produkte gefunden für"
+  },
+  "contact": {
+    "letsConnect": "Lassen Sie uns vernetzen",
+    "getIn": "Nehmen Sie",
+    "touch": "Kontakt auf",
+    "weAreHere": "Wir sind hier um zu helfen",
+    "desc": "Haben Sie eine Frage, eine Anfrage oder benötigen Sie Unterstützung? Unser Team steht bereit, um Ihnen mit den richtigen Lösungen zu helfen.",
+    "quickResponse": "Schnelle Antwort",
+    "quickResponseDesc": "Wir schätzen Ihre Zeit",
+    "trustedSupport": "Vertrauenswürdiger Support",
+    "trustedSupportDesc": "Expertenhilfe",
+    "globalReach": "Globale Reichweite",
+    "globalReachDesc": "Weltweit im Einsatz",
+    "sendUsMessage": "Senden Sie uns eine Nachricht",
+    "yourName": "Ihr Name *",
+    "yourEmail": "Ihre E-Mail *",
+    "companyName": "Firmenname",
+    "subject": "Betreff",
+    "yourMessage": "Ihre Nachricht *",
+    "secureInfo": "Ihre Informationen sind sicher und werden niemals weitergegeben.",
+    "sendMessage": "Nachricht senden",
+    "contactInfo": "Kontaktinformationen",
+    "ourLocation": "Unser Standort",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "businessHours": "Geschäftszeiten"
+  },
+  "footer": {
+    "desc": "Förderung der globalen Gesundheitsversorgung durch innovative pharmazeutische Lösungen, kompromisslose Qualität und wissenschaftliche Exzellenz.",
+    "quickLinks": "Schnelllinks",
+    "aboutUs": "Über uns",
+    "careers": "Karriere",
+    "latestNews": "Aktuelle Nachrichten",
+    "gallery": "Galerie",
+    "contactUs": "Kontakt",
+    "products": "Produkte",
+    "api": "Aktive pharmazeutische Wirkstoffe",
+    "impurities": "Verunreinigungsstandards",
+    "catalogue": "Produktkatalog",
+    "technicalDocs": "Technische Dokumente",
+    "address": "123 Pharma Innovationspark,<br />Wissenschaftsbezirk, Global City 10001",
+    "allRightsReserved": "GLP Pharma. Alle Rechte vorbehalten.",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsOfService": "Nutzungsbedingungen"
+  },
+  "home": {
+    "newsInsights": {
+      "knowledgeHub": "Wissenszentrum",
+      "industryInsights": "Brancheneinblicke",
+      "andNews": " & Neuigkeiten",
+      "viewAllArticles": "Alle Artikel anzeigen",
+      "readFullStory": "Ganze Geschichte lesen",
+      "n1Category": "Unternehmensnachrichten",
+      "n1Title": "GLP Pharma kündigt Erweiterung der API-Produktionsstätte an",
+      "n1Date": "Okt 15, 2024",
+      "n2Category": "Regulatorisches Update",
+      "n2Title": "Navigation durch die neuen ISO 17034:2016-Anforderungen für Referenzmaterialien",
+      "n2Date": "Sep 28, 2024",
+      "n3Category": "Forschung",
+      "n3Title": "Durchbruch bei grünen Syntheserouten für komplexe Zwischenprodukte",
+      "n3Date": "Sep 12, 2024"
+    },
+    "quality": {
+      "uncompromisingStandards": "Kompromisslose Standards",
+      "ourJourney": "Unsere Reise der",
+      "absoluteQuality": "Absoluten Qualität",
+      "desc": "Qualität ist nicht nur eine Abteilung – sie ist in das Gewebe unseres Herstellungsprozesses eingewoben. Wir halten bei jedem Schritt höchste globale Standards ein.",
+      "s1Title": "Rohstoffqualifizierung",
+      "s1Desc": "Strenge Prüfung aller eingehenden Materialien, um absolute Reinheit vor Beginn der Synthese zu gewährleisten.",
+      "s2Title": "In-Prozess-Kontrolle",
+      "s2Desc": "Kontinuierliche Überwachung und Analytik in jeder Phase des Herstellungszyklus mithilfe fortschrittlicher PAT.",
+      "s3Title": "Freigabe der Endcharge",
+      "s3Desc": "Umfassende Multiparameterprüfung gemäß internationalen Arzneibuchstandards (USP/EP/BP).",
+      "s4Title": "Zertifizierung & Audit",
+      "s4Desc": "Bereitstellung vollständiger regulatorischer Dokumentation, unterstützt durch kontinuierliche Compliance-Audits der FDA und EMA."
+    },
+    "globalTrust": {
+      "globalReach": "Globale Reichweite",
+      "trustedBy": "Vertrauen von Pharmaführern",
+      "worldwide": "Weltweit",
+      "desc": "Unser Engagement für Exzellenz überschreitet Grenzen. Mit einem robusten globalen Vertriebsnetzwerk gewährleisten wir die reibungslose Lieferung hochwertiger Standards an führende Pharmaunternehmen, CROs und Forschungseinrichtungen in über 50 Ländern.",
+      "countriesServed": "Belieferte Länder",
+      "productsAvailable": "Verfügbare Produkte",
+      "c1Title": "US FDA",
+      "c1Desc": "Zugelassene Produktionsstätten gewährleisten erstklassige Einhaltung gesetzlicher Vorschriften.",
+      "c2Title": "EU GMP",
+      "c2Desc": "Zertifizierte Prozesse garantieren Sicherheit und Qualität für den europäischen Markt.",
+      "c3Title": "ISO 9001",
+      "c3Desc": "Qualitätsmanagementsysteme gewährleisten konsistente Produktstandards.",
+      "c4Title": "ISO 17034",
+      "c4Desc": "Akkreditierung für die Kompetenz von Referenzmaterialherstellern."
+    },
+    "services": {
+      "ourExpertise": "Unsere Expertise",
+      "title1": "Umfassende",
+      "title2": "Pharmazeutische Lösungen",
+      "viewAll": "Alle Dienstleistungen anzeigen",
+      "s1": {
+        "title": "API-Verunreinigungen",
+        "desc": "Hochwertige APIs und Verunreinigungsstandards, hergestellt in hochmodernen Einrichtungen, die den weltweiten Standards entsprechen."
+      },
+      "s2": {
+        "title": "Kundenspezifische Synthese",
+        "desc": "Maßgeschneiderte Synthese komplexer Moleküle und Referenzstandards zur Erfüllung Ihrer genauen Spezifikationen."
+      },
+      "s3": {
+        "title": "Qualitätskontrolle",
+        "desc": "Strenge Testprotokolle, die in jeder Charge absolute Reinheit, Konsistenz und Konformität gewährleisten."
+      },
+      "s4": {
+        "title": "Regulatorische Unterstützung",
+        "desc": "Umfassende Dokumentation und Unterstützung bei der Navigation durch komplexe globale regulatorische Landschaften."
+      }
+    },
+    "newProducts": {
+      "latestInnovations": "Neueste Innovationen",
+      "title": "Neu Synthetisierte Produkte",
+      "casNo": "CAS-Nr.",
+      "details": "Details",
+      "enquire": "Anfragen"
+    },
+    "companyIntro": {
+      "about": "Über GLP Pharma",
+      "pioneering": "Wegweisend für die Zukunft der",
+      "pharmaceuticals": "Pharmazie",
+      "desc": "Mit mehr als zwei Jahrzehnten kompromisslosen Engagements für Qualität hat sich GLP Pharma als führender globaler Hersteller etabliert.",
+      "points": [
+        "US FDA-zugelassene Einrichtungen",
+        "EU-GMP-zertifiziert",
+        "Fortschrittliche F&E-Zentren",
+        "Nachhaltige Fertigung"
+      ],
+      "readOurStory": "Lesen Sie unsere ganze Geschichte",
+      "yearsOfExcellence": "Jahre der Exzellenz",
+      "inGlobalPharma": "in der globalen Pharmaindustrie"
+    },
+    "hero": {
+      "slide1": {
+        "label": "Forschungsbasiert. Qualitätsgetrieben.",
+        "title": "Pionierforschung",
+        "highlight": "in Pharma-Standards",
+        "desc": "Wir setzen weltweite Maßstäbe mit unseren hochmodernen Anlagen und zukunftsweisender pharmazeutischer Forschung."
+      },
+      "slide2": {
+        "label": "Weltweit Vertraut",
+        "title": "Globale Reichweite &",
+        "highlight": "Unerschütterliches Vertrauen",
+        "desc": "Innovationen weltweit verbinden. Ein zuverlässiger Partner für hochwertige API-Verunreinigungen und Referenzstandards weltweit."
+      },
+      "slide3": {
+        "label": "Kompromisslose Standards",
+        "title": "Absolute Qualität",
+        "highlight": "& Präzision",
+        "desc": "Hergestellt in makellosen Umgebungen, um höchste Reinheit und die Einhaltung globaler regulatorischer Standards zu gewährleisten."
+      },
+      "exploreProducts": "Produkte Entdecken",
+      "getInTouch": "Kontakt Aufnehmen",
+      "feature1": "10+ Jahre",
+      "feature1Sub": "Expertise",
+      "feature2": "Große Auswahl an",
+      "feature2Sub": "Qualitätsprodukten",
+      "feature3": "Vollständige Analytische",
+      "feature3Sub": "Unterstützung",
+      "certified": "ZERTIFIZIERT"
+    }
+  },
+  "about": {
+    "infra": {
+      "title": "Globale Infrastruktur",
+      "worldClass": "Weltklasse",
+      "manufacturing": "Fertigungsindustrie",
+      "desc": "Unsere hochmodernen Produktionsstätten sind so konzipiert, dass sie die cGMP-Standards erfüllen und übertreffen. Ausgestattet mit vollautomatischen Steuerungssystemen und hochentwickelten Containment-Technologien handhaben wir komplexe chemische Synthesen mit absoluter Präzision und Sicherheit.",
+      "p1": "Zero-Discharge-Umweltkapazitäten",
+      "p2": "Reinräume der Klasse 100.000 für die endgültige API-Verarbeitung",
+      "p3": "Spezielle hochwirksame API (HPAPI)-Blöcke",
+      "p4": "Kontinuierliche Überwachung und DCS-Automatisierung",
+      "s1": "Fortgeschrittene Einrichtungen",
+      "s2": "Entwickelte Produkte",
+      "s3": "Belieferte Länder",
+      "s4": "Experten Wissenschaftler"
+    },
+    "values": {
+      "title": "Unsere Grundwerte",
+      "desc": "Die Prinzipien, die unsere Forschung leiten, unsere Herstellung bestimmen und unsere Kultur prägen.",
+      "v1Title": "Präzision",
+      "v1Desc": "Wissenschaftliche Genauigkeit und Exaktheit in jedem Molekül, das wir synthetisieren, und jedem Prozess, den wir entwerfen.",
+      "v2Title": "Qualität",
+      "v2Desc": "Kompromisslose Standards, die die globalen regulatorischen Anforderungen konsequent übertreffen.",
+      "v3Title": "Globale Reichweite",
+      "v3Desc": "Abbau geografischer Barrieren, um wichtige Medikamente weltweit zugänglich zu machen.",
+      "v4Title": "Patient Zuerst",
+      "v4Desc": "Jede strategische Entscheidung wird durch die letztendliche Auswirkung auf das Leben und die Gesundheitsergebnisse der Patienten getrieben."
+    },
+    "legacy": {
+      "years": "20+",
+      "yearsText": "Jahre wissenschaftlicher Exzellenz",
+      "title1": "Ein Erbe, aufgebaut auf",
+      "title2": "kompromissloser Qualität",
+      "p1": "Seit unserer Gründung wird GLP Pharma von einer einzigen Mission angetrieben: die globalen Gesundheitsergebnisse durch die Kraft fortschrittlicher pharmazeutischer Chemie zu verbessern.",
+      "p2": "Wir stellen nicht nur Inhaltsstoffe her; wir entwickeln Lösungen. Unsere hochmodernen Einrichtungen und brillanten wissenschaftlichen Köpfe arbeiten in Synergie, um komplexe synthetische Herausforderungen zu lösen und sicherzustellen, dass jedes Molekül, das wir produzieren, den strengsten globalen Standards entspricht.",
+      "certTitle": "ISO- & GMP-zertifiziert",
+      "certSub": "Erfüllung globaler regulatorischer Standards"
+    },
+    "hero": {
+      "title": "Ein Erbe, das auf kompromissloser Qualität aufbaut",
+      "desc": "Wir sind ein forschungsorientierter, weltweit führender Anbieter, der sich der Entwicklung, Herstellung und Lieferung hochwertiger pharmazeutischer Wirkstoffe an Gesundheitsdienstleister weltweit verschrieben hat.",
+      "card1Val": "50+",
+      "card1Text": "Länder, die unsere hochwertigen APIs weltweit nutzen.",
+      "card2Val": "99.9%",
+      "card2Text": "Reinheitsgrad in unserem gesamten Katalog von Verunreinigungsstandards."
+    }
+  },
+  "services": {
+    "process": {
+      "title1": "Partnerschafts-",
+      "title2": "Prozess",
+      "desc": "Ein transparenter, meilensteingesteuerter Ansatz, der sicherstellt, dass Ihr Projekt vom Konzept bis zur Kommerzialisierung reibungslos voranschreitet.",
+      "p1Title": "Beratung & Umfang",
+      "p1Desc": "Erster Deep-Dive zum Verständnis Ihres molekularen Ziels, des erforderlichen Maßstabs und der spezifischen regulatorischen Landschaft.",
+      "p2Title": "F&E & Optimierung",
+      "p2Desc": "Unsere Wissenschaftler suchen nach dem optimalen Syntheseweg und konzentrieren sich dabei auf Ausbeute, Reinheit und ökologische Nachhaltigkeit.",
+      "p3Title": "Technologietransfer & Scale-up",
+      "p3Desc": "Nahtloser Übergang von der Synthese im Labormaßstab zu unseren cGMP-Pilotanlagen für eine robuste Prozessvalidierung.",
+      "p4Title": "Kommerzielle Produktion",
+      "p4Desc": "Komplette Herstellung unter strenger Qualitätskontrolle, um eine pünktliche Lieferung hochwertiger APIs zu gewährleisten."
+    },
+    "list": {
+      "ourExpertise": "Unsere Expertise",
+      "excellence": "Exzellenz in jeder",
+      "stage": "Phase des Lebenszyklus.",
+      "desc": "Wir liefern maßgeschneiderte, skalierbare und konforme Servicemodelle, die auf Ihre komplexesten pharmazeutischen Herausforderungen zugeschnitten sind.",
+      "exploreCapability": "Fähigkeit entdecken",
+      "s1Title": "Auftragsfertigung",
+      "s1Sub": "API-Herstellung im kommerziellen Maßstab",
+      "s1Desc": "Kompromisslose Qualität und absolute Einhaltung gesetzlicher Vorschriften für Ihre API-Herstellungsanforderungen im kommerziellen Maßstab. Unsere Einrichtungen sind darauf ausgelegt, komplexe Syntheserouten mit außergewöhnlicher Effizienz zu bewältigen.",
+      "s1f1": "cGMP-konforme Einrichtungen",
+      "s1f2": "Scale-up-Fähigkeiten",
+      "s1f3": "Technologietransfer",
+      "s1f4": "Kontinuierliche Verarbeitung",
+      "s2Title": "Kundenspezifische Synthese",
+      "s2Sub": "Maßgeschneiderte Synthese komplexer Moleküle",
+      "s2Desc": "Expertise in der maßgeschneiderten Synthese komplexer organischer Moleküle, Zwischenprodukte und proprietärer APIs. Wir liefern skalierbare und robuste Prozesse vom Milligramm- bis zum Multikilogramm-Bereich.",
+      "s2f1": "Routensuche",
+      "s2f2": "Prozessoptimierung",
+      "s2f3": "Mehrstufensynthese",
+      "s2f4": "Isotopenmarkierung",
+      "s3Title": "Analytische Tests",
+      "s3Sub": "Umfassende Qualitätskontrolle",
+      "s3Desc": "Nutzung modernster Instrumente für umfassendes Verunreinigungsprofiling, Stabilitätsstudien und Qualitätskontrolle zur Gewährleistung der Produktintegrität und Konformität.",
+      "s3f1": "Methodenentwicklung",
+      "s3f2": "Stabilitätsprüfung (ICH)",
+      "s3f3": "Verunreinigungsisolierung",
+      "s3f4": "Genotoxische Bewertung",
+      "s4Title": "Regulatorische Unterstützung",
+      "s4Sub": "Reibungslose globale Zulassungen",
+      "s4Desc": "Expertenberatung bei der Navigation durch komplexe globale regulatorische Landschaften. Unser engagiertes Team stellt sicher, dass Ihre Einreichungen präzise, umfassend und bereit für reibungslose Zulassungen sind.",
+      "s4f1": "DMF-Kompilierung (eCTD)",
+      "s4f2": "Regulatorische Strategie",
+      "s4f3": "Audit-Bereitschaft",
+      "s4f4": "Anfragebeantwortung"
+    },
+    "hero": {
+      "title1": "Beschleunigung der",
+      "title2": "pharmazeutischen Innovation",
+      "desc": "Von komplexer kundenspezifischer Synthese bis hin zu Auftragsfertigung im kommerziellen Maßstab bieten wir End-to-End-Dienstleistungen, die auf modernster Technologie und beispielloser wissenschaftlicher Expertise basieren."
+    }
+  },
+  "careers": {
+    "life": {
+      "title": "Leben bei GLP Pharma",
+      "teamCollab": "Zusammenarbeit im Team",
+      "culture": "Eine Kultur der Innovation",
+      "p1": "Bei GLP Pharma glauben wir, dass unsere Mitarbeiter unser größtes Kapital sind. Unsere Kultur fördert die Zusammenarbeit, begrüßt die Vielfalt und ermutigt innovatives Denken auf jeder Ebene.",
+      "p2": "Von Teambuilding-Retreats bis hin zu wöchentlichen Sitzungen zum Wissensaustausch stellen wir sicher, dass sich jeder Mitarbeiter wertgeschätzt, inspiriert und befähigt fühlt, im globalen Gesundheitswesen etwas zu bewirken."
+    },
+    "why": {
+      "title": "Warum zu uns?",
+      "desc": "Entdecken Sie einen Arbeitsplatz, an dem Ihre Talente gefördert werden, Ihr Wohlbefinden Priorität hat und Ihre Karriere wirklich aufblühen kann.",
+      "b1Title": "Wettbewerbsfähige Vergütung",
+      "b1Desc": "Wir bieten branchenführende Gehälter, Leistungsprämien und Aktienoptionen, um sicherzustellen, dass Ihre harte Arbeit gut belohnt wird.",
+      "b2Title": "Gesundheit & Wellness",
+      "b2Desc": "Umfassender Kranken-, Zahn- und Augenversicherungsschutz sowie Wellnessprogramme für Sie und Ihre Familie.",
+      "b3Title": "Karrierewachstum",
+      "b3Desc": "Kontinuierliche Lernprogramme, Mentoring und klare Aufstiegswege, die Ihnen helfen, Ihr volles Potenzial auszuschöpfen.",
+      "b4Title": "Work-Life-Balance",
+      "b4Desc": "Flexible Arbeitszeiten, hybride Remote-Optionen und großzügige bezahlte Freistellungen, weil Ihre persönliche Zeit wichtig ist."
+    },
+    "banner": {
+      "title": "Bauen Sie Ihre Karriere bei uns auf",
+      "desc": "Treten Sie einem Team leidenschaftlicher Fachleute bei, die sich der Verbesserung der globalen Gesundheit durch wissenschaftliche Innovation und Exzellenz widmen."
+    },
+    "tabs": {
+      "open": "Offene Stellen",
+      "why": "Warum zu uns",
+      "life": "Leben bei GLP"
+    },
+    "open": {
+      "title": "Offene Stellen",
+      "minExp": "Mindestens 5 Jahre Erfahrung.",
+      "apply": "Jetzt bewerben",
+      "noFitTitle": "Nicht die perfekte Stelle gefunden?",
+      "noFitDesc": "Wir sind immer auf der Suche nach talentierten Personen, die unserem Team beitreten möchten. Senden Sie uns Ihren Lebenslauf und wir bewahren ihn für zukünftige Gelegenheiten auf.",
+      "submit": "Allgemeine Bewerbung einreichen",
+      "j1Title": "Leitender Forschungswissenschaftler",
+      "j1Dept": "F&E",
+      "j1Loc": "Global City, Hauptsitz",
+      "j1Type": "Vollzeit",
+      "j2Title": "Qualitätssicherungsmanager",
+      "j2Dept": "Qualität",
+      "j2Loc": "Global City, Hauptsitz",
+      "j2Type": "Vollzeit",
+      "j3Title": "Spezialist für regulatorische Angelegenheiten",
+      "j3Dept": "Regulatorisch",
+      "j3Loc": "Remote / Hybrid",
+      "j3Type": "Vollzeit",
+      "j4Title": "Prozessingenieur",
+      "j4Dept": "Fertigung",
+      "j4Loc": "Global City, Werk 2",
+      "j4Type": "Vollzeit"
+    }
+  },
+  "gallery": {
+    "tabs": {
+      "all": "Alle",
+      "manufacturing": "Fertigung",
+      "research": "Forschung",
+      "quality": "Qualität",
+      "corporate": "Unternehmen"
+    },
+    "images": {
+      "i1": "Hochmoderne Produktionsanlage",
+      "i2": "Fortschrittliches F&E-Labor",
+      "i3": "Abteilung für Qualitätskontrolle",
+      "i4": "Globaler Hauptsitz",
+      "i5": "Automatisierte Verpackungslinie",
+      "i6": "Analytische Prüfgeräte",
+      "cManuf": "Fertigung",
+      "cRes": "Forschung",
+      "cQual": "Qualität",
+      "cCorp": "Unternehmen"
+    }
+  },
+  "newsPage": {
+    "banner": {
+      "title": "Neueste Nachrichten & Updates",
+      "desc": "Bleiben Sie informiert über unsere neuesten Innovationen, behördlichen Erfolge und Unternehmensveranstaltungen."
+    },
+    "readFull": "Vollständigen Artikel lesen",
+    "categoriesTitle": "Kategorien",
+    "cats": {
+      "all": "Alle Nachrichten",
+      "company": "Unternehmensnachrichten",
+      "research": "Forschung",
+      "regulatory": "Regulatorisch",
+      "events": "Veranstaltungen"
+    },
+    "newsletter": {
+      "title": "Newsletter abonnieren",
+      "desc": "Erhalten Sie die neuesten Updates zu unseren Produkten, Forschungen und Unternehmensnachrichten direkt in Ihren Posteingang.",
+      "placeholder": "Ihre E-Mail-Adresse",
+      "subscribe": "Abonnieren"
+    },
+    "articles": {
+      "n1Title": "GLP Pharma kündigt Erweiterung der API-Produktionsanlage an",
+      "n1Desc": "Um der wachsenden globalen Nachfrage gerecht zu werden, erweitern wir unsere Hauptproduktionsstätte um 50.000 Quadratfuß cGMP-konformen Raum.",
+      "n1Cat": "Unternehmensnachrichten",
+      "n1Date": "15. Oktober 2026",
+      "n2Title": "Neuer Durchbruch in der Synthese der Grünen Chemie",
+      "n2Desc": "Unser F&E-Team hat erfolgreich einen neuen, umweltfreundlichen Syntheseweg für einen wichtigen kardiovaskulären API entwickelt.",
+      "n2Cat": "Forschung",
+      "n2Date": "28. September 2026",
+      "n3Title": "US FDA Inspektion erfolgreich abgeschlossen",
+      "n3Desc": "Wir freuen uns, den erfolgreichen Abschluss einer routinemäßigen FDA-Inspektion mit null 483 Beobachtungen bekannt zu geben.",
+      "n3Cat": "Regulatorisch",
+      "n3Date": "12. August 2026",
+      "n4Title": "GLP Pharma stellt auf der CPHI Worldwide 2026 aus",
+      "n4Desc": "Besuchen Sie uns an unserem Stand, um unsere neuesten aktiven pharmazeutischen Inhaltsstoffe und kundenspezifischen Synthesefähigkeiten zu besprechen.",
+      "n4Cat": "Veranstaltungen",
+      "n4Date": "05. Juli 2026"
+    }
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "desc": "Die von Ihnen gesuchte Seite wurde möglicherweise entfernt, umbenannt oder ist vorübergehend nicht verfügbar.",
+    "return": "Zurück zur Startseite"
+  },
+  "products": {
+    "loadingCat": "Kategorien werden geladen...",
+    "noCatFound": "Keine Kategorien gefunden",
+    "noCatDesc": "Wir konnten keine Kategorien finden, die Ihren Kriterien entsprechen.",
+    "viewAll": "Alle Kategorien anzeigen",
+    "searchFor": "Suchergebnisse für",
+    "prodFound": "Produkte gefunden",
+    "prodSingleFound": "Produkt gefunden",
+    "loadingProd": "Produkte werden geladen...",
+    "noProdFound": "Keine Produkte gefunden",
+    "noProdDesc": "Wir konnten keine Produkte finden, die Ihren Kriterien entsprechen.",
+    "clearFilter": "Filter löschen",
+    "commonName": "Trivialname",
+    "casNo": "CAS-Nummer",
+    "molWeight": "Molmasse",
+    "catNo": "Katalog-Nr.",
+    "moreInfo": "Mehr Info",
+    "getQuote": "Angebot einholen",
+    "structure": "Struktur",
+    "loadingDet": "Produktdetails werden geladen...",
+    "prodNotFnd": "Produkt nicht gefunden.",
+    "techSpec": "Technische Spezifikationen",
+    "molForm": "Summenformel",
+    "purity": "Reinheit (HPLC)",
+    "appearance": "Aussehen",
+    "storage": "Lagerung",
+    "shipping": "Versandbedingungen",
+    "chemName": "Chemischer Name",
+    "interested": "Interessiert?",
+    "interestedDesc": "Erhalten Sie individuelle Preise, Verfügbarkeiten und technische Dokumente für dieses Produkt.",
+    "reqQuote": "Angebot anfordern"
+  }
+}
