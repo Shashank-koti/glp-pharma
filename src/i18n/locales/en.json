@@ -1,0 +1,434 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "products": "Products",
+    "productCategories": "Product Categories",
+    "gallery": "Gallery",
+    "careers": "Careers",
+    "contact": "Contact",
+    "search": "Search products...",
+    "language": "Language",
+    "searching": "Searching...",
+    "productsFound": "Products Found",
+    "noProductsFound": "No products found for"
+  },
+  "contact": {
+    "letsConnect": "Let's Connect",
+    "getIn": "Get In",
+    "touch": "Touch",
+    "weAreHere": "We're Here to Help",
+    "desc": "Have a question, inquiry, or need support? Our team is ready to assist you with the right solutions.",
+    "quickResponse": "Quick Response",
+    "quickResponseDesc": "We value your time",
+    "trustedSupport": "Trusted Support",
+    "trustedSupportDesc": "Expert assistance",
+    "globalReach": "Global Reach",
+    "globalReachDesc": "Serving worldwide",
+    "sendUsMessage": "Send Us a Message",
+    "yourName": "Your Name *",
+    "yourEmail": "Your Email *",
+    "companyName": "Company Name",
+    "subject": "Subject",
+    "yourMessage": "Your Message *",
+    "secureInfo": "Your information is secure and will never be shared.",
+    "sendMessage": "Send Message",
+    "contactInfo": "Contact Information",
+    "ourLocation": "Our Location",
+    "phone": "Phone",
+    "email": "Email",
+    "businessHours": "Business Hours"
+  },
+  "footer": {
+    "desc": "Advancing global healthcare through innovative pharmaceutical solutions, uncompromising quality, and scientific excellence.",
+    "quickLinks": "Quick Links",
+    "aboutUs": "About Us",
+    "careers": "Careers",
+    "latestNews": "Latest News",
+    "gallery": "Gallery",
+    "contactUs": "Contact Us",
+    "products": "Products",
+    "api": "Active Pharmaceutical Ingredients",
+    "impurities": "Impurity Standards",
+    "catalogue": "Product Catalogue",
+    "technicalDocs": "Technical Documents",
+    "address": "Plot No:1, Shakti Puram Phase-2, Prashanti Nagar,<br />Industrial Estate(IE), Kukatpally,<br />Hyderabad, Telangana State, India, PIN: 500072",
+    "allRightsReserved": "GLP Pharma. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "home": {
+    "newsInsights": {
+      "knowledgeHub": "Knowledge Hub",
+      "industryInsights": "Industry Insights",
+      "andNews": " & News",
+      "viewAllArticles": "View All Articles",
+      "readFullStory": "Read Full Story",
+      "n1Category": "Company News",
+      "n1Title": "GLP Pharma Announces Expansion of API Manufacturing Facility",
+      "n1Date": "Oct 15, 2024",
+      "n2Category": "Regulatory Update",
+      "n2Title": "Navigating the New ISO 17034:2016 Requirements for Reference Materials",
+      "n2Date": "Sep 28, 2024",
+      "n3Category": "Research",
+      "n3Title": "Breakthrough in Green Synthesis Routes for Complex Intermediates",
+      "n3Date": "Sep 12, 2024"
+    },
+    "quality": {
+      "uncompromisingStandards": "Uncompromising Standards",
+      "ourJourney": "Our Journey of",
+      "absoluteQuality": "Absolute Quality",
+      "desc": "Quality isn't just a department—it's woven into the very fabric of our manufacturing process. We maintain the highest global standards at every step.",
+      "s1Title": "Raw Material Qualification",
+      "s1Desc": "Rigorous testing of all incoming materials to guarantee absolute purity before synthesis begins.",
+      "s2Title": "In-Process Control",
+      "s2Desc": "Continuous monitoring and analytics at every stage of the manufacturing cycle using advanced PAT.",
+      "s3Title": "Final Batch Release",
+      "s3Desc": "Comprehensive multi-parameter testing against international pharmacopeial standards (USP/EP/BP).",
+      "s4Title": "Certification & Audit",
+      "s4Desc": "Full regulatory documentation provided, backed by continuous FDA and EMA compliance audits."
+    },
+    "globalTrust": {
+      "globalReach": "Global Reach",
+      "trustedBy": "Trusted by Pharma Leaders",
+      "worldwide": "Worldwide",
+      "desc": "Our commitment to excellence transcends borders. With a robust global distribution network, we ensure seamless delivery of high-quality standards to top pharmaceutical companies, CROs, and research institutions across 50+ countries.",
+      "countriesServed": "Countries Served",
+      "productsAvailable": "Products Available",
+      "c1Title": "US FDA",
+      "c1Desc": "Approved Manufacturing Facilities ensuring top-tier regulatory compliance.",
+      "c2Title": "EU GMP",
+      "c2Desc": "Certified processes guaranteeing safety and quality for the European market.",
+      "c3Title": "ISO 9001",
+      "c3Desc": "Quality Management Systems ensuring consistent product standards.",
+      "c4Title": "ISO 17034",
+      "c4Desc": "Accreditation for competence of Reference Material Producers."
+    },
+    "services": {
+      "ourExpertise": "Our Expertise",
+      "title1": "Comprehensive",
+      "title2": "Pharmaceutical Solutions",
+      "viewAll": "View All Services",
+      "s1": {
+        "title": "API Impurities",
+        "desc": "High-quality APIs and impurity standards manufactured in state-of-the-art facilities compliant with global standards."
+      },
+      "s2": {
+        "title": "Custom Synthesis",
+        "desc": "Tailored synthesis of complex molecules and reference standards to meet your precise specifications."
+      },
+      "s3": {
+        "title": "Quality Control",
+        "desc": "Rigorous testing protocols ensuring absolute purity, consistency, and compliance in every batch."
+      },
+      "s4": {
+        "title": "Regulatory Support",
+        "desc": "Comprehensive documentation and support navigating complex global regulatory landscapes."
+      }
+    },
+    "newProducts": {
+      "latestInnovations": "Latest Innovations",
+      "title": "Newly Synthesized Products",
+      "casNo": "CAS No.",
+      "details": "Details",
+      "enquire": "Enquire"
+    },
+    "companyIntro": {
+      "about": "About GLP Pharma",
+      "pioneering": "Pioneering the Future of",
+      "pharmaceuticals": "Pharmaceuticals",
+      "desc": "With over two decades of uncompromising dedication to quality, GLP Pharma has established itself as a premier global manufacturer.",
+      "points": [
+        "US FDA Approved Facilities",
+        "EU GMP Certified",
+        "Advanced R&D Centers",
+        "Sustainable Manufacturing"
+      ],
+      "readOurStory": "Read Our Full Story",
+      "yearsOfExcellence": "Years of Excellence",
+      "inGlobalPharma": "in Global Pharma"
+    },
+    "hero": {
+      "slide1": {
+        "label": "Research Based. Quality Driven.",
+        "title": "Pioneering Research",
+        "highlight": "in Pharma Standards",
+        "desc": "Setting global benchmarks with our state-of-the-art facilities and cutting-edge pharmaceutical research."
+      },
+      "slide2": {
+        "label": "Globally Trusted",
+        "title": "Global Reach &",
+        "highlight": "Unwavering Trust",
+        "desc": "Connecting innovations worldwide. A trusted partner for high-quality API Impurities and Reference Standards globally."
+      },
+      "slide3": {
+        "label": "Uncompromising Standards",
+        "title": "Absolute Quality",
+        "highlight": "& Precision",
+        "desc": "Manufactured in pristine environments to ensure the highest purity and compliance with global regulatory standards."
+      },
+      "exploreProducts": "Explore Products",
+      "getInTouch": "Get in Touch",
+      "feature1": "10+ Years",
+      "feature1Sub": "of Expertise",
+      "feature2": "Wide Range of",
+      "feature2Sub": "Quality Products",
+      "feature3": "Complete Analytical",
+      "feature3Sub": "Support",
+      "certified": "CERTIFIED"
+    }
+  },
+  "about": {
+    "infra": {
+      "title": "Global Infrastructure",
+      "worldClass": "World-Class",
+      "manufacturing": "Manufacturing industry",
+      "desc": "Our cutting-edge manufacturing facilities are designed to meet and exceed cGMP standards. Equipped with fully automated control systems and sophisticated containment technologies, we handle complex chemical syntheses with absolute precision and safety.",
+      "p1": "Zero-discharge environmental capabilities",
+      "p2": "Class 100,000 clean rooms for final API processing",
+      "p3": "Dedicated high-potency API (HPAPI) blocks",
+      "p4": "Continuous monitoring and DCS automation",
+      "s1": "Advanced Facilities",
+      "s2": "Products Developed",
+      "s3": "Countries Served",
+      "s4": "Expert Scientists"
+    },
+    "values": {
+      "title": "Our Core Values",
+      "desc": "The principles that guide our research, govern our manufacturing, and shape our culture.",
+      "v1Title": "Precision",
+      "v1Desc": "Scientific accuracy and exactitude in every molecule we synthesize and every process we design.",
+      "v2Title": "Quality",
+      "v2Desc": "Uncompromising standards that consistently exceed global regulatory requirements.",
+      "v3Title": "Global Reach",
+      "v3Desc": "Breaking down geographical barriers to make critical medications accessible worldwide.",
+      "v4Title": "Patient First",
+      "v4Desc": "Every strategic decision is driven by the ultimate impact on patient lives and health outcomes."
+    },
+    "legacy": {
+      "years": "20+",
+      "yearsText": "Years of Scientific Excellence",
+      "title1": "A Legacy Built on",
+      "title2": "Uncompromising Quality",
+      "p1": "Since our inception, GLP Pharma has been driven by a singular mission: to enhance global healthcare outcomes through the power of advanced pharmaceutical chemistry.",
+      "p2": "We don't just manufacture ingredients; we engineer solutions. Our state-of-the-art facilities and brilliant scientific minds work in synergy to solve complex synthetic challenges, ensuring that every molecule we produce meets the most stringent global standards.",
+      "certTitle": "ISO & GMP Certified",
+      "certSub": "Meeting global regulatory standards"
+    },
+    "hero": {
+      "title": "A Legacy Built on Uncompromising Quality",
+      "desc": "We are a research-driven global leader dedicated to developing, manufacturing, and delivering high-quality active pharmaceutical ingredients to healthcare providers worldwide.",
+      "card1Val": "50+",
+      "card1Text": "Countries utilizing our high-grade APIs globally.",
+      "card2Val": "99.9%",
+      "card2Text": "Purity rate across our entire impurity standards catalog."
+    }
+  },
+  "services": {
+    "process": {
+      "title1": "Partnership",
+      "title2": "Process",
+      "desc": "A transparent, milestone-driven approach ensuring your project advances smoothly from concept to commercialization.",
+      "p1Title": "Consultation & Scope",
+      "p1Desc": "Initial deep-dive to understand your molecular target, required scale, and specific regulatory landscape.",
+      "p2Title": "R&D & Optimization",
+      "p2Desc": "Our scientists scout the optimal synthetic route, focusing on yield, purity, and environmental sustainability.",
+      "p3Title": "Tech Transfer & Scale-up",
+      "p3Desc": "Seamless transition from lab-scale synthesis to our cGMP pilot plants for robust process validation.",
+      "p4Title": "Commercial Production",
+      "p4Desc": "Full-scale manufacturing under strict quality control, ensuring timely delivery of high-grade APIs."
+    },
+    "list": {
+      "ourExpertise": "Our Expertise",
+      "excellence": "Excellence at every",
+      "stage": "stage of the lifecycle.",
+      "desc": "We deliver customized, scalable, and compliant service models tailored to your most complex pharmaceutical challenges.",
+      "exploreCapability": "Explore Capability",
+      "s1Title": "Contract Manufacturing",
+      "s1Sub": "Commercial-scale API manufacturing",
+      "s1Desc": "Uncompromising quality and absolute regulatory compliance for your commercial-scale API manufacturing needs. Our facilities are designed to handle complex synthetic routes with exceptional efficiency.",
+      "s1f1": "cGMP Compliant Facilities",
+      "s1f2": "Scale-up Capabilities",
+      "s1f3": "Technology Transfer",
+      "s1f4": "Continuous Processing",
+      "s2Title": "Custom Synthesis",
+      "s2Sub": "Tailored synthesis of complex molecules",
+      "s2Desc": "Expertise in the tailored synthesis of complex organic molecules, intermediates, and proprietary APIs. We deliver scalable and robust processes from milligrams to multi-kilograms.",
+      "s2f1": "Route Scouting",
+      "s2f2": "Process Optimization",
+      "s2f3": "Multi-step Synthesis",
+      "s2f4": "Isotope Labeling",
+      "s3Title": "Analytical Testing",
+      "s3Sub": "Comprehensive quality control",
+      "s3Desc": "Utilizing state-of-the-art instrumentation for comprehensive impurity profiling, stability studies, and quality control to ensure product integrity and compliance.",
+      "s3f1": "Method Development",
+      "s3f2": "Stability Testing (ICH)",
+      "s3f3": "Impurity Isolation",
+      "s3f4": "Genotoxic Evaluation",
+      "s4Title": "Regulatory Support",
+      "s4Sub": "Seamless global approvals",
+      "s4Desc": "Expert guidance traversing complex global regulatory landscapes. Our dedicated team ensures your filings are precise, comprehensive, and ready for seamless approvals.",
+      "s4f1": "DMF Compilation (eCTD)",
+      "s4f2": "Regulatory Strategy",
+      "s4f3": "Audit Readiness",
+      "s4f4": "Query Response"
+    },
+    "hero": {
+      "title1": "Accelerating",
+      "title2": "Pharmaceutical Innovation",
+      "desc": "From complex custom synthesis to commercial-scale contract manufacturing, we provide end-to-end services powered by cutting-edge technology and unparalleled scientific expertise."
+    }
+  },
+  "careers": {
+    "life": {
+      "title": "Life at GLP Pharma",
+      "teamCollab": "Team Collaboration",
+      "culture": "A Culture of Innovation",
+      "p1": "At GLP Pharma, we believe that our people are our greatest asset. Our culture fosters collaboration, embraces diversity, and encourages innovative thinking at every level.",
+      "p2": "From team-building retreats to weekly knowledge-sharing sessions, we ensure that every employee feels valued, inspired, and empowered to make a difference in global healthcare."
+    },
+    "why": {
+      "title": "Why Join Us?",
+      "desc": "Discover a workplace where your talents are nurtured, your well-being is prioritized, and your career can truly flourish.",
+      "b1Title": "Competitive Compensation",
+      "b1Desc": "We offer industry-leading salaries, performance bonuses, and equity options to ensure your hard work is well rewarded.",
+      "b2Title": "Health & Wellness",
+      "b2Desc": "Comprehensive medical, dental, and vision coverage, plus wellness programs designed for you and your family.",
+      "b3Title": "Career Growth",
+      "b3Desc": "Continuous learning programs, mentorship, and clear paths for advancement to help you reach your full potential.",
+      "b4Title": "Work-Life Balance",
+      "b4Desc": "Flexible working hours, hybrid remote options, and generous paid time off because your personal time matters."
+    },
+    "banner": {
+      "title": "Build Your Career With Us",
+      "desc": "Join a team of passionate professionals dedicated to improving global health through scientific innovation and excellence."
+    },
+    "tabs": {
+      "open": "Open Positions",
+      "why": "Why Join Us",
+      "life": "Life at GLP"
+    },
+    "open": {
+      "title": "Open Positions",
+      "minExp": "Minimum 5 years exp.",
+      "apply": "Apply Now",
+      "noFitTitle": "Don't see a perfect fit?",
+      "noFitDesc": "We are always looking for talented individuals to join our team. Send us your resume and we will keep it on file for future opportunities.",
+      "submit": "Submit General Application",
+      "j1Title": "Senior Research Scientist",
+      "j1Dept": "R&D",
+      "j1Loc": "Global City, HQ",
+      "j1Type": "Full-time",
+      "j2Title": "Quality Assurance Manager",
+      "j2Dept": "Quality",
+      "j2Loc": "Global City, HQ",
+      "j2Type": "Full-time",
+      "j3Title": "Regulatory Affairs Specialist",
+      "j3Dept": "Regulatory",
+      "j3Loc": "Remote / Hybrid",
+      "j3Type": "Full-time",
+      "j4Title": "Process Engineer",
+      "j4Dept": "Manufacturing",
+      "j4Loc": "Global City, Plant 2",
+      "j4Type": "Full-time"
+    }
+  },
+  "gallery": {
+    "tabs": {
+      "all": "All",
+      "manufacturing": "Manufacturing",
+      "research": "Research",
+      "quality": "Quality",
+      "corporate": "Corporate"
+    },
+    "images": {
+      "i1": "State-of-the-art Manufacturing Facility",
+      "i2": "Advanced R&D Laboratory",
+      "i3": "Quality Control Department",
+      "i4": "Global Headquarters",
+      "i5": "Automated Packaging Line",
+      "i6": "Analytical Testing Equipment",
+      "cManuf": "Manufacturing",
+      "cRes": "Research",
+      "cQual": "Quality",
+      "cCorp": "Corporate"
+    }
+  },
+  "newsPage": {
+    "banner": {
+      "title": "Latest News & Updates",
+      "desc": "Stay informed about our latest innovations, regulatory achievements, and company events."
+    },
+    "readFull": "Read Full Article",
+    "categoriesTitle": "Categories",
+    "cats": {
+      "all": "All News",
+      "company": "Company News",
+      "research": "Research",
+      "regulatory": "Regulatory",
+      "events": "Events"
+    },
+    "newsletter": {
+      "title": "Subscribe to Newsletter",
+      "desc": "Get the latest updates on our products, research, and company news directly in your inbox.",
+      "placeholder": "Your email address",
+      "subscribe": "Subscribe"
+    },
+    "articles": {
+      "n1Title": "GLP Pharma Announces Expansion of API Manufacturing Facility",
+      "n1Desc": "To meet growing global demand, we are expanding our primary manufacturing facility, adding 50,000 sq ft of cGMP compliant space.",
+      "n1Cat": "Company News",
+      "n1Date": "October 15, 2026",
+      "n2Title": "New Breakthrough in Green Chemistry Synthesis",
+      "n2Desc": "Our R&D team has successfully developed a novel, environmentally friendly synthesis route for a key cardiovascular API.",
+      "n2Cat": "Research",
+      "n2Date": "September 28, 2026",
+      "n3Title": "Successfully Completed US FDA Inspection",
+      "n3Desc": "We are pleased to announce the successful completion of a routine FDA inspection with zero 483 observations.",
+      "n3Cat": "Regulatory",
+      "n3Date": "August 12, 2026",
+      "n4Title": "GLP Pharma Exhibits at CPHI Worldwide 2026",
+      "n4Desc": "Join us at our booth to discuss our latest active pharmaceutical ingredients and custom synthesis capabilities.",
+      "n4Cat": "Events",
+      "n4Date": "July 05, 2026"
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "desc": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "return": "Return to Homepage"
+  },
+  "products": {
+    "loadingCat": "Loading categories...",
+    "noCatFound": "No Categories Found",
+    "noCatDesc": "We couldn't find any categories matching your criteria.",
+    "viewAll": "View All Categories",
+    "searchFor": "Search Results for",
+    "prodFound": "Products Found",
+    "prodSingleFound": "Product Found",
+    "loadingProd": "Loading products...",
+    "noProdFound": "No Products Found",
+    "noProdDesc": "We couldn't find any products matching your criteria.",
+    "clearFilter": "Clear Filters",
+    "commonName": "Common Name",
+    "casNo": "CAS Number",
+    "molWeight": "Mol. Weight",
+    "catNo": "Catalogue No.",
+    "moreInfo": "More Info",
+    "getQuote": "Get a Quote",
+    "structure": "Structure",
+    "loadingDet": "Loading product details...",
+    "prodNotFnd": "Product not found.",
+    "techSpec": "Technical Specifications",
+    "molForm": "Molecular Formula",
+    "purity": "Purity (HPLC)",
+    "appearance": "Appearance",
+    "storage": "Storage",
+    "shipping": "Shipping Conditions",
+    "chemName": "Chemical Name",
+    "interested": "Interested?",
+    "interestedDesc": "Get custom pricing, availability, and technical documents for this product.",
+    "reqQuote": "Request a Quote"
+  }
+}
