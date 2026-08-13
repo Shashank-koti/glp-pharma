@@ -15,7 +15,7 @@
   --success: #1AA3B6;
   --warning: #F5A524;
   --danger: #E5484D;
-  --shadow-color: rgba(26,163,182, 0.15);
+  --shadow-color: rgba(26, 163, 182, 0.15);
 }
 
 @theme {
@@ -32,29 +32,45 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
-  
+
   /* Aliases for backwards compatibility with previous classes */
   --color-dark: var(--primary-dark);
   --color-body: var(--text);
   --color-card: var(--surface);
 
   /* Override Tailwind default shadows to use the premium theme shadow color */
-  --shadow-sm: 0 1px 2px 0 rgba(26,163,182, 0.05);
-  --shadow-DEFAULT: 0 4px 14px 0 rgba(26,163,182, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(26,163,182, 0.1), 0 2px 4px -2px rgba(26,163,182, 0.1);
-  --shadow-lg: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px rgba(26,163,182, 0.1);
-  --shadow-xl: 0 20px 25px -5px var(--shadow-color), 0 8px 10px -6px rgba(26,163,182, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(26,163,182, 0.25);
-  
+  --shadow-sm: 0 1px 2px 0 rgba(26, 163, 182, 0.05);
+  --shadow-DEFAULT: 0 4px 14px 0 rgba(26, 163, 182, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(26, 163, 182, 0.1), 0 2px 4px -2px rgba(26, 163, 182, 0.1);
+  --shadow-lg: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px rgba(26, 163, 182, 0.1);
+  --shadow-xl: 0 20px 25px -5px var(--shadow-color), 0 8px 10px -6px rgba(26, 163, 182, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(26, 163, 182, 0.25);
+
   --font-sans: 'Plus Jakarta Sans', sans-serif;
 }
 
 @layer base {
-  body {
-    @apply text-body bg-background antialiased selection:bg-accent selection:text-white;
+  html {
+    font-size: 18px;
+    /* Increased from default 16px to make text slightly larger */
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  body {
+    @apply text-body bg-background selection:bg-accent selection:text-white;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold tracking-tight text-heading;
   }
 }
@@ -63,12 +79,15 @@
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
   }
+
   .glass-dark {
     @apply bg-primary/80 backdrop-blur-md border border-white/10 shadow-lg;
   }
+
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
+
   .bg-grid {
     background-size: 40px 40px;
     background-image: linear-gradient(to right, rgba(15, 157, 106, 0.05) 1px, transparent 1px),
@@ -88,21 +107,34 @@
 
 /* Custom Search Placeholder Animation */
 @keyframes placeholder-marquee {
-  0% { transform: translateX(120%); }
-  100% { transform: translateX(-120%); }
+  0% {
+    transform: translateX(120%);
+  }
+
+  100% {
+    transform: translateX(-120%);
+  }
 }
+
 .animate-placeholder-marquee {
   animation: placeholder-marquee 18s linear infinite;
 }
 
 /* Continuous Marquee Animation */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
 .animate-marquee:hover {
   animation-play-state: paused;
 }

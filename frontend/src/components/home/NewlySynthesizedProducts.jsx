@@ -62,26 +62,29 @@ export default function NewlySynthesizedProducts() {
               breakpoints={{
                 640: { slidesPerView: 2 },
                 768: { slidesPerView: 3 },
-                1024: { slidesPerView: 4 },
+                1024: { slidesPerView: 3 },
               }}
               className="!pb-10 !pt-4"
             >
               {products.map((product, index) => (
                 <SwiperSlide key={index} className="h-auto pb-4">
-                  <div className="w-full flex-none flex flex-col bg-white rounded-[20px] border border-[#EAF2F4] shadow-sm p-4 hover:shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 h-full">
+                  <div className="w-full flex-none flex flex-col bg-white rounded-[20px] border border-[#EAF2F4] shadow-sm p-4 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-300 h-full group/card">
                     {/* Top Labels */}
                     <div className="flex justify-between items-start mb-3">
-                      <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase">
-                        GL-{product._id.substring(0, 5)}
+                      <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
+                        GL-{product._id.substring(0, 5).toUpperCase()}
+                      </span>
+                      <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
+                        {product.availability || 'In Stock'}
                       </span>
                     </div>
 
                     {/* Image Area */}
-                    <div className="relative w-full aspect-square max-h-[160px] mx-auto mb-3 flex items-center justify-center p-2 group">
+                    <div className="relative w-full aspect-square max-h-[160px] mx-auto mb-3 flex items-center justify-center p-2 group/img">
                       <img
                         src={product.image || "/images/demoprod.gif"}
                         alt={product.name}
-                        className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover/card:scale-110 transition-transform duration-500"
                       />
                     </div>
 
@@ -95,28 +98,31 @@ export default function NewlySynthesizedProducts() {
                     {/* Details Table */}
                     <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
                       {/* row 1 */}
-                      <div className="flex items-center justify-between p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white">
-                        <div className="flex items-center gap-2 text-body font-semibold">
+                      <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                        <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                           <FaFlask className="text-[#0B7285] text-[13px]" />
                           <span>CAS Number</span>
                         </div>
-                        <span className="font-bold text-heading">{product.casNumber || 'N/A'}</span>
+                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || 'N/A'}</span>
                       </div>
                       {/* row 2 */}
-                      <div className="flex items-center justify-between p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white">
-                        <div className="flex items-center gap-2 text-body font-semibold">
-                          <FaBalanceScale className="text-[#0B7285] text-[13px]" />
-                          <span>Mol. Weight</span>
-                        </div>
-                        <span className="font-bold text-heading">{product.molecularWeight || 'N/A'}</span>
-                      </div>
-                      {/* row 3 */}
-                      <div className="flex items-center justify-between p-2.5 text-[12px] bg-white">
-                        <div className="flex items-center gap-2 text-body font-semibold">
+                      <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                        <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                           <FiTag className="text-[#0B7285] text-[13px]" />
                           <span>Mol. Formula</span>
                         </div>
-                        <span className="font-bold text-heading uppercase">{product.molecularFormula}</span>
+                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
+                      </div>
+                      {/* row 3 */}
+                      <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                        <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                          <FaBalanceScale className="text-[#0B7285] text-[13px]" />
+                          <span>Mol. Weight</span>
+                        </div>
+                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
                       </div>
                     </div>
 
@@ -124,14 +130,14 @@ export default function NewlySynthesizedProducts() {
                     <div className="flex gap-2 mt-auto">
                       <Link
                         to={`/products/${product.slug}`}
-                        className="flex-1 flex items-center justify-center gap-1.5 border border-[#0B7285] text-[#0B7285] font-bold py-2 rounded-[10px] hover:bg-[#F8FBFC] transition-colors text-[12px]"
+                        className="flex-1 flex items-center justify-center gap-1.5 border border-[#0B7285] text-[#0B7285] font-bold py-2 rounded-[10px] hover:bg-[#F8FBFC] transition-colors text-[14px]"
                       >
                         <FiInfo className="text-sm" />
                         More Info
                       </Link>
                       <button
                         onClick={() => addToCart(product)}
-                        className="flex-1 flex items-center justify-center gap-1.5 bg-[#1aa3b6] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[12px]"
+                        className="flex-1 flex items-center justify-center gap-1.5 bg-[#1aa3b6] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[14px]"
                       >
                         {cartItems.some(item => item.id === product._id) ? (
                           <>

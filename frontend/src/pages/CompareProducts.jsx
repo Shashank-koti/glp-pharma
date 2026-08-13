@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCompare } from '../context/CompareContext';
 import { useCart } from '../context/CartContext';
 import { FiX, FiCheckCircle, FiShoppingCart, FiAlertCircle, FiArrowLeft } from 'react-icons/fi';
-import { LuGitCompare } from 'react-icons/lu';
+import { LuArrowLeftRight } from 'react-icons/lu';
 
 export default function CompareProducts() {
   const { compareItems, removeFromCompare, clearCompare } = useCompare();
@@ -13,7 +13,7 @@ export default function CompareProducts() {
       <div className="min-h-[70vh] bg-[#F8FBFC] flex flex-col items-center justify-center p-4">
         <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#EAF2F4] text-center max-w-md w-full">
           <div className="w-20 h-20 bg-[#F0F7F9] rounded-full flex items-center justify-center mx-auto mb-6">
-            <LuGitCompare className="text-[#1AA3B6] text-4xl" />
+            <LuArrowLeftRight className="text-[#1AA3B6] text-4xl" />
           </div>
           <h2 className="font-extrabold text-heading mb-3 tracking-tight text-2xl">Compare Products</h2>
           <p className="text-body mb-8 font-medium">You haven't added any products to compare yet.</p>
@@ -47,7 +47,7 @@ export default function CompareProducts() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-[#1AA3B6] rounded-xl flex items-center justify-center text-white shadow-md">
-              <LuGitCompare size={24} />
+              <LuArrowLeftRight size={24} />
             </div>
             <div>
               <h1 className="font-extrabold text-heading tracking-tight text-2xl md:text-3xl">Compare Products</h1>

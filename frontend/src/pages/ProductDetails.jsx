@@ -18,9 +18,10 @@ import {
   BsShieldCheck, BsSnow, BsFileEarmarkText, BsClipboardData
 } from 'react-icons/bs';
 import {
-  LuBeaker, LuHexagon, LuGitCompare
+  LuBeaker, LuHexagon, LuArrowLeftRight
 } from 'react-icons/lu';
 import { TbHexagon, TbCertificate } from 'react-icons/tb';
+import { FaFlask, FaBalanceScale } from 'react-icons/fa';
 
 export default function ProductDetails() {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ export default function ProductDetails() {
   const { user } = useAuth();
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [quoteFormType, setQuoteFormType] = useState('quote');
   const [quoteFormData, setQuoteFormData] = useState({
     customerName: '',
     companyName: '',
@@ -42,10 +44,12 @@ export default function ProductDetails() {
     phone: '',
     country: '',
     role: '',
-    message: ''
+    message: '',
+    poNumber: ''
   });
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [quoteSubmitStatus, setQuoteSubmitStatus] = useState(null);
+  const [showImageZoom, setShowImageZoom] = useState(false);
 
   const handleQuoteChange = (e) => {
     setQuoteFormData({ ...quoteFormData, [e.target.name]: e.target.value });
@@ -183,14 +187,14 @@ export default function ProductDetails() {
 
       {/* Header Section with detailspageBG */}
       <div
-        className="relative overflow-hidden pt-12 pb-32 border-b border-border/60 shadow-sm bg-white"
+        className="relative overflow-hidden pt-8 pb-32 border-b border-border/60 shadow-sm bg-white"
         style={{
           backgroundImage: "url('/images/detailspageBG.png')",
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="max-w-2xl w-full">
               <div
@@ -213,26 +217,11 @@ export default function ProductDetails() {
       </div>
 
       {/* Main Content Area - Overlaps Banner */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] relative z-20 -mt-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 -mt-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-
-            {/* IUPAC Name Highlight */}
-            <div className="relative bg-white border border-[#EAF2F4] rounded-2xl sm:p-3 shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 pl-2">
-                <div className="flex items-center gap-3 shrink-0">
-                  {/* <div className="w-6 h-6 rounded-xl bg-[#F0F7F9] text-[#1AA3B6] flex items-center justify-center shrink-0 border border-[#1AA3B6]/10">
-                    <LuBeaker size={18} />
-                  </div> */}
-                  <h3 className="text-[13px] font-extrabold text-[#12344D] uppercase tracking-widest">IUPAC Name  </h3>
-                </div>
-                <p className="text-[#1AA3B6] font-semibold break-words text-sm">
-                  {product.chemicalName || 'Chemical Name for 9'}
-                </p>
-              </div>
-            </div>
 
             {/* Technical Specifications Card */}
             <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-4">
@@ -247,6 +236,7 @@ export default function ProductDetails() {
 
               <div className="flex flex-col gap-1 mt-2">
                 {[
+                  { icon: <LuBeaker size={16} />, label: 'IUPAC Name', value: product.chemicalName || 'Chemical Name for 9' },
                   { icon: <BsFileEarmarkText size={16} />, label: 'Catalogue No.', value: product.catalogueNumber || 'GLP-0009' },
                   { icon: <TbHexagon size={18} />, label: 'CAS Number', value: product.casNumber || '1852-56-7' },
                   { icon: <LuHexagon size={16} />, label: 'Alternate CAS', value: product.similarProducts && product.similarProducts.length > 0 ? product.similarProducts : 'NA', isSimilarProducts: true },
@@ -257,16 +247,17 @@ export default function ProductDetails() {
                   { icon: <FiAperture size={16} />, label: 'Appearance', value: product.appearance || 'White Powder' },
                   { icon: <BsSnow size={16} />, label: 'Storage', value: product.storage || '2-8°C Refrigerator' },
                   { icon: <FiBox size={16} />, label: 'Shipping Conditions', value: product.shippingConditions || 'Ambient' },
-                  { icon: <FiGlobe size={16} />, label: 'Country of Origin', value: product.countryOfOrigin || 'India' }
+                  { icon: <FiGlobe size={16} />, label: 'Country of Origin', value: product.countryOfOrigin || 'India' },
+
                 ].map((spec, i) => (
-                  <div key={i} className="p-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
-                    <div className="flex items-center gap-3.5 sm:w-[40%] shrink-0">
+                  <div key={i} className="p-1.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
+                    <div className="flex items-center gap-3 sm:w-[40%] shrink-0">
                       <div className="w-9 h-9 rounded-xl bg-background group-hover:bg-white flex items-center justify-center text-[#1AA3B6] shadow-sm shrink-0 transition-all">
                         {spec.icon}
                       </div>
                       <span className="text-[12px] font-bold text-slate-800 uppercase tracking-wide">{spec.label}</span>
                     </div>
-                    <div className="hidden sm:block w-px h-8 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors"></div>
+                    <div className="hidden -ml-10 sm:block w-px h-8 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors"></div>
                     <div className={`text-[14px] font-bold sm:w-[60%] sm:pl-2 ${spec.highlight ? 'text-[#1AA3B6] text-[15px] bg-[#DDF8FB] px-3 py-1 rounded-lg self-start sm:self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
                       {spec.isSimilarProducts && spec.value !== 'NA' ? (
                         <div className="flex flex-wrap gap-2">
@@ -360,13 +351,14 @@ export default function ProductDetails() {
                 </span>
               </div>
 
-              <div className="relative z-20 flex-grow flex items-center justify-center w-full mt-0 mb-2">
-                <div className="w-48 h-48 ">
-                  <div className="absolute inset-0 rounded-full border-slate-50/50 pointer-events-none"></div>
+              <div className="relative z-20 flex-grow flex items-center justify-center w-full py-6 mb-4">
+                <div className="w-full flex items-center justify-center transition-all duration-300">
                   <img
                     src={product.image || "/images/demoprod.gif"}
-                    alt="image"
-                    className="w-full h-full object-contain mix-blend-multiply drop-shadow-md"
+                    alt={product.name || "Product Image"}
+                    onClick={() => setShowImageZoom(true)}
+                    className="max-w-full w-auto h-auto max-h-[350px] md:max-h-[450px] object-contain mix-blend-multiply drop-shadow-lg cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
+                    title="Click to zoom"
                   />
                 </div>
               </div>
@@ -375,7 +367,7 @@ export default function ProductDetails() {
                 <div className="flex gap-2 w-full">
                   <button
                     onClick={() => addToCart(product)}
-                    className="flex items-center gap-2 py-2 bg-[#1AA3B6] text-white hover:bg-[#0B7285] border-0 shadow-sm rounded-lg text-[12px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full"
+                    className="flex items-center gap-2 py-2 bg-[#1AA3B6] text-white hover:bg-[#0B7285] border-0 shadow-sm rounded-lg text-[14px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full"
                   >
                     <span>
                       {cartItems.some(item => item.id === product._id) ? <FiCheckCircle size={18} /> : <FiShoppingCart size={18} />}
@@ -389,7 +381,7 @@ export default function ProductDetails() {
                     }}
                     className="flex items-center gap-2 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] border-0 shadow-sm rounded-lg text-[12px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full">
                     <span><FiSend size={18} /></span>
-                    <span className="hidden sm:inline">Share</span>
+                    <span className="hidden sm:inline">Share On WhatsApp</span>
                   </button>
                 </div>
                 <button
@@ -404,9 +396,35 @@ export default function ProductDetails() {
                   className={`flex items-center justify-center gap-2 py-2.5 rounded-xl transition-all duration-300 border text-[13px] font-extrabold w-full shadow-md hover:shadow-lg ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white border-[#1AA3B6]' : 'bg-white text-[#0B7285] border-[#1AA3B6]/30 hover:border-[#1AA3B6]/60 hover:bg-[#F0F7F9]'}`}
                   title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Compare"}
                 >
-                  <LuGitCompare size={16} />
-                  <span>{compareItems.some(item => item._id === product._id) ? 'Added to Compare' : 'Add to Compare'}</span>
+                  <LuArrowLeftRight size={16} />
+                  <span>{compareItems.some(item => item._id === product._id) ? 'Remove From Compare' : 'Add to Compare'}</span>
                 </button>
+              </div>
+            </div>
+
+
+            {/* Description Accordion */}
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-[#EAF2F4] overflow-hidden">
+              <div
+                onClick={() => setIsDescOpen(!isDescOpen)}
+                className="flex items-center justify-between p-4 cursor-pointer bg-background/50 hover:bg-background transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <FiInfo className="text-blue-600" size={18} />
+                  <h3 className="text-[13px] font-bold text-heading uppercase tracking-wider">Product Description</h3>
+                </div>
+                <div className={`transform transition-transform duration-300 ${isDescOpen ? 'rotate-90' : ''}`}>
+                  <FiChevronRight size={18} className="text-slate-400" />
+                </div>
+              </div>
+
+              <div className={`transition-all duration-300 ease-in-out ${isDescOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                <div className="p-4 pt-0">
+                  <div className="w-full h-px bg-[#F0F6F8] mb-3"></div>
+                  <p className="text-body text-[13px] leading-relaxed font-medium">
+                    <span className="font-bold text-heading">{product.name}</span> is a premium-grade reference standard synthesized specifically for advanced analytical research, method validation, and quality control. This highly purified compound undergoes rigorous characterization to ensure consistent reliability in demanding laboratory environments.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -418,7 +436,7 @@ export default function ProductDetails() {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] flex items-center justify-center text-white shadow-md">
                   <FiDollarSign size={20} />
                 </div>
-                <h2 className="text-[19px] font-extrabold text-heading tracking-tight">Available Quantities</h2>
+                <h2 className="text-[19px] font-extrabold text-heading tracking-tight">Quantities & Pricing</h2>
               </div>
 
               <div className="flex flex-col gap-3">
@@ -430,6 +448,7 @@ export default function ProductDetails() {
                   <div
                     key={idx}
                     onClick={() => {
+                      setQuoteFormType('checkout');
                       setQuoteFormData({ ...quoteFormData, message: `I would like to request a quote for ${tier.unit} of ${product.name} (CAS: ${product.casNumber}).` });
                       setShowQuoteForm(true);
                     }}
@@ -456,36 +475,11 @@ export default function ProductDetails() {
                         ${tier.price}
                       </span>
                       <span className="text-[10px] text-[#1AA3B6] font-bold opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider flex items-center gap-1">
-                        Get Quote <FiChevronRight size={10} />
+                        proceed to check out <FiChevronRight size={10} />
                       </span>
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            {/* Description Accordion */}
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-[#EAF2F4] overflow-hidden">
-              <div
-                onClick={() => setIsDescOpen(!isDescOpen)}
-                className="flex items-center justify-between p-4 cursor-pointer bg-background/50 hover:bg-background transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <FiInfo className="text-blue-600" size={18} />
-                  <h3 className="text-[13px] font-bold text-heading uppercase tracking-wider">Product Description</h3>
-                </div>
-                <div className={`transform transition-transform duration-300 ${isDescOpen ? 'rotate-90' : ''}`}>
-                  <FiChevronRight size={18} className="text-slate-400" />
-                </div>
-              </div>
-
-              <div className={`transition-all duration-300 ease-in-out ${isDescOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                <div className="p-4 pt-0">
-                  <div className="w-full h-px bg-[#F0F6F8] mb-3"></div>
-                  <p className="text-body text-[13px] leading-relaxed font-medium">
-                    <span className="font-bold text-heading">{product.name}</span> is a premium-grade reference standard synthesized specifically for advanced analytical research, method validation, and quality control. This highly purified compound undergoes rigorous characterization to ensure consistent reliability in demanding laboratory environments.
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -523,7 +517,10 @@ export default function ProductDetails() {
                 </p>
 
                 <button
-                  onClick={() => setShowQuoteForm(true)}
+                  onClick={() => {
+                    setQuoteFormType('quote');
+                    setShowQuoteForm(true);
+                  }}
                   className="py-3 w-full bg-white text-[#0B7285] rounded-xl font-bold text-[15px] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
                 >
                   <FiSend size={16} /> Request a Quote
@@ -551,31 +548,37 @@ export default function ProductDetails() {
                 className="group bg-white rounded-2xl border border-[#EAF2F4] shadow-sm p-4 flex flex-col w-full mx-auto max-w-[380px]"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase">
-                    GL-{rel._id.substring(0, 5)}
+                  <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
+                    GL-{rel._id.substring(0, 5).toUpperCase()}
                   </span>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (compareItems.some(item => item._id === rel._id)) {
-                        removeFromCompare(rel._id);
-                      } else {
-                        addToCompare(rel);
-                      }
-                    }}
-                    className={`p-1.5 rounded-md transition-colors ${compareItems.some(item => item._id === rel._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
-                    title={compareItems.some(item => item._id === rel._id) ? "Remove from Compare" : "Add to Compare"}
-                  >
-                    <LuGitCompare size={14} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(rel.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
+                      {rel.availability || 'In Stock'}
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (compareItems.some(item => item._id === rel._id)) {
+                          removeFromCompare(rel._id);
+                        } else {
+                          addToCompare(rel);
+                        }
+                      }}
+                      className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === rel._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
+                      title={compareItems.some(item => item._id === rel._id) ? "Remove from Compare" : "Add to Compare"}
+                    >
+                      <LuArrowLeftRight size={14} />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Image Area */}
-                <div className="relative w-full aspect-square max-h-[120px] mx-auto mb-3 flex items-center justify-center">
+                <div className="relative w-full aspect-square max-h-[120px] mx-auto mb-3 flex items-center justify-center group/img">
                   <img
                     src={rel.image || "/images/demoprod.gif"}
                     alt={rel.name}
-                    className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm"
+                    className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover/img:scale-105 transition-transform duration-500"
                   />
                 </div>
 
@@ -584,22 +587,37 @@ export default function ProductDetails() {
                     {rel.name}
                   </h3>
                 </div>
-                <div className="border border-slate-50 rounded-xl overflow-hidden mb-4 bg-background/50 p-3 space-y-2">
-                  <div className="flex justify-between text-[12px] border-b border-[#EAF2F4] pb-1.5">
-                    <span className="text-body font-semibold">CAS Number</span>
-                    <span className="font-bold text-body">{rel.casNumber || 'N/A'}</span>
+                <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
+                  {/* row 1 */}
+                  <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                      <FaFlask className="text-[#0B7285] text-[13px]" />
+                      <span>CAS Number</span>
+                    </div>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.casNumber || 'N/A'}</span>
                   </div>
-                  <div className="flex justify-between text-[12px] border-b border-[#EAF2F4] pb-1.5 pt-0.5">
-                    <span className="text-body font-semibold">Mol. Formula</span>
-                    <span className="font-bold text-body uppercase truncate max-w-[50%] text-right">{rel.molecularFormula || 'N/A'}</span>
+                  {/* row 2 */}
+                  <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                      <FiTag className="text-[#0B7285] text-[13px]" />
+                      <span>Mol. Formula</span>
+                    </div>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{rel.molecularFormula || 'N/A'}</span>
                   </div>
-                  <div className="flex justify-between text-[12px] pt-0.5">
-                    <span className="text-body font-semibold">Mol. Weight</span>
-                    <span className="font-bold text-body">{rel.molecularWeight || 'N/A'}</span>
+                  {/* row 3 */}
+                  <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                      <FaBalanceScale className="text-[#0B7285] text-[13px]" />
+                      <span>Mol. Weight</span>
+                    </div>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.molecularWeight || 'N/A'}</span>
                   </div>
                 </div>
                 <div className="mt-auto pt-2 flex gap-3">
-                  <div className="w-full flex items-center justify-center gap-2 border border-[#1AA3B6] text-[#1AA3B6] font-bold py-2 rounded-xl hover:bg-[#DDF8FB] transition-colors text-[12px]">
+                  <div className="w-full flex items-center justify-center gap-2 border border-[#1AA3B6] text-[#1AA3B6] font-bold py-2 rounded-xl hover:bg-[#DDF8FB] transition-colors text-[14px]">
                     <FiInfo size={14} /> More info
                   </div>
                   <button
@@ -607,7 +625,7 @@ export default function ProductDetails() {
                       e.preventDefault();
                       addToCart(rel);
                     }}
-                    className="w-full flex items-center justify-center gap-1.5 bg-[#0B7285] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[12px]"
+                    className="w-full flex items-center justify-center gap-1.5 bg-[#0B7285] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[14px]"
                   >
                     {cartItems.some(item => item.id === rel._id) ? (
                       <>
@@ -748,7 +766,9 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-3">
                   <FiClipboard className="text-[26px] text-[#1AA3B6]" strokeWidth={1.5} />
                   <div>
-                    <h2 className="text-[#12344D] text-[18px] font-[750]">Get a Quote / Product Inquiry</h2>
+                    <h2 className="text-[#12344D] text-[18px] font-[750]">
+                      {quoteFormType === 'checkout' ? 'Checkout Request' : 'Get a Quote / Product Inquiry'}
+                    </h2>
                     <p className="text-[#5B7280] text-[13px] mt-0.5">Fill in the details below for <span className="font-bold">{product.name}</span>.</p>
                   </div>
                 </div>
@@ -813,6 +833,14 @@ export default function ProductDetails() {
                       <FiChevronDown className="absolute right-[12px] top-1/2 -translate-y-1/2 text-[#5B7280] pointer-events-none" />
                     </div>
                   </div>
+                  {quoteFormType === 'checkout' && (
+                    <div className="sm:col-span-2">
+                      <label className="block text-[#12344D] text-[12.5px] font-[700] mb-1.5">
+                        PO Number / Ref. Number <span className="text-[#e04545]">*</span>
+                      </label>
+                      <input name="poNumber" value={quoteFormData.poNumber || ''} onChange={handleQuoteChange} type="text" placeholder="Enter PO Number or Reference Number" className="w-full h-[44px] bg-white border border-[#D9E8EC] rounded-[6px] text-[13.5px] px-[14px] outline-none transition-colors focus:border-[#1AA3B6]/70 focus:ring-[3px] focus:ring-[#1AA3B6]/10 placeholder:text-[#5B7280]" required={quoteFormType === 'checkout'} />
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-[18px]">
@@ -849,11 +877,14 @@ export default function ProductDetails() {
 
                 <div className="flex items-center gap-2 mt-[18px] mb-[20px] text-[#5B7280] text-[11.5px] font-medium">
                   <FiLock className="text-[#9ABAC0] shrink-0" />
-                  Your information is secure and will only be used to respond to your inquiry.
+                  Your information is secure and will only be used to {quoteFormType === 'checkout' ? 'process your checkout request' : 'respond to your inquiry'}.
                 </div>
 
                 <button disabled={isSubmittingQuote} type="submit" className="flex items-center justify-center w-full h-[46px] bg-[#1AA3B6] text-white text-[15px] font-bold rounded-[6px] border-0 cursor-pointer transition-all hover:bg-[#0B7285] shadow-[0_6px_15px_rgba(26,163,182,0.25)] hover:-translate-y-px disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
-                  <FiSend className="mr-[8px]" /> {isSubmittingQuote ? 'Sending Inquiry...' : 'Send Inquiry'}
+                  <FiSend className="mr-[8px]" />
+                  {quoteFormType === 'checkout'
+                    ? (isSubmittingQuote ? 'Processing Checkout...' : 'Proceed to Checkout')
+                    : (isSubmittingQuote ? 'Sending Inquiry...' : 'Send Inquiry')}
                 </button>
 
                 {quoteSubmitStatus && (
@@ -862,6 +893,45 @@ export default function ProductDetails() {
                   </div>
                 )}
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Image Zoom Modal */}
+      <AnimatePresence>
+        {showImageZoom && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 md:p-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowImageZoom(false)}
+              className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm cursor-zoom-out"
+            ></motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-[#EAF2F4] flex flex-col"
+              style={{ maxHeight: '90vh' }}
+            >
+              <div className="absolute top-4 right-4 z-10">
+                <button
+                  onClick={() => setShowImageZoom(false)}
+                  className="bg-white/80 hover:bg-white text-slate-800 p-2.5 rounded-full shadow-md transition-colors backdrop-blur-md"
+                >
+                  <FiX size={24} />
+                </button>
+              </div>
+              <div className="flex-1 flex items-center justify-center p-8 md:p-12 overflow-auto bg-[url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 3L37.32 13V33L20 43L2.68 33V13L20 3Z\' fill=\'none\' stroke=\'%23e2e8f0\' stroke-width=\'0.5\'/%3E%3C/svg%3E')]">
+                <img
+                  src={product.image || "/images/demoprod.gif"}
+                  alt={product.name}
+                  className="w-full h-auto max-h-[75vh] object-contain drop-shadow-2xl mix-blend-multiply"
+                />
+              </div>
             </motion.div>
           </div>
         )}

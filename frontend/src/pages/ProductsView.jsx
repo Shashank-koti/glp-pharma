@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck } from 'react-icons/fi';
+import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck, FiBox, FiCheckCircle, FiTool } from 'react-icons/fi';
 import { BsLayersFill } from 'react-icons/bs';
 import { FaFlask, FaBalanceScale } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../context/CartContext';
 import { useCompare } from '../context/CompareContext';
-import { LuGitCompare } from 'react-icons/lu';
+import { LuArrowLeftRight } from 'react-icons/lu';
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
@@ -120,10 +120,10 @@ export default function ProductsView() {
   const displayCategoryName = subCategory === 'search' ? `"${searchQueryParam}"` : (categoryName || 'API IMPURITIES AND REFERENCE STANDARDS').toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] font-sans pb-16 pt-6">
+    <div className="min-h-screen bg-[#fafbfc] font-sans pb-16 ">
 
       {/* Alphabet Navigation */}
-      <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mb-6 relative z-20">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 mb-6 relative z-20">
         <div className="bg-white rounded-2xl shadow-sm p-3 md:p-4 border border-[#EAF2F4]">
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
@@ -145,7 +145,7 @@ export default function ProductsView() {
                       <button
                         key={letter}
                         onClick={() => handleLetterClick(letter)}
-                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[14.5px] font-bold transition-all ${isActive ? 'bg-[#0B7285] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#0B7285]'
+                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[18px] font-bold transition-all ${isActive ? 'bg-[#0B7285] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#0B7285]'
                           }`}
                       >
                         {letter}
@@ -160,7 +160,7 @@ export default function ProductsView() {
       </div>
 
       {/* Breadcrumb Header */}
-      <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+      <div className="w-full  mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <div className="bg-white rounded-[16px] shadow-sm border border-[#EAF2F4] p-3 md:px-4 md:py-3 flex flex-col md:flex-row items-center justify-between gap-3">
 
           <div className="flex items-center gap-3 w-full md:w-auto overflow-hidden">
@@ -192,11 +192,14 @@ export default function ProductsView() {
             <div key={filterType} className="flex items-center">
               <button
                 onClick={() => setAvailabilityFilter(filterType)}
-                className={`px-4 py-1.5 text-[13px] font-bold rounded-md transition-colors ${availabilityFilter === filterType
-                  ? 'bg-[#059669] text-white shadow-sm'
+                className={`flex items-center gap-1.5 px-4 py-1.5 text-[13px] font-bold rounded-md transition-colors ${availabilityFilter === filterType
+                  ? 'bg-[#25D366] text-white shadow-sm'
                   : 'text-slate-500 hover:bg-slate-100 hover:text-[#059669]'
                   }`}
               >
+                {filterType === 'All' && <FiBox size={14} />}
+                {filterType === 'In Stock' && <FiCheckCircle size={14} />}
+                {filterType === 'Custom Synthesis' && <FiTool size={14} />}
                 {filterType}
               </button>
               {index < arr.length - 1 && (
@@ -231,33 +234,37 @@ export default function ProductsView() {
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
                 className="w-full flex flex-col bg-white rounded-[20px] border border-[#EAF2F4] shadow-sm p-4 hover:shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                {/* Top Labels */}
                 <div className="flex justify-between items-start mb-2">
-                  <span className="bg-[#1AA3B6] text-white text-[11px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wide">
+                  <span className="bg-[#1AA3B6] text-white text-[11px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wide shadow-sm">
                     GL-{product._id.substring(0, 5).toUpperCase()}
                   </span>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (compareItems.some(item => item._id === product._id)) {
-                        removeFromCompare(product._id);
-                      } else {
-                        addToCompare(product);
-                      }
-                    }}
-                    className={`p-1.5 rounded-md transition-colors ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
-                    title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Add to Compare"}
-                  >
-                    <LuGitCompare size={14} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
+                      {product.availability || 'In Stock'}
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (compareItems.some(item => item._id === product._id)) {
+                          removeFromCompare(product._id);
+                        } else {
+                          addToCompare(product);
+                        }
+                      }}
+                      className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
+                      title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Add to Compare"}
+                    >
+                      <LuArrowLeftRight size={14} />
+                    </button>
+                  </div>
                 </div>
 
-                {/* Image Area */}
-                <div className="relative w-full aspect-square max-h-[160px] mx-auto mb-3 flex items-center justify-center p-2 group">
+                <div className="relative w-full aspect-square max-h-[160px] mx-auto mb-3 flex items-center justify-center p-2 group/img">
                   <img
                     src={product.image || "/images/demoprod.gif"}
                     alt={product.name}
-                    className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover/img:scale-105 transition-transform duration-500"
                   />
                 </div>
 
@@ -271,28 +278,31 @@ export default function ProductsView() {
                 {/* Details Table */}
                 <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4">
                   {/* row 1 */}
-                  <div className="flex items-center justify-between p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white">
-                    <div className="flex items-center gap-2 text-body font-semibold">
+                  <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                       <FaFlask className="text-[#0B7285] text-[13px]" />
                       <span>CAS Number</span>
                     </div>
-                    <span className="font-bold text-heading">{product.casNumber || 'N/A'}</span>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || 'N/A'}</span>
                   </div>
                   {/* row 2 */}
-                  <div className="flex items-center justify-between p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white">
-                    <div className="flex items-center gap-2 text-body font-semibold">
+                  <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Formula</span>
                     </div>
-                    <span className="font-bold text-heading uppercase">{product.molecularFormula || 'N/A'}</span>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
                   </div>
                   {/* row 3 */}
-                  <div className="flex items-center justify-between p-2.5 text-[12px] bg-white">
-                    <div className="flex items-center gap-2 text-body font-semibold">
+                  <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                       <FaBalanceScale className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Weight</span>
                     </div>
-                    <span className="font-bold text-heading">{product.molecularWeight || 'N/A'}</span>
+                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
                   </div>
                 </div>
 
@@ -300,14 +310,14 @@ export default function ProductsView() {
                 <div className="flex gap-2.5 mt-auto">
                   <Link
                     to={`/products/${product.slug}`}
-                    className="flex-1 flex items-center justify-center gap-1.5 border border-[#0B7285] text-[#0B7285] font-bold py-2 rounded-[10px] hover:bg-[#F8FBFC] transition-colors text-[12px]"
+                    className="flex-1 flex items-center justify-center gap-1.5 border border-[#0B7285] text-[#0B7285] font-bold py-2 rounded-[10px] hover:bg-[#F8FBFC] transition-colors text-[14px]"
                   >
                     <FiInfo className="text-sm" />
                     More Info
                   </Link>
                   <button
                     onClick={() => addToCart(product)}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#0B7285] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[12px]"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#0B7285] text-white font-bold py-2 rounded-[10px] hover:bg-[#0B7285] transition-colors text-[14px]"
                   >
                     {cartItems.some(item => item.id === product._id) ? (
                       <>

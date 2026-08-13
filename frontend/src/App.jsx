@@ -38,7 +38,7 @@ function App() {
       <div className="flex flex-col min-h-screen bg-background font-sans text-text-main">
         <Navbar />
 
-        <main className="flex-grow pt-28 lg:pt-[135px]">
+        <main className="flex-grow pt-[54px] lg:pt-[110px]">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />

@@ -133,7 +133,7 @@ export default function ProductCategoriesView() {
       </div>
 
       {/* 2. Alphabet Navigation */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
         <div className="bg-white rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3 md:p-4 border border-[#EAF2F4]">
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
@@ -155,7 +155,7 @@ export default function ProductCategoriesView() {
                       <button
                         key={letter}
                         onClick={() => handleLetterClick(letter)}
-                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[14.5px] font-bold transition-all ${isActive ? 'bg-[#1AA3B6] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#1AA3B6]'
+                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[18px] font-bold transition-all ${isActive ? 'bg-[#1AA3B6] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#1AA3B6]'
                           }`}
                       >
                         {letter}
@@ -170,7 +170,7 @@ export default function ProductCategoriesView() {
       </div>
 
       {/* 3. Main Content Area */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-24 min-h-[40vh]">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-24 min-h-[40vh]">
 
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center">
@@ -178,7 +178,7 @@ export default function ProductCategoriesView() {
             <span className="mt-4 text-body font-medium">{t('products.loadingCat')}</span>
           </div>
         ) : sortedGroups.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
+          <div className="py-20 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
             <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center mb-6">
               <FiAlertCircle className="text-slate-300 text-4xl" />
             </div>

@@ -75,18 +75,30 @@ export default function RecentlyViewed({ currentProductId }) {
               </h3>
             </div>
             
-            <div className="border border-slate-50 rounded-xl overflow-hidden mb-4 bg-background/50 p-2.5 space-y-1.5">
-              <div className="flex justify-between text-[11px] border-b border-[#EAF2F4] pb-1">
-                <span className="text-body font-semibold">CAS</span>
-                <span className="font-bold text-body">{product.casNumber || 'N/A'}</span>
+            <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
+              {/* row 1 */}
+              <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                  <span className="truncate">CAS</span>
+                </div>
+                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || 'N/A'}</span>
               </div>
-              <div className="flex justify-between text-[11px] border-b border-[#EAF2F4] pb-1">
-                <span className="text-body font-semibold">Mol. Formula</span>
-                <span className="font-bold text-body uppercase truncate max-w-[50%] text-right">{product.molecularFormula || 'N/A'}</span>
+              {/* row 2 */}
+              <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                  <span className="truncate">Mol. Formula</span>
+                </div>
+                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
               </div>
-              <div className="flex justify-between text-[11px]">
-                <span className="text-body font-semibold">Mol. Weight</span>
-                <span className="font-bold text-body">{product.molecularWeight || 'N/A'}</span>
+              {/* row 3 */}
+              <div className="flex items-center p-2.5 text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                  <span className="truncate">Mol. Weight</span>
+                </div>
+                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
               </div>
             </div>
             

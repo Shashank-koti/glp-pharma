@@ -40,7 +40,7 @@ export default function Hero() {
   ];
 
   return (
-    <div className="relative w-full min-h-[600px] lg:min-h-[750px] flex flex-col justify-center bg-dark overflow-visible -mt-28 lg:-mt-[110px] pt-28 lg:pt-[110px]">
+    <div className="relative w-full min-h-[92dvh] lg:min-h-screen lg:h-[100vh] flex flex-col justify-center bg-dark overflow-visible -mt-[100px] lg:-mt-[120px] pt-[120px] lg:pt-[150px]">
 
       {/* Unified Slider */}
       <div className="absolute inset-0 z-0 h-full w-full bg-black">
@@ -95,12 +95,12 @@ export default function Hero() {
                   </p>
 
                   {/* Buttons */}
-                  <div className="flex flex-wrap gap-4">
-                    <a href="/product-categories-view/api-impurities-and-reference-standards" className="inline-flex items-center justify-center px-3 py-2 bg-primary hover:bg-primary text-white font-semibold rounded-lg transition-all duration-300 gap-2 hover:-translate-y-0.5">
-                      {t('home.hero.exploreProducts')} <FiArrowRight className="w-5 h-5" />
+                  <div className="flex flex-row flex-nowrap gap-2 sm:gap-4 mt-2">
+                    <a href="/product-categories-view/api-impurities-and-reference-standards" className="flex-1 sm:flex-none inline-flex items-center justify-center px-2 py-2.5 sm:px-5 sm:py-3 text-[11px] sm:text-base bg-primary hover:bg-primary text-white font-semibold rounded-lg transition-all duration-300 gap-1.5 hover:-translate-y-0.5 whitespace-nowrap">
+                      {t('home.hero.exploreProducts')} <FiArrowRight className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                     </a>
-                    <a href="/contact" className="inline-flex items-center justify-center px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md text-white font-semibold rounded-lg transition-all duration-300 gap-2 hover:-translate-y-0.5">
-                      {t('home.hero.getInTouch')} <FiArrowRight className="w-5 h-5" />
+                    <a href="/contact" className="flex-1 sm:flex-none inline-flex items-center justify-center px-2 py-2.5 sm:px-5 sm:py-3 text-[11px] sm:text-base bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md text-white font-semibold rounded-lg transition-all duration-300 gap-1.5 hover:-translate-y-0.5 whitespace-nowrap">
+                      {t('home.hero.getInTouch')} <FiArrowRight className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                     </a>
                   </div>
                 </motion.div>
@@ -116,39 +116,46 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="max-w-[1300px] mx-auto bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-2 md:p-3 flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-4 lg:gap-y-0 border border-white/50"
+          className="max-w-[1300px] mx-auto bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-3 md:p-4 flex flex-col lg:flex-row items-center lg:justify-evenly w-full border border-white/50"
         >
-          {/* Feature 1 */}
-          <div className="flex flex-col items-center justify-center text-center gap-1.5 flex-1 min-w-[80px] group cursor-pointer">
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
-              <FaFlask className="w-4 h-4 md:w-5 md:h-5" />
+          <div className="grid grid-cols-3 w-full lg:contents">
+            {/* Feature 1 */}
+            <div className="flex flex-col items-center justify-center text-center gap-1.5 w-full lg:flex-1 group cursor-pointer">
+              <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
+                <FaFlask className="w-4 h-4 md:w-5 md:h-5" />
+              </div>
+              <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature1')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature1Sub')}</span></p>
             </div>
-            <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature1')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature1Sub')}</span></p>
-          </div>
-          <div className="hidden lg:block w-px h-8 bg-border"></div>
 
-          {/* Feature 2 */}
-          <div className="flex flex-col items-center justify-center text-center gap-1.5 flex-1 min-w-[80px] group cursor-pointer">
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
-              <FaVials className="w-4 h-4 md:w-5 md:h-5" />
-            </div>
-            <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature2')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature2Sub')}</span></p>
-          </div>
-          <div className="hidden lg:block w-px h-8 bg-border"></div>
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-8 bg-border"></div>
 
-          {/* Feature 3 */}
-          <div className="flex flex-col items-center justify-center text-center gap-1.5 flex-1 min-w-[80px] group cursor-pointer">
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
-              <HiOutlineDocumentSearch className="w-4 h-4 md:w-5 md:h-5" />
+            {/* Feature 2 */}
+            <div className="flex flex-col items-center justify-center text-center gap-1.5 w-full lg:flex-1 group cursor-pointer">
+              <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
+                <FaVials className="w-4 h-4 md:w-5 md:h-5" />
+              </div>
+              <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature2')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature2Sub')}</span></p>
             </div>
-            <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature3')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature3Sub')}</span></p>
+
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-8 bg-border"></div>
+
+            {/* Feature 3 */}
+            <div className="flex flex-col items-center justify-center text-center gap-1.5 w-full lg:flex-1 group cursor-pointer">
+              <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
+                <HiOutlineDocumentSearch className="w-4 h-4 md:w-5 md:h-5" />
+              </div>
+              <p className="text-[10px] font-bold text-heading leading-tight md:text-xs">{t('home.hero.feature3')}<br /><span className="text-[9px] md:text-[10px] font-normal text-body">{t('home.hero.feature3Sub')}</span></p>
+            </div>
           </div>
+
           <div className="hidden lg:block w-px h-8 bg-border"></div>
 
           {/* ISO Logos */}
-          <div className="flex items-center justify-evenly gap-4 flex-2 min-w-[140px]">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 w-full lg:contents pt-5 mt-3 border-t lg:pt-0 lg:mt-0 lg:border-t-0 border-slate-200">
             {/* ISO 9001 */}
-            <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+            <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default lg:flex-1 lg:justify-center">
               <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border-[2px] border-primary flex items-center justify-center relative bg-white shadow-sm">
                 <span className="font-bold text-primary text-[8px] md:text-[9px] z-10">ISO</span>
                 <div className="absolute inset-1 border border-primary/30 rounded-full"></div>
@@ -158,8 +165,11 @@ export default function Hero() {
                 <p className="text-[7px] md:text-[8px] text-primary font-semibold tracking-wider">{t('home.hero.certified')}</p>
               </div>
             </div>
+
+            <div className="hidden lg:block w-px h-8 bg-border"></div>
+
             {/* ISO 17034 */}
-            <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+            <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default lg:flex-1 lg:justify-center">
               <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border-[2px] border-primary flex items-center justify-center relative bg-white shadow-sm">
                 <span className="font-bold text-primary text-[8px] md:text-[9px] z-10">ISO</span>
                 <div className="absolute inset-1 border border-primary/30 rounded-full"></div>

@@ -40,7 +40,7 @@ export default function Login() {
 
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[#F8FBFC] overflow-hidden py-[85px] px-6 pb-[60px]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[#F8FBFC] overflow-hidden py-10 px-6 pb-[60px]">
       <div className="absolute inset-0 bg-[url('/images/credBG.png')] bg-center bg-cover bg-no-repeat -z-20" />
       <div className="absolute inset-0 bg-white/5 -z-10" />
 
