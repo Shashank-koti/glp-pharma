@@ -157,6 +157,7 @@ export default function News() {
             </div>
           </motion.div>
         </div>
+        <h1>testing stage</h1>
 
       </div>
     </section>
