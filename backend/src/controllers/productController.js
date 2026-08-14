@@ -69,9 +69,9 @@ export const getProducts = async (req, res, next) => {
 // @access  Public
 export const getProductBySlug = async (req, res, next) => {
   try {
-    const subProduct = await SubProduct.findOne({ 
+    const subProduct = await SubProduct.findOne({
       $or: [{ slug: req.params.slug }, { 'specifications.casNumber': req.params.slug }],
-      isActive: true 
+      isActive: true
     }).populate('mainProduct');
 
     if (!subProduct) {
@@ -80,12 +80,12 @@ export const getProductBySlug = async (req, res, next) => {
 
     // Format the response to be backward compatible with frontend
     const formattedSubProduct = subProduct.toObject();
-    
+
     // Lift specifications up to the root level for easy frontend access
     if (formattedSubProduct.specifications) {
       Object.assign(formattedSubProduct, formattedSubProduct.specifications);
     }
-    
+
     // Look up category for breadcrumbs
     if (subProduct.mainProduct) {
       const category = await Category.findOne({ categoryId: subProduct.mainProduct.category_id });
@@ -99,7 +99,7 @@ export const getProductBySlug = async (req, res, next) => {
     }
 
     // Find reverse similar products logic can be adapted later if needed
-    
+
     return ResponseFormatter.success(res, formattedSubProduct, 'Product fetched successfully');
   } catch (error) {
     next(error);
@@ -264,7 +264,7 @@ export const getProductsBySubCategory = async (req, res, next) => {
       .paginate();
 
     const products = await features.query;
-    
+
     // 3. Attach the category object manually so the frontend code (like ProductsView.jsx) doesn't break
     const formattedProducts = products.map(p => {
       const prod = p.toObject();
@@ -295,7 +295,7 @@ export const getProductSubProducts = async (req, res, next) => {
   try {
     // 1. Find the Main Product by slug
     const mainProduct = await Product.findOne({ p_link: req.params.slug, status: true });
-    
+
     if (!mainProduct) {
       return res.status(404).json({ success: false, message: 'Main product not found' });
     }
@@ -316,7 +316,7 @@ export const getProductSubProducts = async (req, res, next) => {
       .paginate();
 
     const subProducts = await features.query;
-    
+
     // We need to look up the top-level category so the frontend breadcrumbs work
     const category = await Category.findOne({ categoryId: mainProduct.category_id });
 
