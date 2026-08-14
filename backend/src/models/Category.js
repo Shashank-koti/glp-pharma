@@ -14,15 +14,13 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
+    categoryId: {
+      type: String, // This maps to "1", "2" from the frontend/old SQL
+      unique: true,
+      index: true,
+    },
     description: {
       type: String,
-    },
-    image: {
-      type: String,
-    },
-    displayOrder: {
-      type: Number,
-      default: 0,
     },
     status: {
       type: Boolean,
@@ -35,7 +33,7 @@ const categorySchema = new mongoose.Schema(
 );
 
 categorySchema.pre('save', function () {
-  if (this.isModified('categoryName') || !this.slug) {
+  if (!this.slug) {
     this.slug = slugGenerator(this.categoryName);
   }
 });

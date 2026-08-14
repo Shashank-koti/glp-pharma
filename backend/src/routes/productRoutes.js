@@ -9,6 +9,7 @@ import {
   getProductFilters,
   getProductGroupsByCategory,
   getProductsBySubCategory,
+  getProductSubProducts,
 } from '../controllers/productController.js';
 
 const router = express.Router();
@@ -21,6 +22,7 @@ router.get('/special/latest', getLatestProducts);
 
 router.get('/', getProducts);
 router.get('/:slug', getProductBySlug);
+router.get('/:slug/subproducts', getProductSubProducts);
 router.get('/:slug/related', getRelatedProducts);
 router.post('/:slug/view', incrementViewCount);
 

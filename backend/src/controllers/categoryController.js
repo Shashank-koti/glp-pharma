@@ -1,5 +1,5 @@
 import Category from '../models/Category.js';
-import Product from '../models/Product.js';
+import Product from '../models/products.js';
 import ResponseFormatter from '../utils/ResponseFormatter.js';
 import ApiFeatures from '../utils/ApiFeatures.js';
 
@@ -55,8 +55,20 @@ export const getCategoryProducts = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Category not found' });
     }
 
+    const filter = { category_id: category.categoryId, status: true };
+    
+    // Support alphabet filtering on the heading
+    if (req.query.letter && req.query.letter !== 'All') {
+      filter.heading = { $regex: new RegExp(`^${req.query.letter}`, 'i') };
+    }
+
+    // Default to a high limit if not paginating explicitly
+    if (!req.query.limit) {
+      req.query.limit = '1000';
+    }
+
     const features = new ApiFeatures(
-      Product.find({ category: category._id, isActive: true }),
+      Product.find(filter),
       req.query
     )
       .filter()
@@ -65,11 +77,23 @@ export const getCategoryProducts = async (req, res, next) => {
       .paginate();
 
     const products = await features.query;
-    const total = await Product.countDocuments({ category: category._id, isActive: true });
+    
+    // Format products to include the top level category object so the frontend continues to work
+    const formattedProducts = products.map(p => {
+      const prod = p.toObject();
+      prod.category = {
+        categoryName: category.categoryName,
+        slug: category.slug,
+        categoryId: category.categoryId
+      };
+      return prod;
+    });
 
-    return ResponseFormatter.successWithPagination(res, products, {
+    const total = await Product.countDocuments({ category_id: category.categoryId, status: true });
+
+    return ResponseFormatter.successWithPagination(res, formattedProducts, {
       total,
-      count: products.length,
+      count: formattedProducts.length,
       page: parseInt(req.query.page) || 1,
     }, 'Category products fetched successfully');
   } catch (error) {

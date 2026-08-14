@@ -1,5 +1,6 @@
-import Product from '../models/Product.js';
+import Product from '../models/products.js';
 import Category from '../models/Category.js';
+import SubProduct from '../models/SubProducts.js';
 import ResponseFormatter from '../utils/ResponseFormatter.js';
 import ApiFeatures from '../utils/ApiFeatures.js';
 
@@ -8,31 +9,54 @@ import ApiFeatures from '../utils/ApiFeatures.js';
 // @access  Public
 export const getProducts = async (req, res, next) => {
   try {
-    const searchFields = ['name', 'casNumber', 'molecularFormula', 'tags', 'applications'];
+    const searchFields = ['name', 'specifications.casNumber', 'specifications.catalogueNumber', 'specifications.iupacName', 'specifications.molecularFormula', 'tags', 'applications'];
 
     // Add default active filter
     if (!req.query.isActive) {
       req.query.isActive = 'true';
     }
 
-    const features = new ApiFeatures(Product.find().populate('category', 'categoryName slug'), req.query)
+    if (!req.query.limit) {
+      req.query.limit = '1000';
+    }
+
+    const features = new ApiFeatures(SubProduct.find().populate('mainProduct', 'category_id'), req.query)
       .search(searchFields)
       .filter()
       .sort()
       .limitFields()
       .paginate();
 
-    const products = await features.query;
+    const subProducts = await features.query;
 
     // For counting total, we need a separate query without pagination
-    const countFeatures = new ApiFeatures(Product.find(), req.query)
+    const countFeatures = new ApiFeatures(SubProduct.find(), req.query)
       .search(searchFields)
       .filter();
     const total = await countFeatures.query.countDocuments();
 
-    return ResponseFormatter.successWithPagination(res, products, {
+    // Map categories to subproducts for frontend backward compatibility
+    const categories = await Category.find();
+    const categoryMap = {};
+    categories.forEach(c => {
+      categoryMap[c.categoryId] = {
+        categoryName: c.categoryName,
+        slug: c.slug,
+        categoryId: c.categoryId
+      };
+    });
+
+    const formattedProducts = subProducts.map(sp => {
+      const formatted = sp.toObject();
+      if (sp.mainProduct && categoryMap[sp.mainProduct.category_id]) {
+        formatted.category = categoryMap[sp.mainProduct.category_id];
+      }
+      return formatted;
+    });
+
+    return ResponseFormatter.successWithPagination(res, formattedProducts, {
       total,
-      count: products.length,
+      count: formattedProducts.length,
       page: parseInt(req.query.page) || 1,
     }, 'Products fetched successfully');
   } catch (error) {
@@ -40,45 +64,43 @@ export const getProducts = async (req, res, next) => {
   }
 };
 
-// @desc    Get single product by slug
+// @desc    Get single product (impurity) by slug
 // @route   GET /api/products/:slug
 // @access  Public
 export const getProductBySlug = async (req, res, next) => {
   try {
-    const product = await Product.findOne({ 
-      $or: [{ slug: req.params.slug }, { casNumber: req.params.slug }],
+    const subProduct = await SubProduct.findOne({ 
+      $or: [{ slug: req.params.slug }, { 'specifications.casNumber': req.params.slug }],
       isActive: true 
-    }).populate('category', 'categoryName slug description');
+    }).populate('mainProduct');
 
-    if (!product) {
+    if (!subProduct) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    // Find reverse similar products (products that point to this product)
-    if (product.casNumber) {
-      // Regex matches casNumber exactly, followed by ( or end of string, to avoid partial matches
-      const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const reverseRegex = new RegExp('^' + escapeRegExp(product.casNumber) + '(?:\\(|$)', 'i');
-      
-      const reverseLinks = await Product.find({
-        similarProducts: { $regex: reverseRegex },
-        _id: { $ne: product._id },
-        isActive: true
-      }).select('casNumber');
-      
-      if (reverseLinks.length > 0) {
-        const reverseCasNumbers = reverseLinks.map(p => p.casNumber);
-        const currentSimilar = product.similarProducts || [];
-        const allSimilar = Array.from(new Set([...currentSimilar, ...reverseCasNumbers]));
-        
-        // Convert to plain object to safely attach dynamic similar products
-        const productObj = product.toObject();
-        productObj.similarProducts = allSimilar;
-        return ResponseFormatter.success(res, productObj, 'Product fetched successfully');
+    // Format the response to be backward compatible with frontend
+    const formattedSubProduct = subProduct.toObject();
+    
+    // Lift specifications up to the root level for easy frontend access
+    if (formattedSubProduct.specifications) {
+      Object.assign(formattedSubProduct, formattedSubProduct.specifications);
+    }
+    
+    // Look up category for breadcrumbs
+    if (subProduct.mainProduct) {
+      const category = await Category.findOne({ categoryId: subProduct.mainProduct.category_id });
+      if (category) {
+        formattedSubProduct.category = {
+          categoryName: category.categoryName,
+          slug: category.slug,
+          categoryId: category.categoryId
+        };
       }
     }
 
-    return ResponseFormatter.success(res, product, 'Product fetched successfully');
+    // Find reverse similar products logic can be adapted later if needed
+    
+    return ResponseFormatter.success(res, formattedSubProduct, 'Product fetched successfully');
   } catch (error) {
     next(error);
   }
@@ -223,17 +245,17 @@ export const getProductGroupsByCategory = async (req, res, next) => {
 // @access  Public
 export const getProductsBySubCategory = async (req, res, next) => {
   try {
-    const subCategoryName = req.params.subCategory;
+    const subCategoryName = req.params.subCategory; // e.g. "nitroso-impurities"
 
-    // Check if any product exists with this subCategory
-    const groupExists = await Product.exists({ subCategory: subCategoryName, isActive: true });
-
-    if (!groupExists) {
-      return res.status(404).json({ success: false, message: 'Subcategory group not found' });
+    // 1. Look up the top-level Category
+    const category = await Category.findOne({ slug: subCategoryName });
+    if (!category) {
+      return res.status(404).json({ success: false, message: 'Category not found' });
     }
 
+    // 2. Fetch the APIs (Main Products) that belong to this category's ID
     const features = new ApiFeatures(
-      Product.find({ subCategory: subCategoryName, isActive: true }).populate('category', 'categoryName slug'),
+      Product.find({ category_id: category.categoryId, status: true }),
       req.query
     )
       .filter()
@@ -242,13 +264,89 @@ export const getProductsBySubCategory = async (req, res, next) => {
       .paginate();
 
     const products = await features.query;
-    const total = await Product.countDocuments({ subCategory: subCategoryName, isActive: true });
+    
+    // 3. Attach the category object manually so the frontend code (like ProductsView.jsx) doesn't break
+    const formattedProducts = products.map(p => {
+      const prod = p.toObject();
+      prod.category = {
+        categoryName: category.categoryName,
+        slug: category.slug,
+        categoryId: category.categoryId
+      };
+      return prod;
+    });
 
-    return ResponseFormatter.successWithPagination(res, products, {
+    const total = await Product.countDocuments({ category_id: category.categoryId, status: true });
+
+    return ResponseFormatter.successWithPagination(res, formattedProducts, {
       total,
-      count: products.length,
+      count: formattedProducts.length,
       page: parseInt(req.query.page) || 1,
     }, 'Products for subcategory fetched successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get subproducts (impurities) for a specific main product
+// @route   GET /api/products/:slug/subproducts
+// @access  Public
+export const getProductSubProducts = async (req, res, next) => {
+  try {
+    // 1. Find the Main Product by slug
+    const mainProduct = await Product.findOne({ p_link: req.params.slug, status: true });
+    
+    if (!mainProduct) {
+      return res.status(404).json({ success: false, message: 'Main product not found' });
+    }
+
+    // 2. Fetch the SubProducts that belong to this Main Product
+    // Default to a high limit if not paginating explicitly
+    if (!req.query.limit) {
+      req.query.limit = '1000';
+    }
+
+    const features = new ApiFeatures(
+      SubProduct.find({ mainProduct: mainProduct._id, isActive: true }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const subProducts = await features.query;
+    
+    // We need to look up the top-level category so the frontend breadcrumbs work
+    const category = await Category.findOne({ categoryId: mainProduct.category_id });
+
+    const formattedSubProducts = subProducts.map(sp => {
+      const formatted = sp.toObject();
+      if (category) {
+        formatted.category = {
+          categoryName: category.categoryName,
+          slug: category.slug,
+          categoryId: category.categoryId
+        };
+      }
+      return formatted;
+    });
+
+    const total = await SubProduct.countDocuments({ mainProduct: mainProduct._id, isActive: true });
+
+    return ResponseFormatter.successWithPagination(res, formattedSubProducts, {
+      total,
+      count: formattedSubProducts.length,
+      page: parseInt(req.query.page) || 1,
+      mainProduct: {
+        heading: mainProduct.heading,
+        slug: mainProduct.p_link,
+      },
+      category: category ? {
+        categoryName: category.categoryName,
+        slug: category.slug,
+      } : null
+    }, 'SubProducts fetched successfully');
   } catch (error) {
     next(error);
   }
