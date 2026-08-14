@@ -56,12 +56,12 @@ export default function RecentlyViewed({ currentProductId }) {
           >
             <div className="flex justify-between items-start mb-3">
               <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase">
-                GL-{product._id.substring(0, 5)}
+                {product.specifications?.catalogueNumber || product.catalogueNumber || `GL-${product._id.substring(0, 5).toUpperCase()}`}
               </span>
             </div>
 
             {/* Image Area */}
-            <div className="relative w-full aspect-square max-h-[140px] mx-auto mb-4 flex items-center justify-center p-2">
+            <div className="relative w-full aspect-square max-h-[220px] mx-auto mb-4 flex items-center justify-center p-2">
               <img
                 src={product.image || "/images/demoprod.gif"}
                 alt={product.name}
@@ -76,20 +76,28 @@ export default function RecentlyViewed({ currentProductId }) {
             </div>
             
             <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
+              {/* row 0 */}
+              <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                  <span className="truncate">CAT No.</span>
+                </div>
+                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
+              </div>
               {/* row 1 */}
               <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">CAS</span>
                 </div>
-                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || 'N/A'}</span>
+                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || product.specifications?.casNumber || 'N/A'}</span>
               </div>
               {/* row 2 */}
               <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">Mol. Formula</span>
                 </div>
-                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
                 <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
               </div>
               {/* row 3 */}
@@ -97,7 +105,7 @@ export default function RecentlyViewed({ currentProductId }) {
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">Mol. Weight</span>
                 </div>
-                <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
                 <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
               </div>
             </div>

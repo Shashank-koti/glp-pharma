@@ -53,7 +53,7 @@ export default function ServiceList() {
   ];
 
   return (
-    <section className="py-24 lg:py-32 bg-background relative overflow-hidden">
+    <section className="py-12 md:py-24 lg:py-32 bg-background relative overflow-hidden">
       {/* Background abstract elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[10%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-primary/5 blur-[120px] mix-blend-multiply"></div>

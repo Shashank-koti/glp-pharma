@@ -87,7 +87,7 @@ export default function QuickEnquiry() {
       <div className="relative z-10 w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24">
 
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <div className="text-center pt-10 pb-12">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ export default function QuickEnquiry() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#EAF2F4] p-8 md:p-10 lg:p-12 relative"
+          className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#EAF2F4] p-5 sm:p-8 md:p-10 lg:p-12 relative"
         >
           <form onSubmit={handleSubmit}>
             {submitSuccess && (

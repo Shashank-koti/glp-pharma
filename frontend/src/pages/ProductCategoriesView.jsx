@@ -22,6 +22,7 @@ export default function ProductCategoriesView() {
   const [groups, setGroups] = useState([]);
   // Initial fallback text matching the image structure
   const [categoryName, setCategoryName] = useState('API IMPURITIES AND REFERENCE STANDARDS');
+  const [categoryDescription, setCategoryDescription] = useState('High-quality pharmaceutical impurities and reference standards for accurate research and analysis.');
   const [loading, setLoading] = useState(true);
 
   const currentLetter = searchParams.get('letter') || 'All';
@@ -34,11 +35,12 @@ export default function ProductCategoriesView() {
         const catRes = await axios.get(`https://glp-pharma-backend.vercel.app/api/categories/${categorySlug}`);
         if (catRes.data.success) {
           setCategoryName(catRes.data.data.categoryName);
+          if (catRes.data.data.description) setCategoryDescription(catRes.data.data.description);
         }
 
         // Fetch groups
         const queryParams = (currentLetter && currentLetter !== 'All') ? `?letter=${currentLetter}` : '';
-        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/products/groups/${categorySlug}${queryParams}`);
+        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/categories/${categorySlug}/products${queryParams}`);
         if (res.data.success) {
           setGroups(res.data.data);
         }
@@ -61,7 +63,11 @@ export default function ProductCategoriesView() {
   };
 
   // Keep ascending sort as default
-  const sortedGroups = [...groups].sort((a, b) => a.localeCompare(b));
+  const sortedGroups = [...groups].sort((a, b) => {
+    const nameA = a.heading || a.name || '';
+    const nameB = b.heading || b.name || '';
+    return nameA.localeCompare(nameB);
+  });
 
   return (
     <div className="min-h-screen bg-[#F8FBFC] font-sans">
@@ -86,14 +92,14 @@ export default function ProductCategoriesView() {
               )}
             </h1>
             <p className="text-body text-[15px] md:text-[16px] max-w-[500px] mb-8 leading-relaxed font-medium">
-              High-quality pharmaceutical impurities and reference standards for accurate research and analysis.
+              {categoryDescription}
             </p>
 
 
-            <div className="flex items-center gap-4 md:gap-10 overflow-x-auto scrollbar-hide pb-2 lg:pb-0">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-10 overflow-x-auto scrollbar-hide pb-2 lg:pb-0">
               {/* Feature 1 */}
               <div className="flex items-center gap-3">
-                <div className="w-[48px] h-[48px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
                   <FiShield size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -106,7 +112,7 @@ export default function ProductCategoriesView() {
 
               {/* Feature 2 */}
               <div className="flex items-center gap-3">
-                <div className="w-[48px] h-[48px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
                   <FiDroplet size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -119,7 +125,7 @@ export default function ProductCategoriesView() {
 
               {/* Feature 3 */}
               <div className="flex items-center gap-3">
-                <div className="w-[48px] h-[48px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
                   <FiGlobe size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -194,10 +200,10 @@ export default function ProductCategoriesView() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {sortedGroups.map((group, idx) => (
               <Link
-                to={`/products-view/${encodeURIComponent(group)}`}
+                to={`/products-view/${group.p_link}`}
                 key={idx}
                 className="bg-white rounded-[16px] p-3 lg:p-4 flex items-center justify-between shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_4px_25px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 group"
               >
@@ -206,8 +212,8 @@ export default function ProductCategoriesView() {
                     <FiFileText size={20} className="stroke-[1.5]" />
                   </div>
                   <div>
-                    <h3 className="text-[#12344D] text-[14px] font-bold leading-tight mb-0.5 group-hover:text-[#1AA3B6] transition-colors line-clamp-1">
-                      {group}
+                    <h3 className="text-[#12344D] text-[16px] font-bold leading-tight mb-0.5 group-hover:text-[#1AA3B6] transition-colors line-clamp-1">
+                      {group.heading || group.name}
                     </h3>
                     <p className="text-slate-400 text-[11px] font-medium">Explore Products</p>
                   </div>

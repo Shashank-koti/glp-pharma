@@ -40,7 +40,7 @@ export default function Contact() {
     <div className="min-h-screen bg-background font-sans pb-24">
 
       {/* Hero Section with Background Image */}
-      <div className="relative pt-12 pb-40 lg:pt-16 lg:pb-50 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="relative pt-12 pb-24 lg:pt-16 lg:pb-48 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/contactBG.png"
@@ -51,7 +51,7 @@ export default function Contact() {
           <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/10 to-transparent"></div>
         </div>
 
-        <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-8 sm:pt-0">
           <div className="max-w-2xl">
             {/* Main Headings */}
             <motion.div
@@ -129,10 +129,9 @@ export default function Contact() {
 
           {/* Left Column: Form */}
           <div className="lg:w-[60%] p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-[#EAF2F4] bg-white">
-            <h3 className="text-[22px] font-bold text-heading mb-1 relative inline-block">
+            <h3 className="text-[22px] mb-6 font-bold text-heading mb-1 relative inline-block">
               {t('contact.sendUsMessage')}
             </h3>
-            <div className="w-8 h-[3px] bg-primary mb-8"></div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

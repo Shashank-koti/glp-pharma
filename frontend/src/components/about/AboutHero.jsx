@@ -88,12 +88,12 @@ export default function AboutHero() {
             <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent mix-blend-multiply"></div>
           </div>
 
-          {/* Floating Glassmorphic Card - Left */}
+          {/* Floating Glassmorphic Card - Left (Desktop) */}
           <motion.div
             initial={{ opacity: 0, x: -40, rotate: -5 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 0.5, delay: 0.4, type: "tween" }}
-            className="absolute -left-4 md:-left-12 bottom-12 md:bottom-20 bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-2xl border border-white max-w-[220px] md:max-w-[260px] transform hover:-translate-y-2 transition-transform duration-300"
+            className="hidden md:block absolute -left-12 bottom-20 bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white max-w-[260px] transform hover:-translate-y-2 transition-transform duration-300"
           >
             <motion.div variants={floatVariants} initial="initial" animate="animate">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
@@ -104,12 +104,12 @@ export default function AboutHero() {
             </motion.div>
           </motion.div>
 
-          {/* Floating Glassmorphic Card - Right */}
+          {/* Floating Glassmorphic Card - Right (Desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 40, rotate: 5 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 0.5, delay: 0.5, type: "tween" }}
-            className="absolute -right-4 md:-right-12 top-12 md:top-20 bg-white/90 backdrop-blur-xl p-5 md:p-6 rounded-3xl shadow-2xl border border-white max-w-[220px] md:max-w-[260px] transform hover:-translate-y-2 transition-transform duration-300"
+            className="hidden md:block absolute -right-12 top-20 bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white max-w-[260px] transform hover:-translate-y-2 transition-transform duration-300"
           >
             <motion.div variants={floatVariants} initial="initial" animate="animate" style={{ animationDelay: '1s' }}>
               <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 text-accent">
@@ -121,6 +121,29 @@ export default function AboutHero() {
           </motion.div>
 
         </motion.div>
+
+        {/* Mobile Stats Cards (Hidden on Desktop) */}
+        <div className="flex flex-col sm:flex-row gap-4 mt-8 md:hidden">
+          <div className="bg-white/90 p-5 rounded-2xl shadow-lg border border-[#EAF2F4] flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <FiGlobe className="text-xl" />
+            </div>
+            <div>
+              <div className="font-black text-heading text-xl">{t('about.hero.card1Val')}</div>
+              <div className="text-body font-medium text-[13px]">{t('about.hero.card1Text')}</div>
+            </div>
+          </div>
+          <div className="bg-white/90 p-5 rounded-2xl shadow-lg border border-[#EAF2F4] flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0">
+              <FiActivity className="text-xl" />
+            </div>
+            <div>
+              <div className="font-black text-heading text-xl">{t('about.hero.card2Val')}</div>
+              <div className="text-body font-medium text-[13px]">{t('about.hero.card2Text')}</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

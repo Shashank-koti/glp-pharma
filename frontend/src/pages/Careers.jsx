@@ -15,7 +15,7 @@ export default function Careers() {
     <div className="min-h-screen">
 
       {/* Header Banner */}
-      <div className="text-white pt-15 relative overflow-hidden">
+      <div className="text-white pt-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-10"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <motion.div
@@ -24,7 +24,7 @@ export default function Careers() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto"
           >
-            <h1 className="font-bold text-primary mb-4 text-4xl md:text-5xl">{t('careers.banner.title')}</h1>
+            <h1 className="font-bold text-primary mb-4 text-4xl pt-8 sm:pt-0 md:text-5xl">{t('careers.banner.title')}</h1>
             <p className="text-body leading-relaxed text-lg">
               {t('careers.banner.desc')}
             </p>

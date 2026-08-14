@@ -37,7 +37,7 @@ export default function NewlySynthesizedProducts() {
   }, []);
 
   return (
-    <section className="py-16 bg-white relative overflow-hidden">
+    <section className="py-16 bg-background relative overflow-hidden">
       <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-12">
           <span className="text-primary font-semibold tracking-wider uppercase mb-2 text-sm">{t('home.newProducts.latestInnovations')}</span>
@@ -72,7 +72,7 @@ export default function NewlySynthesizedProducts() {
                     {/* Top Labels */}
                     <div className="flex justify-between items-start mb-3">
                       <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
-                        GL-{product._id.substring(0, 5).toUpperCase()}
+                        {product.specifications?.catalogueNumber || product.catalogueNumber || `GL-${product._id.substring(0, 5).toUpperCase()}`}
                       </span>
                       <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
                         {product.availability || 'In Stock'}
@@ -80,7 +80,7 @@ export default function NewlySynthesizedProducts() {
                     </div>
 
                     {/* Image Area */}
-                    <div className="relative w-full aspect-square max-h-[160px] mx-auto mb-3 flex items-center justify-center p-2 group/img">
+                    <div className="relative w-full aspect-square max-h-[250px] mx-auto mb-3 flex items-center justify-center p-2 group/img">
                       <img
                         src={product.image || "/images/demoprod.gif"}
                         alt={product.name}
@@ -97,14 +97,23 @@ export default function NewlySynthesizedProducts() {
 
                     {/* Details Table */}
                     <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
+                      {/* row 0 */}
+                      <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                        <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                          <FiTag className="text-[#0B7285] text-[13px]" />
+                          <span>CAT No.</span>
+                        </div>
+                        <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
+                      </div>
                       {/* row 1 */}
                       <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                         <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                           <FaFlask className="text-[#0B7285] text-[13px]" />
                           <span>CAS Number</span>
                         </div>
-                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                        <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || 'N/A'}</span>
+                        <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || product.specifications?.casNumber || 'N/A'}</span>
                       </div>
                       {/* row 2 */}
                       <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -112,7 +121,7 @@ export default function NewlySynthesizedProducts() {
                           <FiTag className="text-[#0B7285] text-[13px]" />
                           <span>Mol. Formula</span>
                         </div>
-                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
                         <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
                       </div>
                       {/* row 3 */}
@@ -121,7 +130,7 @@ export default function NewlySynthesizedProducts() {
                           <FaBalanceScale className="text-[#0B7285] text-[13px]" />
                           <span>Mol. Weight</span>
                         </div>
-                        <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                        <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
                         <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
                       </div>
                     </div>

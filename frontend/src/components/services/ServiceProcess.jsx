@@ -32,7 +32,7 @@ export default function ServiceProcess() {
   ];
 
   return (
-    <section className="py-24 lg:py-32 bg-white relative overflow-hidden border-t border-border">
+    <section className="py-12 md:py-24 lg:py-32 bg-white relative overflow-hidden border-t border-border">
       <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <motion.h2

@@ -130,11 +130,11 @@ export default function ProductDetails() {
           // Increment view count in the background
           axios.post(`https://glp-pharma-backend.vercel.app/api/products/${actualSlug}/view`).catch(err => console.error("View count error", err));
 
-          if (currentProduct.category) {
-            const categoryId = typeof currentProduct.category === 'object' ? currentProduct.category._id : currentProduct.category;
-            axios.get(`https://glp-pharma-backend.vercel.app/api/products?category=${categoryId}&limit=5`)
+          if (currentProduct.mainProduct && currentProduct.mainProduct.p_link) {
+            axios.get(`https://glp-pharma-backend.vercel.app/api/products/${currentProduct.mainProduct.p_link}/subproducts`)
               .then(relRes => {
                 if (relRes.data.success && relRes.data.data) {
+                  // Filter out the current product itself
                   setRelatedProducts(relRes.data.data.filter(p => p._id !== currentProduct._id).slice(0, 3));
                 }
               })
@@ -182,12 +182,112 @@ export default function ProductDetails() {
   if (loading) return <div className="min-h-screen pt-32 text-center text-slate-400 text-xl">{t('products.loadingDet')}</div>;
   if (!product) return <div className="min-h-screen pt-32 text-center text-slate-400 text-xl">{t('products.prodNotFnd')}</div>;
 
+  const renderImageCard = () => (
+    <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-5 relative overflow-hidden flex flex-col items-center min-h-[300px]">
+      {/* Product Card Specific Background Pattern */}
+      <div className="absolute inset-0 opacity-40 z-0 bg-repeat"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 3L37.32 13V33L20 43L2.68 33V13L20 3Z' fill='none' stroke='%23e2e8f0' stroke-width='0.5'/%3E%3C/svg%3E")`, backgroundSize: '40px' }}>
+      </div>
+
+      {/* Decorative green corner - Corrected Shape */}
+      <div className="absolute top-0 left-0 w-14 h-14 bg-gradient-to-br from-[#1AA3B6] to-[#1AA3B6] rounded-br-full z-10 opacity-90 shadow-sm"></div>
+
+      {/* Stock / Availability Badge */}
+      <div className="absolute top-3 right-3 z-20">
+        <span className={`px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-wider shadow-sm flex items-center gap-1.5 ${(product.availability || 'In Stock').toLowerCase() === 'in stock'
+          ? 'bg-[#1AA3B6] text-white border-0 animate-pulse'
+          : 'bg-orange-50 text-orange-600 border border-orange-100'
+          }`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white' : 'bg-orange-500'
+            }`}></span>
+          {product.availability || 'In Stock'}
+        </span>
+      </div>
+
+      <div className="relative z-20 flex-grow flex items-center justify-center w-full mb-4">
+        <div className="w-full flex items-center justify-center transition-all duration-300">
+          <img
+            src={product.image || "/images/demoprod.gif"}
+            alt={product.name || "Product Image"}
+            onClick={() => setShowImageZoom(true)}
+            className="max-w-full w-auto h-auto max-h-[350px] md:max-h-[450px] object-contain mix-blend-multiply drop-shadow-lg cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
+            title="Click to zoom"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 w-full justify-center relative z-20 mt-auto">
+        <div className="flex flex-col sm:flex-row gap-2 w-full">
+          <button
+            onClick={() => addToCart(product)}
+            className="flex items-center gap-2 py-2 bg-[#1AA3B6] text-white hover:bg-[#0B7285] border-0 shadow-sm rounded-lg text-[14px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full"
+          >
+            <span>
+              {cartItems.some(item => item.id === product._id) ? <FiCheckCircle size={18} /> : <FiShoppingCart size={18} />}
+            </span>
+            <span>{cartItems.some(item => item.id === product._id) ? 'Added to RFQ' : 'Add to RFQ'}</span>
+          </button>
+          <button
+            onClick={() => {
+              const text = `Check out this product: ${product.name}\nCatalogue No: ${product.catalogueNumber || 'GLP-0009'}\nCAS No: ${product.casNumber || 'N/A'}\n${window.location.href}`;
+              window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }}
+            className="flex items-center gap-2 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] border-0 shadow-sm rounded-lg text-[14px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full">
+            <span><FiSend size={18} /></span>
+            <span>Share On WhatsApp</span>
+          </button>
+        </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            if (compareItems.some(item => item._id === product._id)) {
+              removeFromCompare(product._id);
+            } else {
+              addToCompare(product);
+            }
+          }}
+          className={`flex items-center justify-center gap-2 py-2.5 rounded-xl transition-all duration-300 border text-[13px] font-extrabold w-full shadow-md hover:shadow-lg ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white border-[#1AA3B6]' : 'bg-white text-[#0B7285] border-[#1AA3B6]/30 hover:border-[#1AA3B6]/60 hover:bg-[#F0F7F9]'}`}
+          title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Compare"}
+        >
+          <LuArrowLeftRight size={16} />
+          <span>{compareItems.some(item => item._id === product._id) ? 'Remove From Compare' : 'Add to Compare'}</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderDescriptionAccordion = () => (
+    <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-[#EAF2F4] overflow-hidden">
+      <div
+        onClick={() => setIsDescOpen(!isDescOpen)}
+        className="flex items-center justify-between p-4 cursor-pointer bg-background/50 hover:bg-background transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <FiInfo className="text-[#0B7285]" size={18} />
+          <h3 className="text-[13px] font-bold text-heading uppercase tracking-wider">Product Description</h3>
+        </div>
+        <div className={`transform transition-transform duration-300 ${isDescOpen ? 'rotate-90' : ''}`}>
+          <FiChevronRight size={18} className="text-slate-400" />
+        </div>
+      </div>
+
+      <div className={`transition-all duration-300 ease-in-out ${isDescOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+        <div className="p-4 pt-0">
+          <div className="w-full h-px bg-[#F0F6F8] mb-3"></div>
+          <p className="text-body text-[13px] leading-relaxed font-medium">
+            <span className="font-bold text-heading">{product.name}</span> is a premium-grade reference standard synthesized specifically for advanced analytical research, method validation, and quality control. This highly purified compound undergoes rigorous characterization to ensure consistent reliability in demanding laboratory environments.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#F8FBFC] font-sans text-heading pb-20">
+    <div className="min-h-screen bg-[#F8FBFC] font-sans text-heading">
 
       {/* Header Section with detailspageBG */}
       <div
-        className="relative overflow-hidden pt-8 pb-32 border-b border-border/60 shadow-sm bg-white"
+        className="relative overflow-hidden pt-20 md:pt-12 pb-32 border-b border-border/60 shadow-sm bg-white"
         style={{
           backgroundImage: "url('/images/detailspageBG.png')",
           backgroundSize: 'cover',
@@ -218,10 +318,16 @@ export default function ProductDetails() {
 
       {/* Main Content Area - Overlaps Banner */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 -mt-24">
+
+        {/* Mobile Image Card (Shows only on mobile, before grid) */}
+        <div className="block lg:hidden mb-6">
+          {renderImageCard()}
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 flex flex-col lg:block">
 
             {/* Technical Specifications Card */}
             <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-4">
@@ -236,8 +342,8 @@ export default function ProductDetails() {
 
               <div className="flex flex-col gap-1 mt-2">
                 {[
-                  { icon: <LuBeaker size={16} />, label: 'IUPAC Name', value: product.chemicalName || 'Chemical Name for 9' },
-                  { icon: <BsFileEarmarkText size={16} />, label: 'Catalogue No.', value: product.catalogueNumber || 'GLP-0009' },
+                  { icon: <LuBeaker size={16} />, label: 'IUPAC Name', value: (product.iupacName && product.iupacName !== 'NA') ? product.iupacName : product.chemicalName || 'N/A' },
+                  { icon: <BsFileEarmarkText size={16} />, label: 'Catalogue No.', value: (product.catalogueNumber && product.catalogueNumber !== 'NA') ? product.catalogueNumber : 'N/A' },
                   { icon: <TbHexagon size={18} />, label: 'CAS Number', value: product.casNumber || '1852-56-7' },
                   { icon: <LuHexagon size={16} />, label: 'Alternate CAS', value: product.similarProducts && product.similarProducts.length > 0 ? product.similarProducts : 'NA', isSimilarProducts: true },
                   { icon: <FiTag size={16} />, label: 'Synonyms', value: product.name },
@@ -250,15 +356,15 @@ export default function ProductDetails() {
                   { icon: <FiGlobe size={16} />, label: 'Country of Origin', value: product.countryOfOrigin || 'India' },
 
                 ].map((spec, i) => (
-                  <div key={i} className="p-1.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
-                    <div className="flex items-center gap-3 sm:w-[40%] shrink-0">
-                      <div className="w-9 h-9 rounded-xl bg-background group-hover:bg-white flex items-center justify-center text-[#1AA3B6] shadow-sm shrink-0 transition-all">
+                  <div key={i} className="p-1.5 flex flex-row items-center justify-start gap-1 sm:gap-5 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
+                    <div className="flex items-center gap-2 sm:gap-3 w-[45%] sm:w-[40%] shrink-0">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-background group-hover:bg-white flex items-center justify-center text-[#1AA3B6] shadow-sm shrink-0 transition-all">
                         {spec.icon}
                       </div>
-                      <span className="text-[12px] font-bold text-slate-800 uppercase tracking-wide">{spec.label}</span>
+                      <span className="text-[11px] sm:text-[12px] font-bold text-slate-800 uppercase tracking-wide">{spec.label}</span>
                     </div>
-                    <div className="hidden -ml-10 sm:block w-px h-8 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors"></div>
-                    <div className={`text-[14px] font-bold sm:w-[60%] sm:pl-2 ${spec.highlight ? 'text-[#1AA3B6] text-[15px] bg-[#DDF8FB] px-3 py-1 rounded-lg self-start sm:self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
+                    <div className="block w-px h-5 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors mx-1 sm:-ml-10 shrink-0"></div>
+                    <div className={`text-[12px] sm:text-[16px] font-bold flex-1 min-w-0 text-left sm:pl-2 break-all sm:break-words ${spec.highlight ? 'text-[#1AA3B6] text-[13px] sm:text-[15px] bg-[#DDF8FB] px-2 sm:px-3 py-1 rounded-lg self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
                       {spec.isSimilarProducts && spec.value !== 'NA' ? (
                         <div className="flex flex-wrap gap-2">
                           {(Array.isArray(spec.value) ? spec.value : [spec.value]).map((simProd, idx, arr) => (
@@ -278,6 +384,11 @@ export default function ProductDetails() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Mobile Product Description (Shows only on mobile, after tech specs) */}
+            <div className="block lg:hidden">
+              {renderDescriptionAccordion()}
             </div>
 
             {/* Important Notes */}
@@ -328,104 +439,14 @@ export default function ProductDetails() {
           {/* Right Column */}
           <div className="space-y-4">
 
-            {/* Image Card */}
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-5 relative overflow-hidden flex flex-col items-center min-h-[300px]">
-
-              {/* Product Card Specific Background Pattern */}
-              <div className="absolute inset-0 opacity-40 z-0 bg-repeat"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 3L37.32 13V33L20 43L2.68 33V13L20 3Z' fill='none' stroke='%23e2e8f0' stroke-width='0.5'/%3E%3C/svg%3E")`, backgroundSize: '40px' }}>
-              </div>
-
-              {/* Decorative green corner - Corrected Shape */}
-              <div className="absolute top-0 left-0 w-14 h-14 bg-gradient-to-br from-[#1AA3B6] to-[#1AA3B6] rounded-br-full z-10 opacity-90 shadow-sm"></div>
-
-              {/* Stock / Availability Badge */}
-              <div className="absolute top-3 right-3 z-20">
-                <span className={`px-2.5 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-wider shadow-sm flex items-center gap-1.5 ${(product.availability || 'In Stock').toLowerCase() === 'in stock'
-                  ? 'bg-[#1AA3B6] text-white border-0 animate-pulse'
-                  : 'bg-orange-50 text-orange-600 border border-orange-100'
-                  }`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white' : 'bg-orange-500'
-                    }`}></span>
-                  {product.availability || 'In Stock'}
-                </span>
-              </div>
-
-              <div className="relative z-20 flex-grow flex items-center justify-center w-full py-6 mb-4">
-                <div className="w-full flex items-center justify-center transition-all duration-300">
-                  <img
-                    src={product.image || "/images/demoprod.gif"}
-                    alt={product.name || "Product Image"}
-                    onClick={() => setShowImageZoom(true)}
-                    className="max-w-full w-auto h-auto max-h-[350px] md:max-h-[450px] object-contain mix-blend-multiply drop-shadow-lg cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
-                    title="Click to zoom"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 w-full justify-center relative z-20 mt-auto">
-                <div className="flex gap-2 w-full">
-                  <button
-                    onClick={() => addToCart(product)}
-                    className="flex items-center gap-2 py-2 bg-[#1AA3B6] text-white hover:bg-[#0B7285] border-0 shadow-sm rounded-lg text-[14px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full"
-                  >
-                    <span>
-                      {cartItems.some(item => item.id === product._id) ? <FiCheckCircle size={18} /> : <FiShoppingCart size={18} />}
-                    </span>
-                    <span>{cartItems.some(item => item.id === product._id) ? 'Added to RFQ' : 'Add to RFQ'}</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const text = `Check out this product: ${product.name}\nCatalogue No: ${product.catalogueNumber || 'GLP-0009'}\nCAS No: ${product.casNumber || 'N/A'}\n${window.location.href}`;
-                      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-                    }}
-                    className="flex items-center gap-2 py-2 bg-[#25D366] text-white hover:bg-[#128C7E] border-0 shadow-sm rounded-lg text-[12px] font-bold flex-1 justify-center whitespace-nowrap transition-colors cursor-pointer w-full">
-                    <span><FiSend size={18} /></span>
-                    <span className="hidden sm:inline">Share On WhatsApp</span>
-                  </button>
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (compareItems.some(item => item._id === product._id)) {
-                      removeFromCompare(product._id);
-                    } else {
-                      addToCompare(product);
-                    }
-                  }}
-                  className={`flex items-center justify-center gap-2 py-2.5 rounded-xl transition-all duration-300 border text-[13px] font-extrabold w-full shadow-md hover:shadow-lg ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white border-[#1AA3B6]' : 'bg-white text-[#0B7285] border-[#1AA3B6]/30 hover:border-[#1AA3B6]/60 hover:bg-[#F0F7F9]'}`}
-                  title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Compare"}
-                >
-                  <LuArrowLeftRight size={16} />
-                  <span>{compareItems.some(item => item._id === product._id) ? 'Remove From Compare' : 'Add to Compare'}</span>
-                </button>
-              </div>
+            {/* Image Card (Desktop only, hidden on mobile) */}
+            <div className="hidden lg:block">
+              {renderImageCard()}
             </div>
 
-
-            {/* Description Accordion */}
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-[#EAF2F4] overflow-hidden">
-              <div
-                onClick={() => setIsDescOpen(!isDescOpen)}
-                className="flex items-center justify-between p-4 cursor-pointer bg-background/50 hover:bg-background transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <FiInfo className="text-blue-600" size={18} />
-                  <h3 className="text-[13px] font-bold text-heading uppercase tracking-wider">Product Description</h3>
-                </div>
-                <div className={`transform transition-transform duration-300 ${isDescOpen ? 'rotate-90' : ''}`}>
-                  <FiChevronRight size={18} className="text-slate-400" />
-                </div>
-              </div>
-
-              <div className={`transition-all duration-300 ease-in-out ${isDescOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                <div className="p-4 pt-0">
-                  <div className="w-full h-px bg-[#F0F6F8] mb-3"></div>
-                  <p className="text-body text-[13px] leading-relaxed font-medium">
-                    <span className="font-bold text-heading">{product.name}</span> is a premium-grade reference standard synthesized specifically for advanced analytical research, method validation, and quality control. This highly purified compound undergoes rigorous characterization to ensure consistent reliability in demanding laboratory environments.
-                  </p>
-                </div>
-              </div>
+            {/* Description Accordion (Desktop only, hidden on mobile) */}
+            <div className="hidden lg:block">
+              {renderDescriptionAccordion()}
             </div>
 
             {/* Pricing Section (Premium Redesign) */}
@@ -549,7 +570,7 @@ export default function ProductDetails() {
               >
                 <div className="flex justify-between items-start mb-3">
                   <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
-                    GL-{rel._id.substring(0, 5).toUpperCase()}
+                    {rel.specifications?.catalogueNumber || rel.catalogueNumber || `GL-${rel._id.substring(0, 5).toUpperCase()}`}
                   </span>
                   <div className="flex items-center gap-2">
                     <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(rel.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
@@ -574,7 +595,7 @@ export default function ProductDetails() {
                 </div>
 
                 {/* Image Area */}
-                <div className="relative w-full aspect-square max-h-[120px] mx-auto mb-3 flex items-center justify-center group/img">
+                <div className="relative w-full aspect-square max-h-[200px] mx-auto mb-3 flex items-center justify-center group/img">
                   <img
                     src={rel.image || "/images/demoprod.gif"}
                     alt={rel.name}
@@ -588,14 +609,23 @@ export default function ProductDetails() {
                   </h3>
                 </div>
                 <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
+                  {/* row 0 */}
+                  <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
+                    <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
+                      <FiTag className="text-[#0B7285] text-[13px]" />
+                      <span>CAT No.</span>
+                    </div>
+                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.catalogueNumber || rel.catalogueNumber || 'N/A'}</span>
+                  </div>
                   {/* row 1 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                     <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                       <FaFlask className="text-[#0B7285] text-[13px]" />
                       <span>CAS Number</span>
                     </div>
-                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.casNumber || 'N/A'}</span>
+                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.casNumber || rel.casNumber || 'N/A'}</span>
                   </div>
                   {/* row 2 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -603,8 +633,8 @@ export default function ProductDetails() {
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Formula</span>
                     </div>
-                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{rel.molecularFormula || 'N/A'}</span>
+                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{rel.specifications?.molecularFormula || rel.molecularFormula || 'N/A'}</span>
                   </div>
                   {/* row 3 */}
                   <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -612,8 +642,8 @@ export default function ProductDetails() {
                       <FaBalanceScale className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Weight</span>
                     </div>
-                    <div className="hidden sm:block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.molecularWeight || 'N/A'}</span>
+                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.molecularWeight || rel.molecularWeight || 'N/A'}</span>
                   </div>
                 </div>
                 <div className="mt-auto pt-2 flex gap-3">

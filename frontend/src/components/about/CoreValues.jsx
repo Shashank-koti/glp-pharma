@@ -35,7 +35,7 @@ const cardVariants = {
 export default function CoreValues() {
   const { t } = useTranslation();
   return (
-    <section className="py-24 lg:py-32 bg-white relative overflow-hidden border-t border-border/50">
+    <section className="py-12 md:py-24 lg:py-32 bg-white relative overflow-hidden border-t border-border/50">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)', backgroundSize: '40px 40px', color: '#1AA3B6' }}></div>
       

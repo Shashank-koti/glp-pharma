@@ -17,7 +17,7 @@ const itemVariants = {
   hidden: { opacity: 0, x: -30 },
   visible: {
     opacity: 1,
-    y: 0,
+    x: 0,
     transition: { type: "tween", duration: 0.5 }
   },
 };
@@ -46,7 +46,7 @@ const statItemVariants = {
 export default function GlobalInfrastructure() {
   const { t } = useTranslation();
   return (
-    <section className="py-24 lg:py-32 bg-white relative overflow-hidden text-body border-t border-border/50">
+    <section className="py-12 md:py-24 lg:py-32 bg-white relative overflow-hidden text-body border-t border-border/50">
 
       <div className="max-w-[1300px] mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">

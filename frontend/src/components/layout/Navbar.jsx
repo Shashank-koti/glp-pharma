@@ -187,7 +187,7 @@ export default function Navbar() {
                         {searchResults.map(prod => (
                           <Link
                             key={prod._id}
-                            to={`/products-view/search?q=${encodeURIComponent(prod.name)}`}
+                            to={`/products/${prod.slug}`}
                             onClick={() => { setShowSearchDropdown(false); setSearchQuery(''); }}
                             className="px-4 py-3 hover:bg-primary/5 border-b border-slate-50 last:border-none flex flex-col transition-colors group"
                           >
@@ -323,7 +323,7 @@ export default function Navbar() {
               {/* Company Dropdown removed */}
 
               {/* Products Dropdown */}
-              <div 
+              <div
                 className="relative group"
                 onMouseEnter={() => setProductsOpen(true)}
                 onMouseLeave={() => setProductsOpen(false)}
@@ -405,7 +405,7 @@ export default function Navbar() {
               ))}
 
               {/* Get In Touch Dropdown */}
-              <div 
+              <div
                 className="relative group"
                 onMouseEnter={() => setContactOpen(true)}
                 onMouseLeave={() => setContactOpen(false)}
@@ -502,23 +502,33 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="lg:hidden w-full bg-white border-t border-border overflow-hidden px-4 py-3 shadow-md absolute top-full left-0 z-40"
+              className="lg:hidden w-full bg-white border-t border-border px-4 py-3 shadow-md absolute top-full left-0 z-40"
+              style={{ overflow: showSearchDropdown ? 'visible' : 'hidden' }}
               ref={mobileSearchRef}
             >
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => { if (searchQuery.trim()) setShowSearchDropdown(true); }}
-                  className="w-full pl-4 pr-12 py-2.5 bg-background border border-border rounded-xl text-heading placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all text-sm"
-                  autoFocus
-                />
-                <button type="submit" className="absolute top-1/2 -translate-y-1/2 right-1.5 w-[32px] h-[32px] bg-primary text-white flex items-center justify-center rounded-lg cursor-pointer hover:bg-primary/90 transition-colors shadow-sm">
-                  {isSearching ? <FiLoader className="animate-spin" size={16} /> : <FiSearch size={16} />}
+              <div className="flex gap-2 items-center">
+                <form onSubmit={handleSearchSubmit} className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => { if (searchQuery.trim()) setShowSearchDropdown(true); }}
+                    className="w-full pl-4 pr-12 py-2.5 bg-background border border-border rounded-xl text-heading placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all text-sm"
+                    autoFocus
+                  />
+                  <button type="submit" className="absolute top-1/2 -translate-y-1/2 right-1.5 w-[32px] h-[32px] bg-primary text-white flex items-center justify-center rounded-lg cursor-pointer hover:bg-primary/90 transition-colors shadow-sm">
+                    {isSearching ? <FiLoader className="animate-spin" size={16} /> : <FiSearch size={16} />}
+                  </button>
+                </form>
+                <button
+                  type="button"
+                  onClick={() => { setMobileSearchOpen(false); setShowSearchDropdown(false); setSearchQuery(''); }}
+                  className=" text-slate-500 hover:text-primary transition-colors"
+                >
+                  <FiX size={24} />
                 </button>
-              </form>
+              </div>
 
               {/* Mobile Search Results */}
               <AnimatePresence>
@@ -536,7 +546,7 @@ export default function Navbar() {
                         {searchResults.map(prod => (
                           <Link
                             key={prod._id}
-                            to={`/products-view/search?q=${encodeURIComponent(prod.name)}`}
+                            to={`/products/${prod.slug}`}
                             onClick={() => { setShowSearchDropdown(false); setSearchQuery(''); setMobileSearchOpen(false); }}
                             className="px-4 py-3 hover:bg-primary/5 border-b border-slate-50 last:border-none flex flex-col transition-colors"
                           >

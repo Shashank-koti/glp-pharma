@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Gallery() {
   const { t } = useTranslation();
-  
+
   const links = [
     { name: t('gallery.tabs.all'), path: '/gallery' },
     { name: t('gallery.tabs.manufacturing'), path: '/gallery/manufacturing' },
@@ -16,7 +16,7 @@ export default function Gallery() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-10">
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 pt-10 sm:pt-0 mb-12">
           {links.map((link, idx) => (
             <NavLink
               key={idx}
