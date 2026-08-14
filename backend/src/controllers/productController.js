@@ -1,4 +1,4 @@
-import Product from '../models/products.js';
+import Product from '../models/Products.js';
 import Category from '../models/Category.js';
 import SubProduct from '../models/SubProducts.js';
 import ResponseFormatter from '../utils/ResponseFormatter.js';

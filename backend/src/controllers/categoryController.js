@@ -1,5 +1,5 @@
 import Category from '../models/Category.js';
-import Product from '../models/products.js';
+import Product from '../models/Products.js';
 import ResponseFormatter from '../utils/ResponseFormatter.js';
 import ApiFeatures from '../utils/ApiFeatures.js';
 
