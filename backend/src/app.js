@@ -14,6 +14,7 @@ import categoryRoutes from './routes/categoryRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
 import pricingRoutes from './routes/pricingRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import locationRoutes from './routes/locationRoutes.js';
 
 dotenv.config();
 
@@ -72,6 +73,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/pricing', pricingRoutes);
+app.use('/api/location', locationRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Base Route
