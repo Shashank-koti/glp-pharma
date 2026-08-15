@@ -4,7 +4,6 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
-import morgan from 'morgan';
 import dotenv from 'dotenv';
 
 import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
@@ -13,6 +12,7 @@ import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
+import pricingRoutes from './routes/pricingRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
@@ -71,6 +71,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/pricing', pricingRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Base Route
