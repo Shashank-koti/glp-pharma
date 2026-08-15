@@ -1,5 +1,4 @@
 import ResponseFormatter from '../utils/ResponseFormatter.js';
-import axios from 'axios';
 
 // @desc    Get user location/country based on IP
 // @route   GET /api/location
@@ -14,7 +13,7 @@ export const getUserLocation = async (req, res, next) => {
     }
 
     // Fallback: Use external IP API if headers are missing (e.g., local dev or other hosting)
-    let ip = req.ip || req.connection.remoteAddress;
+    let ip = req.ip || req.socket?.remoteAddress || req.connection?.remoteAddress || '127.0.0.1';
 
     // Clean up IPv6 loopback for local testing
     if (ip === '::1' || ip === '127.0.0.1') {
@@ -25,9 +24,10 @@ export const getUserLocation = async (req, res, next) => {
 
     // Try fetching from public API
     try {
-      const response = await axios.get(`http://ip-api.com/json/${ip}`);
-      if (response.data && response.data.countryCode) {
-        country = response.data.countryCode;
+      const response = await fetch(`http://ip-api.com/json/${ip}`);
+      const data = await response.json();
+      if (data && data.countryCode) {
+        country = data.countryCode;
       } else {
         country = 'UNKNOWN';
       }
