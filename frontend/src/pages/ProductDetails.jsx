@@ -50,6 +50,24 @@ export default function ProductDetails() {
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [quoteSubmitStatus, setQuoteSubmitStatus] = useState(null);
   const [showImageZoom, setShowImageZoom] = useState(false);
+  const [isIndianUser, setIsIndianUser] = useState(false);
+
+  useEffect(() => {
+    // Fetch user location based on IP to hide pricing for Indian users
+    const checkUserLocation = async () => {
+      try {
+        const res = await axios.get('https://glp-pharma-backend.vercel.app/api/location');
+        if (res.data?.success && res.data?.data?.country === 'IN') {
+          setIsIndianUser(true);
+        }
+      } catch (error) {
+        console.error('Failed to check user location:', error);
+        // Defaulting to false (show pricing) if the API fails
+      }
+    };
+    
+    checkUserLocation();
+  }, []);
 
   const handleQuoteChange = (e) => {
     setQuoteFormData({ ...quoteFormData, [e.target.name]: e.target.value });
@@ -61,9 +79,13 @@ export default function ProductDetails() {
     setQuoteSubmitStatus(null);
 
     try {
-      const res = await axios.post('https://glp-pharma-backend.vercel.app/api/inquiries', {
+      const endpoint = quoteFormType === 'checkout' 
+        ? 'https://glp-pharma-backend.vercel.app/api/pricing' 
+        : 'https://glp-pharma-backend.vercel.app/api/inquiries';
+
+      const res = await axios.post(endpoint, {
         ...quoteFormData,
-        inquiryType: 'Quote Request',
+        inquiryType: quoteFormType === 'checkout' ? 'Pricing Request' : 'Quote Request',
         items: [{
           productId: product._id,
           name: product.name,
@@ -449,7 +471,8 @@ export default function ProductDetails() {
               {renderDescriptionAccordion()}
             </div>
 
-            {/* Pricing Section (Premium Redesign) */}
+            {/* Pricing Section (Premium Redesign) - Hidden for Indian IPs */}
+            {!isIndianUser && (
             <div className="bg-gradient-to-b from-white to-[#F8FBFC] rounded-2xl shadow-lg border border-[#EAF2F4] p-6 relative overflow-hidden mt-8 ring-1 ring-black/5">
               <div className="absolute top-0 right-0 w-40 h-40 bg-[#1AA3B6] opacity-[0.05] rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
@@ -503,6 +526,7 @@ export default function ProductDetails() {
                 ))}
               </div>
             </div>
+            )}
 
             {/* Download Documents */}
             <div className="flex flex-col gap-3">

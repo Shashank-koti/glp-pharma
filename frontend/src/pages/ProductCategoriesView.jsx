@@ -3,7 +3,6 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import {
   FiChevronRight,
-  FiChevronLeft,
   FiShield,
   FiDroplet,
   FiGlobe,
@@ -77,7 +76,7 @@ export default function ProductCategoriesView() {
         className="w-full min-h-[420px] bg-cover bg-center bg-no-repeat relative bg-white"
         style={{ backgroundImage: "url('/images/productsBG.png')" }}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-18">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-14">
           <div className="max-w-[900px]">
             <h1 className="text-[36px] md:text-[48px] lg:text-[54px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
               {categoryName.toUpperCase().includes(' AND ') ? (

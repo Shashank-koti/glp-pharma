@@ -28,7 +28,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import CompareProducts from './pages/CompareProducts';
-
+import WhatsAppButton from './components/layout/WhatsAppButton';
+import ChatbotWidget from './components/layout/ChatbotWidget';
 function App() {
   return (
     <CompareProvider>
@@ -70,6 +71,8 @@ function App() {
         </main>
 
         <Footer />
+        <WhatsAppButton />
+        <ChatbotWidget />
       </div>
     </Router>
     </CartProvider>

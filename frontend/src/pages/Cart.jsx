@@ -76,8 +76,8 @@ export default function Cart() {
       <div className="absolute inset-0 bg-white/40 -z-10" />
 
       {/* Header */}
-      <div className="text-center mb-[40px] max-w-[1000px]">
-        <h1 className="text-primary sm:text-[34px] font-[800] tracking-[-0.03em] leading-[1.2] mb-[12px] uppercase text-xl">
+      <div className="text-center mb-[40px] pt-6 sm:pt-0 max-w-[1000px]">
+        <h1 className="text-primary sm:text-[34px] font-[800] tracking-[-0.03em] leading-[1.2] mb-[12px]  uppercase text-xl">
           CART & PRODUCT INQUIRY
         </h1>
         <p className="text-[#5B7280] text-[15px] sm:text-[16px] font-medium leading-[1.6]">
@@ -195,7 +195,7 @@ export default function Cart() {
             </div>
 
             {/* Cart Footer */}
-            <div className="p-[24px_30px] flex flex-wrap items-center justify-between gap-4 border-t border-[#D9E8EC] bg-[#FFFFFF]">
+            <div className="p-[20px] flex flex-wrap items-center justify-between border-t border-[#D9E8EC] bg-[#FFFFFF]">
               <Link to="/product-categories-view/api-impurities-and-reference-standards" className="inline-flex items-center gap-2 text-[#5B7280] hover:text-[#1AA3B6] font-[650] text-[14px] px-[16px] h-[40px] rounded-[6px] border border-[#D9E8EC] hover:border-[#1AA3B6]/50 bg-white transition-all">
                 <FiArrowLeft className="text-[15px]" /> Continue browsing
               </Link>
