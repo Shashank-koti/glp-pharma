@@ -106,7 +106,7 @@ export default function CountryAutocomplete({
             filteredCountries.map((country, index) => (
               <div
                 key={index}
-                className="px-4 py-2.5 text-body hover:bg-[#DDF8FB] hover:text-[#1AA3B6] cursor-pointer transition-colors text-sm"
+                className="px-4 py-2.5 text-body hover:bg-[#084553] hover:text-white cursor-pointer transition-colors text-sm"
                 onClick={() => selectCountry(country)}
               >
                 {country}
@@ -114,7 +114,7 @@ export default function CountryAutocomplete({
             ))
           ) : (
             <div 
-              className="px-4 py-2.5 text-body hover:bg-[#DDF8FB] hover:text-[#1AA3B6] cursor-pointer transition-colors text-sm"
+              className="px-4 py-2.5 text-body hover:bg-[#084553] hover:text-white cursor-pointer transition-colors text-sm"
               onClick={() => selectCountry(searchTerm)}
             >
               Keep "{searchTerm}"

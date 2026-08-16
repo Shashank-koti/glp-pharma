@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), '#'];
 
 export default function ProductCategoriesView() {
   const { t } = useTranslation();
@@ -38,8 +38,7 @@ export default function ProductCategoriesView() {
         }
 
         // Fetch groups
-        const queryParams = (currentLetter && currentLetter !== 'All') ? `?letter=${currentLetter}` : '';
-        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/categories/${categorySlug}/products${queryParams}`);
+        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/categories/${categorySlug}/products`);
         if (res.data.success) {
           setGroups(res.data.data);
         }
@@ -61,8 +60,19 @@ export default function ProductCategoriesView() {
     setSearchParams(searchParams);
   };
 
+  // Filter locally just in case backend doesn't support the letter param
+  const filteredGroups = groups.filter(group => {
+    let letterMatch = true;
+    if (currentLetter !== 'All') {
+      const name = group.heading || group.name || '';
+      if (currentLetter === '#') letterMatch = !/^[a-zA-Z]/.test(name);
+      else letterMatch = name.toUpperCase().startsWith(currentLetter);
+    }
+    return letterMatch;
+  });
+
   // Keep ascending sort as default
-  const sortedGroups = [...groups].sort((a, b) => {
+  const sortedGroups = [...filteredGroups].sort((a, b) => {
     const nameA = a.heading || a.name || '';
     const nameB = b.heading || b.name || '';
     return nameA.localeCompare(nameB);
@@ -76,18 +86,18 @@ export default function ProductCategoriesView() {
         className="w-full min-h-[420px] bg-cover bg-center bg-no-repeat relative bg-white"
         style={{ backgroundImage: "url('/images/productsBG.png')" }}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-14">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-20">
           <div className="max-w-[900px]">
-            <h1 className="text-[36px] md:text-[48px] lg:text-[54px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
+            <h1 className="text-[24px] md:text-[36px] lg:text-[44px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
               {categoryName.toUpperCase().includes(' AND ') ? (
                 <>
                   {categoryName.toUpperCase().split(' AND ')[0]} AND <br />
-                  <span className="text-[#28B9BA]">
+                  <span className="text-[#084553]">
                     {categoryName.toUpperCase().split(' AND ').slice(1).join(' AND ')}
                   </span>
                 </>
               ) : (
-                <span className="text-[#28B9BA]">{categoryName}</span>
+                <span className="text-[#084553]">{categoryName}</span>
               )}
             </h1>
             <p className="text-body text-[15px] md:text-[16px] max-w-[500px] mb-8 leading-relaxed font-medium">
@@ -98,7 +108,7 @@ export default function ProductCategoriesView() {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-10 overflow-x-auto scrollbar-hide pb-2 lg:pb-0">
               {/* Feature 1 */}
               <div className="flex items-center gap-3">
-                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[36px] h-[36px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0 border border-[#D9E8EC]">
                   <FiShield size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -111,7 +121,7 @@ export default function ProductCategoriesView() {
 
               {/* Feature 2 */}
               <div className="flex items-center gap-3">
-                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[36px] h-[36px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0 border border-[#D9E8EC]">
                   <FiDroplet size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -124,7 +134,7 @@ export default function ProductCategoriesView() {
 
               {/* Feature 3 */}
               <div className="flex items-center gap-3">
-                <div className="w-[30px] h-[30px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0 border border-[#D9E8EC]">
+                <div className="w-[36px] h-[36px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0 border border-[#D9E8EC]">
                   <FiGlobe size={20} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -207,7 +217,7 @@ export default function ProductCategoriesView() {
                 className="bg-white rounded-[16px] p-3 lg:p-4 flex items-center justify-between shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_4px_25px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-[42px] h-[42px] rounded-full bg-[#DDF8FB] flex items-center justify-center text-[#1AA3B6] shrink-0">
+                  <div className="w-[36px] h-[36px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0">
                     <FiFileText size={20} className="stroke-[1.5]" />
                   </div>
                   <div>

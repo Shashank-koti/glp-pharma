@@ -31,7 +31,7 @@ export default function GlobalTrust() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-2 backdrop-blur-md">
               <BiGlobe className="text-primary w-4 h-4" />
-              <h4 className="text-primary font-bold tracking-widest uppercase text-xs">{t('home.globalTrust.globalReach')}</h4>
+              <h4 className="text-[#084553] font-bold tracking-widest uppercase text-xs">{t('home.globalTrust.globalReach')}</h4>
             </div>
 
             <h3 className="font-extrabold text-heading leading-tight mb-4 drop-shadow-sm text-2xl md:text-4xl">

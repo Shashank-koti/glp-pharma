@@ -42,7 +42,7 @@ export default function Services() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-6">
               <span className="w-2 h-2 rounded-full bg-primary"></span>
-              <h4 className="text-primary font-bold tracking-widest uppercase text-xs">{t('home.services.ourExpertise')}</h4>
+              <h4 className="text-[#084553] font-bold tracking-widest uppercase text-xs">{t('home.services.ourExpertise')}</h4>
             </div>
             <h1 className="font-extrabold text-heading leading-tight text-3xl md:text-4xl">
               {t('home.services.title1')} <br className="hidden md:block" />

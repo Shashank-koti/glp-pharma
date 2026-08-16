@@ -39,7 +39,7 @@ export default function NewsInsights() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 border border-blue-200 mb-4">
               <span className="w-2 h-2 rounded-full bg-primary"></span>
-              <h4 className="text-primary font-bold tracking-widest uppercase text-xs">{t('home.newsInsights.knowledgeHub')}</h4>
+              <h4 className="text-[#084553] font-bold tracking-widest uppercase text-xs">{t('home.newsInsights.knowledgeHub')}</h4>
             </div>
             <h3 className="font-extrabold text-heading leading-tight text-4xl md:text-5xl">
               {t('home.newsInsights.industryInsights')}

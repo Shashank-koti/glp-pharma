@@ -24,7 +24,7 @@ export default function CompanyIntro() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 border border-blue-200 mt-10 mb-2">
                 <span className="w-2 h-2 rounded-full bg-primary"></span>
-                <h4 className="text-primary font-bold tracking-widest uppercase text-xs">{t('home.companyIntro.about')}</h4>
+                <h4 className="text-[#084553] font-bold tracking-widest uppercase text-xs">{t('home.companyIntro.about')}</h4>
               </div>
               <h1 className="font-extrabold text-heading leading-[1.15] text-3xl md:text-4xl">
                 {t('home.companyIntro.pioneering')} <br />
@@ -41,8 +41,8 @@ export default function CompanyIntro() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-4">
               {t('home.companyIntro.points', { returnObjects: true }).map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3 group">
-                  <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                    <FiCheckCircle className="text-primary group-hover:text-white transition-colors duration-300 w-4 h-4" />
+                  <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-[#084553] flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
+                    <FiCheckCircle className="text-white group-hover:text-white transition-colors duration-300 w-4 h-4" />
                   </div>
                   <span className="text-body font-semibold">{item}</span>
                 </div>

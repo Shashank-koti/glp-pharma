@@ -77,7 +77,7 @@ export default function Cart() {
 
       {/* Header */}
       <div className="text-center mb-[40px] pt-6 sm:pt-0 max-w-[1000px]">
-        <h1 className="text-primary sm:text-[34px] font-[800] tracking-[-0.03em] leading-[1.2] mb-[12px]  uppercase text-xl">
+        <h1 className="text-[#084553] sm:text-[34px] font-[800] tracking-[-0.03em] leading-[1.2] mb-[12px]  uppercase text-xl">
           CART & PRODUCT INQUIRY
         </h1>
         <p className="text-[#5B7280] text-[15px] sm:text-[16px] font-medium leading-[1.6]">
@@ -340,7 +340,7 @@ export default function Cart() {
             </button>
 
             {submitStatus && (
-              <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${submitStatus.type === 'success' ? 'bg-[#DDF8FB] text-[#1AA3B6] border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+              <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${submitStatus.type === 'success' ? 'bg-[#084553] text-white border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
                 {submitStatus.message}
               </div>
             )}

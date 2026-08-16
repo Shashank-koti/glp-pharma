@@ -124,7 +124,7 @@ export default function QuickEnquiry() {
         >
           <form onSubmit={handleSubmit}>
             {submitSuccess && (
-              <div className="mb-6 p-4 rounded-lg bg-primary/10 border border-primary/20 text-primary font-medium text-sm">
+              <div className="mb-6 p-4 rounded-lg bg-[#084553] border border-primary/20 text-white font-medium text-sm">
                 Your inquiry has been submitted successfully! We will get back to you soon.
               </div>
             )}

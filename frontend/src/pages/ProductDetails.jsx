@@ -65,7 +65,7 @@ export default function ProductDetails() {
         // Defaulting to false (show pricing) if the API fails
       }
     };
-    
+
     checkUserLocation();
   }, []);
 
@@ -79,8 +79,8 @@ export default function ProductDetails() {
     setQuoteSubmitStatus(null);
 
     try {
-      const endpoint = quoteFormType === 'checkout' 
-        ? 'https://glp-pharma-backend.vercel.app/api/pricing' 
+      const endpoint = quoteFormType === 'checkout'
+        ? 'https://glp-pharma-backend.vercel.app/api/pricing'
         : 'https://glp-pharma-backend.vercel.app/api/inquiries';
 
       const res = await axios.post(endpoint, {
@@ -321,7 +321,7 @@ export default function ProductDetails() {
             <div className="max-w-2xl w-full">
               <div
                 onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#DDF8FB] text-[#1AA3B6] border border-[#DDF8FB] rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5  text-primary border border-[084553] rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
                 title="Go Back"
               >
                 <FiArrowLeft className="text-[14px]" />
@@ -353,7 +353,7 @@ export default function ProductDetails() {
 
             {/* Technical Specifications Card */}
             <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-4">
-              <div className="flex items-center mb-6 border-b border-[#EAF2F4] pb-2">
+              <div className="flex items-center mb-6 border-b border-[#EAF2F4]">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-[#1AA3B6] flex items-center justify-center text-white shadow-sm">
                     <BsFileEarmarkText size={20} />
@@ -378,15 +378,15 @@ export default function ProductDetails() {
                   { icon: <FiGlobe size={16} />, label: 'Country of Origin', value: product.countryOfOrigin || 'India' },
 
                 ].map((spec, i) => (
-                  <div key={i} className="p-1.5 flex flex-row items-center justify-start gap-1 sm:gap-5 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
+                  <div key={i} className="p-1.5 flex flex-row items-center justify-start gap-1 sm:gap-3 group hover:bg-[#F8FAFC] transition-all duration-200 rounded-xl border border-transparent hover:border-[#EAF2F4] hover:shadow-sm -mx-2">
                     <div className="flex items-center gap-2 sm:gap-3 w-[45%] sm:w-[40%] shrink-0">
-                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-background group-hover:bg-white flex items-center justify-center text-[#1AA3B6] shadow-sm shrink-0 transition-all">
+                      <div className="w-8 h-8 sm:w-9 sm:h-6 rounded-xl bg-background group-hover:bg-white flex items-center justify-center text-[#1AA3B6] shadow-sm shrink-0 transition-all">
                         {spec.icon}
                       </div>
-                      <span className="text-[11px] sm:text-[12px] font-bold text-slate-800 uppercase tracking-wide">{spec.label}</span>
+                      <span className="text-[11px] sm:text-[15px] font-bold text-slate-800 tracking-wide">{spec.label}</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors mx-1 sm:-ml-10 shrink-0"></div>
-                    <div className={`text-[12px] sm:text-[16px] font-bold flex-1 min-w-0 text-left sm:pl-2 break-all sm:break-words ${spec.highlight ? 'text-[#1AA3B6] text-[13px] sm:text-[15px] bg-[#DDF8FB] px-2 sm:px-3 py-1 rounded-lg self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
+                    <div className="block w-px h-5 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors mx-1 sm:-ml-16 shrink-0"></div>
+                    <div className={`text-[12px] sm:text-[15px] font-bold flex-1 min-w-0 text-left sm:pl-2 break-all sm:break-words ${spec.highlight ? 'text-[#1AA3B6] text-[13px] sm:text-[15px] bg-[#DDF8FB] px-2 sm:px-3 py-1 rounded-lg self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
                       {spec.isSimilarProducts && spec.value !== 'NA' ? (
                         <div className="flex flex-wrap gap-2">
                           {(Array.isArray(spec.value) ? spec.value : [spec.value]).map((simProd, idx, arr) => (
@@ -445,7 +445,7 @@ export default function ProductDetails() {
                 { icon: <FiClock size={18} />, title: 'On-time Delivery', desc: 'Committed to reliable and secure delivery' },
               ].map((feat, i) => (
                 <div key={i} className="flex items-start gap-3 p-4 flex-1 w-full hover:bg-background transition-colors rounded-xl">
-                  <div className="w-9 h-9 rounded-full bg-[#DDF8FB] flex-shrink-0 flex items-center justify-center text-[#1AA3B6] border border-[#DDF8FB]">
+                  <div className="w-9 h-9 rounded-full bg-[#084553] flex-shrink-0 flex items-center justify-center text-white border border-[#DDF8FB]">
                     {feat.icon}
                   </div>
                   <div>
@@ -473,59 +473,59 @@ export default function ProductDetails() {
 
             {/* Pricing Section (Premium Redesign) - Hidden for Indian IPs */}
             {!isIndianUser && (
-            <div className="bg-gradient-to-b from-white to-[#F8FBFC] rounded-2xl shadow-lg border border-[#EAF2F4] p-6 relative overflow-hidden mt-8 ring-1 ring-black/5">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-[#1AA3B6] opacity-[0.05] rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+              <div className="bg-gradient-to-b from-white to-[#F8FBFC] rounded-2xl shadow-lg border border-[#EAF2F4] p-6 relative overflow-hidden mt-8 ring-1 ring-black/5">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-[#1AA3B6] opacity-[0.05] rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
-              <div className="flex items-center gap-3 mb-6 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] flex items-center justify-center text-white shadow-md">
-                  <FiDollarSign size={20} />
-                </div>
-                <h2 className="text-[19px] font-extrabold text-heading tracking-tight">Quantities & Pricing</h2>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                {[
-                  { unit: '100 mg', price: ((product?.casNumber?.charCodeAt(0) || 45) * 1.5).toFixed(2), highlight: false, desc: 'For initial testing' },
-                  { unit: '1 g', price: ((product?.casNumber?.charCodeAt(0) || 45) * 8.5).toFixed(2), highlight: false, desc: 'Standard lab pack' },
-                  { unit: '1 kg', price: ((product?.casNumber?.charCodeAt(0) || 45) * 45.0).toFixed(2), highlight: true, badge: 'Best Value', desc: 'Bulk production scale' }
-                ].map((tier, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => {
-                      setQuoteFormType('checkout');
-                      setQuoteFormData({ ...quoteFormData, message: `I would like to request a quote for ${tier.unit} of ${product.name} (CAS: ${product.casNumber}).` });
-                      setShowQuoteForm(true);
-                    }}
-                    className={`group rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-300 relative overflow-hidden ${tier.highlight ? 'border border-[#1AA3B6]/30 bg-[#1AA3B6]/[0.02] shadow-[0_2px_10px_rgba(26,163,182,0.05)] hover:bg-[#1AA3B6]/[0.05]' : 'border border-[#EAF2F4] bg-white hover:border-[#1AA3B6]/50 hover:shadow-sm'}`}
-                  >
-                    {tier.highlight && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1AA3B6] to-[#0B7285]"></div>
-                    )}
-
-                    <div className={`flex flex-col ${tier.highlight ? 'pl-4' : 'pl-2'}`}>
-                      <div className="flex items-center gap-2">
-                        <span className="text-heading font-extrabold text-[17px]">{tier.unit}</span>
-                        {tier.badge && (
-                          <span className="bg-[#1AA3B6] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                            {tier.badge}
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[#5B7280] text-[12px] font-medium mt-0.5">{tier.desc}</span>
-                    </div>
-
-                    <div className="flex flex-col items-end pr-2">
-                      <span className={`text-[21px] font-black tracking-tight ${tier.highlight ? 'text-[#1AA3B6]' : 'text-heading'}`}>
-                        ${tier.price}
-                      </span>
-                      <span className="text-[10px] text-[#1AA3B6] font-bold opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider flex items-center gap-1">
-                        proceed to check out <FiChevronRight size={10} />
-                      </span>
-                    </div>
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] flex items-center justify-center text-white shadow-md">
+                    <FiDollarSign size={20} />
                   </div>
-                ))}
+                  <h2 className="text-[19px] font-extrabold text-heading tracking-tight">Quantities & Pricing</h2>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  {[
+                    { unit: '100 mg', price: ((product?.casNumber?.charCodeAt(0) || 45) * 1.5).toFixed(2), highlight: false, desc: 'For initial testing' },
+                    { unit: '1 g', price: ((product?.casNumber?.charCodeAt(0) || 45) * 8.5).toFixed(2), highlight: false, desc: 'Standard lab pack' },
+                    { unit: '1 kg', price: ((product?.casNumber?.charCodeAt(0) || 45) * 45.0).toFixed(2), highlight: true, badge: 'Best Value', desc: 'Bulk production scale' }
+                  ].map((tier, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => {
+                        setQuoteFormType('checkout');
+                        setQuoteFormData({ ...quoteFormData, message: `I would like to request a quote for ${tier.unit} of ${product.name} (CAS: ${product.casNumber}).` });
+                        setShowQuoteForm(true);
+                      }}
+                      className={`group rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-300 relative overflow-hidden ${tier.highlight ? 'border border-[#1AA3B6]/30 bg-[#1AA3B6]/[0.02] shadow-[0_2px_10px_rgba(26,163,182,0.05)] hover:bg-[#1AA3B6]/[0.05]' : 'border border-[#EAF2F4] bg-white hover:border-[#1AA3B6]/50 hover:shadow-sm'}`}
+                    >
+                      {tier.highlight && (
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#1AA3B6] to-[#0B7285]"></div>
+                      )}
+
+                      <div className={`flex flex-col ${tier.highlight ? 'pl-4' : 'pl-2'}`}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-heading font-extrabold text-[17px]">{tier.unit}</span>
+                          {tier.badge && (
+                            <span className="bg-[#1AA3B6] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                              {tier.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[#5B7280] text-[12px] font-medium mt-0.5">{tier.desc}</span>
+                      </div>
+
+                      <div className="flex flex-col items-end pr-2">
+                        <span className={`text-[21px] font-black tracking-tight ${tier.highlight ? 'text-[#1AA3B6]' : 'text-heading'}`}>
+                          ${tier.price}
+                        </span>
+                        <span className="text-[10px] text-[#1AA3B6] font-bold opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider flex items-center gap-1">
+                          proceed to check out <FiChevronRight size={10} />
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
             )}
 
             {/* Download Documents */}
@@ -942,7 +942,7 @@ export default function ProductDetails() {
                 </button>
 
                 {quoteSubmitStatus && (
-                  <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${quoteSubmitStatus.type === 'success' ? 'bg-[#DDF8FB] text-[#1AA3B6] border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+                  <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${quoteSubmitStatus.type === 'success' ? 'bg-[#084553] text-white border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
                     {quoteSubmitStatus.message}
                   </div>
                 )}

@@ -10,7 +10,7 @@ import { useCart } from '../context/CartContext';
 import { useCompare } from '../context/CompareContext';
 import { LuArrowLeftRight } from 'react-icons/lu';
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), '#'];
 
 const HexagonIcon = () => (
   <div className="relative w-16 h-16 flex items-center justify-center mx-auto mb-3 mt-1">
@@ -55,6 +55,7 @@ export default function ProductsView() {
       try {
         setLoading(true);
         setProducts([]);
+        setPageMeta(null);
         let url;
         if (subCategory === 'search') {
           url = `https://glp-pharma-backend.vercel.app/api/products?search=${searchQueryParam}`;
@@ -101,7 +102,7 @@ export default function ProductsView() {
     // Alphabet filter
     let letterMatch = true;
     if (currentLetter !== 'All') {
-      if (currentLetter === 'Others') letterMatch = !/^[a-zA-Z]/.test(product.name);
+      if (currentLetter === '#') letterMatch = !/^[a-zA-Z]/.test(product.name);
       else letterMatch = product.name?.toUpperCase().startsWith(currentLetter);
     }
 
@@ -119,7 +120,7 @@ export default function ProductsView() {
     return letterMatch && availabilityMatch;
   });
 
-  const categoryName = pageMeta?.category?.categoryName || (products.length > 0 ? products[0].category?.categoryName : null);
+  const categoryName = pageMeta?.category?.categoryName || (products.length > 0 ? products[0].category?.categoryName : null) || subCategory.replace(/-/g, ' ');
 
   const displaySubCategory = subCategory === 'search' ? 'Search Results' : (pageMeta?.mainProduct?.heading || subCategory || 'D-GROUP - API-2').toUpperCase();
   const displaySubCategoryStr = displaySubCategory.replace(/-/g, ' ');
@@ -137,11 +138,11 @@ export default function ProductsView() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-18">
           <div className="max-w-[900px]">
             <h1 className="text-[36px] md:text-[48px] lg:text-[54px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
-              <span className="text-[#28B9BA]">{displaySubCategoryStr}</span>
+              <span className="text-[#084553]">{displaySubCategoryStr}</span>
               {!isRedundant && (
                 <>
                   <span className="hidden sm:inline text-[#12344D] mx-2 md:mx-4">-</span>
-                  <span className="block sm:inline text-[24px] md:text-[36px] lg:text-[45px] mt-1 sm:mt-0">{displayCategoryName}</span>
+                  <span className="block sm:inline text-[24px] md:text-[36px] lg:text-[44px] mt-1 sm:mt-0">{displayCategoryName}</span>
                 </>
               )}
             </h1>

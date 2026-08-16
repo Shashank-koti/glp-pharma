@@ -24,7 +24,7 @@ export default function Careers() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto"
           >
-            <h1 className="font-bold text-primary mb-4 text-4xl pt-8 sm:pt-0 md:text-5xl">{t('careers.banner.title')}</h1>
+            <h1 className="font-bold text-[#084553] mb-4 text-4xl pt-8 sm:pt-0 md:text-5xl">{t('careers.banner.title')}</h1>
             <p className="text-body leading-relaxed text-lg">
               {t('careers.banner.desc')}
             </p>

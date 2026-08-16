@@ -85,7 +85,7 @@ export default function Contact() {
               className="flex flex-wrap gap-6 items-center"
             >
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <div className="w-11 h-11 rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0">
                   <FiHeadphones size={18} />
                 </div>
                 <div>
@@ -95,7 +95,7 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <div className="w-11 h-11 rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0">
                   <FiShield size={18} />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <div className="w-11 h-11 rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0">
                   <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
                 <div>
@@ -196,7 +196,7 @@ export default function Contact() {
               </button>
 
               {submitStatus && (
-                <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${submitStatus.type === 'success' ? 'bg-[#DDF8FB] text-[#1AA3B6] border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+                <div className={`mt-5 p-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${submitStatus.type === 'success' ? 'bg-[#084553] text-white border border-[#DDF8FB]' : 'bg-red-50 text-red-600 border border-red-100'}`}>
                   {submitStatus.message}
                 </div>
               )}

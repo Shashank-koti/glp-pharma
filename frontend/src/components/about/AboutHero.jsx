@@ -96,7 +96,7 @@ export default function AboutHero() {
             className="hidden md:block absolute -left-12 bottom-20 bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white max-w-[260px] transform hover:-translate-y-2 transition-transform duration-300"
           >
             <motion.div variants={floatVariants} initial="initial" animate="animate">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
+              <div className="w-12 h-12 rounded-full bg-[#084553] flex items-center justify-center mb-4 text-white">
                 <FiGlobe className="text-xl" />
               </div>
               <div className="font-black text-heading mb-1 text-3xl">{t('about.hero.card1Val')}</div>
@@ -125,7 +125,7 @@ export default function AboutHero() {
         {/* Mobile Stats Cards (Hidden on Desktop) */}
         <div className="flex flex-col sm:flex-row gap-4 mt-8 md:hidden">
           <div className="bg-white/90 p-5 rounded-2xl shadow-lg border border-[#EAF2F4] flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+            <div className="w-12 h-12 rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0">
               <FiGlobe className="text-xl" />
             </div>
             <div>

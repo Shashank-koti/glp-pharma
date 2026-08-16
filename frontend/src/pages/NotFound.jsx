@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       <div className="text-center max-w-md mx-auto">
-        <h1 className="font-bold text-primary mb-4 text-9xl">404</h1>
+        <h1 className="font-bold text-[#084553] mb-4 text-9xl">404</h1>
         <h2 className="font-bold text-heading mb-4 text-3xl">{t('notFound.title')}</h2>
         <p className="text-body mb-8">
           {t('notFound.desc')}
