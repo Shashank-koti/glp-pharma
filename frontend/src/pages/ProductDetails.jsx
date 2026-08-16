@@ -321,7 +321,7 @@ export default function ProductDetails() {
             <div className="max-w-2xl w-full">
               <div
                 onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5  text-primary border border-[084553] rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-primary border border-[#084553] rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
                 title="Go Back"
               >
                 <FiArrowLeft className="text-[14px]" />
