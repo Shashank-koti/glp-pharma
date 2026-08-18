@@ -461,10 +461,16 @@ export default function Navbar() {
               {/* Compare Button */}
               <Link
                 to="/compare"
-                className="relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-transparent hover:bg-primary/5 hover:border-primary/20 hover:text-primary text-heading"
+                className="group relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-transparent hover:bg-primary/5 hover:border-primary/20 hover:text-primary text-heading"
               >
                 <LuArrowLeftRight size={20} className="transition-colors duration-300 text-body group-hover:text-primary" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 text-[10px] flex items-center justify-center font-bold rounded-full bg-primary text-white">{compareItems?.length || 0}</span>
+                
+                {/* Custom Tooltip */}
+                <span className="absolute -bottom-9 left-1/2 -translate-x-1/2 bg-[#12344D] text-white text-[10px] font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50 shadow-sm">
+                  Add To Compare
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#12344D] rotate-45"></div>
+                </span>
               </Link>
 
               {/* Cart Button */}

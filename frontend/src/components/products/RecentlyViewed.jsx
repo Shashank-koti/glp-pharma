@@ -55,8 +55,9 @@ export default function RecentlyViewed({ currentProductId }) {
             className="group bg-white rounded-2xl border border-[#D9E8EC] shadow-[0_10px_30px_rgba(26,163,182,0.03)] hover:shadow-[0_15px_40px_rgba(26,163,182,0.08)] hover:border-[#1AA3B6]/20 transition-all duration-300 p-4 flex flex-col"
           >
             <div className="flex justify-between items-start mb-3">
-              <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase">
-                {product.specifications?.catalogueNumber || product.catalogueNumber || `GL-${product._id.substring(0, 5).toUpperCase()}`}
+              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm flex items-center gap-1.5 ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#1AA3B6] text-white' : 'bg-orange-50 text-orange-600 border border-orange-100'}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white animate-pulse' : 'bg-orange-500'}`}></span>
+                {product.availability || 'In Stock'}
               </span>
             </div>
 

@@ -12,7 +12,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative bg-white pt-6 pb-4 border-t border-[#EAF2F4] shadow-[0_-10px_40px_rgba(0,0,0,0.08)] overflow-hidden">
+    <footer className="relative bg-[#1AA3B6]/25 pt-6 pb-4 border-t border-[#EAF2F4] shadow-[0_-10px_40px_rgba(0,0,0,0.08)] overflow-hidden">
       {/* Premium Background Gradients */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-bl from-primary/10 to-transparent blur-3xl"></div>

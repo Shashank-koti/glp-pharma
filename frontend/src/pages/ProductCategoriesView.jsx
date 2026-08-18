@@ -148,29 +148,31 @@ export default function ProductCategoriesView() {
       </div>
 
       {/* 2. Alphabet Navigation */}
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
-        <div className="bg-white rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-3 md:p-4 border border-[#EAF2F4]">
+      <div className="max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6 -mt-12 relative z-20">
+        <div className="bg-white/40 backdrop-blur-xl rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3 md:p-4 border border-white/60">
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
-              <div className="flex-1 flex items-center gap-4 overflow-x-auto scrollbar-hide min-w-0 px-1 pb-1">
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto scrollbar-hide min-w-0 px-2 pb-1">
                 <button
                   onClick={() => handleLetterClick('All')}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[14.5px] font-bold transition-colors ${currentLetter === 'All'
-                    ? 'bg-[#0B7285] text-white shadow-md'
-                    : 'bg-[#F0F6F8] text-body'
+                  className={`flex-shrink-0 flex items-center gap-1 px-5 h-[42px] rounded-full text-[14.5px] font-extrabold transition-all duration-300 backdrop-blur-md ${currentLetter === 'All'
+                    ? 'bg-gradient-to-r from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-105'
+                    : 'bg-white/60 hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6]'
                     }`}
                 >
                   <FiGrid size={16} /> All
                 </button>
 
-                <div className="flex items-center flex-1 justify-between min-w-[1050px] px-1">
+                <div className="flex items-center flex-1 justify-between min-w-[1050px] px-1 gap-1.5">
                   {alphabet.map(letter => {
                     const isActive = currentLetter === letter;
                     return (
                       <button
                         key={letter}
                         onClick={() => handleLetterClick(letter)}
-                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[18px] font-bold transition-all ${isActive ? 'bg-[#1AA3B6] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#1AA3B6]'
+                        className={`flex-shrink-0 w-[42px] h-[42px] flex items-center justify-center rounded-[14px] text-[17px] font-extrabold transition-all duration-300 backdrop-blur-md ${isActive
+                          ? 'bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-110'
+                          : 'bg-white/50 hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6] hover:-translate-y-0.5'
                           }`}
                       >
                         {letter}
@@ -183,6 +185,10 @@ export default function ProductCategoriesView() {
           </div>
         </div>
       </div>
+
+      {/* <div className='text-center align-center pt-5 '>
+        <p className='text-[22px] font-bold text-[#1AA3B6]'>List of Parent API's</p>
+      </div> */}
 
       {/* 3. Main Content Area */}
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-24 min-h-[40vh]">

@@ -71,10 +71,8 @@ export default function NewlySynthesizedProducts() {
                   <div className="w-full flex-none flex flex-col bg-white rounded-[20px] border border-[#EAF2F4] shadow-sm p-4 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1.5 transition-all duration-300 h-full group/card">
                     {/* Top Labels */}
                     <div className="flex justify-between items-start mb-3">
-                      <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
-                        {product.specifications?.catalogueNumber || product.catalogueNumber || `GL-${product._id.substring(0, 5).toUpperCase()}`}
-                      </span>
-                      <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm flex items-center gap-1.5 ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#1AA3B6] text-white' : 'bg-orange-50 text-orange-600 border border-orange-100'}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white animate-pulse' : 'bg-orange-500'}`}></span>
                         {product.availability || 'In Stock'}
                       </span>
                     </div>

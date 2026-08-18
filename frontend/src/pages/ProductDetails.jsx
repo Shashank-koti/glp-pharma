@@ -157,7 +157,14 @@ export default function ProductDetails() {
               .then(relRes => {
                 if (relRes.data.success && relRes.data.data) {
                   // Filter out the current product itself
-                  setRelatedProducts(relRes.data.data.filter(p => p._id !== currentProduct._id).slice(0, 3));
+                  let related = relRes.data.data.filter(p => p._id !== currentProduct._id);
+                  // Sort by catalogue number
+                  related.sort((a, b) => {
+                    const catA = a.specifications?.catalogueNumber || a.catalogueNumber || '';
+                    const catB = b.specifications?.catalogueNumber || b.catalogueNumber || '';
+                    return catA.localeCompare(catB, undefined, { numeric: true, sensitivity: 'base' });
+                  });
+                  setRelatedProducts(related);
                 }
               })
               .catch(err => console.error("Error fetching related products:", err));
@@ -230,7 +237,7 @@ export default function ProductDetails() {
         <div className="w-full flex items-center justify-center transition-all duration-300">
           <img
             src={product.image || "/images/demoprod.gif"}
-            alt={product.name || "Product Image"}
+            alt={product.name?.split(';')[0] || "Product Image"}
             onClick={() => setShowImageZoom(true)}
             className="max-w-full w-auto h-auto max-h-[350px] md:max-h-[450px] object-contain mix-blend-multiply drop-shadow-lg cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
             title="Click to zoom"
@@ -321,14 +328,14 @@ export default function ProductDetails() {
             <div className="max-w-2xl w-full">
               <div
                 onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-primary border border-[#084553] rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-primary border border-[#084553]/60 rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
                 title="Go Back"
               >
                 <FiArrowLeft className="text-[14px]" />
                 {product.category?.categoryName || product.productType || "API IMPURITIES AND REFERENCE STANDARDS"}
               </div>
               <h1 className="font-extrabold text-heading mb-4 tracking-tight drop-shadow-sm text-3xl md:text-4xl">
-                {product.name}
+                {product.name?.split(';')[0]}
               </h1>
               <p className="text-body mb-5 leading-relaxed max-w-xl font-medium text-base">
                 High-quality pharmaceutical impurities and reference standards <br className="hidden md:block" /> for accurate research and regulatory compliance.
@@ -386,7 +393,7 @@ export default function ProductDetails() {
                       <span className="text-[11px] sm:text-[15px] font-bold text-slate-800 tracking-wide">{spec.label}</span>
                     </div>
                     <div className="block w-px h-5 bg-border group-hover:bg-[#1AA3B6]/30 transition-colors mx-1 sm:-ml-16 shrink-0"></div>
-                    <div className={`text-[12px] sm:text-[15px] font-bold flex-1 min-w-0 text-left sm:pl-2 break-all sm:break-words ${spec.highlight ? 'text-[#1AA3B6] text-[13px] sm:text-[15px] bg-[#DDF8FB] px-2 sm:px-3 py-1 rounded-lg self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
+                    <div className={`text-[12px] sm:text-[15px] font-semibold flex-1 min-w-0 text-left sm:pl-2 break-all sm:break-words ${spec.highlight ? 'text-[#1AA3B6] text-[13px] sm:text-[15px] bg-[#DDF8FB] px-2 sm:px-3 py-1 rounded-lg self-center border border-[#DDF8FB] shadow-sm inline-block' : 'text-heading'}`}>
                       {spec.isSimilarProducts && spec.value !== 'NA' ? (
                         <div className="flex flex-wrap gap-2">
                           {(Array.isArray(spec.value) ? spec.value : [spec.value]).map((simProd, idx, arr) => (
@@ -431,7 +438,7 @@ export default function ProductDetails() {
                   <BsShieldCheck size={16} /> Regulatory Description
                 </h3>
                 <p className="text-[14px] text-body font-medium leading-relaxed">
-                  <span className="font-extrabold text-heading">{product.name}</span> Impurity is supplied with detailed characterization data compliant with regulatory guidelines.
+                  <span className="font-extrabold text-heading">{product.name?.split(';')[0]}</span> Impurity is supplied with detailed characterization data compliant with regulatory guidelines.
                 </p>
               </div>
             </div>
@@ -493,7 +500,7 @@ export default function ProductDetails() {
                       key={idx}
                       onClick={() => {
                         setQuoteFormType('checkout');
-                        setQuoteFormData({ ...quoteFormData, message: `I would like to request a quote for ${tier.unit} of ${product.name} (CAS: ${product.casNumber}).` });
+                        setQuoteFormData({ ...quoteFormData, message: `I would like to request a quote for ${tier.unit} of ${product.name?.split(';')[0]} (CAS: ${product.casNumber}).` });
                         setShowQuoteForm(true);
                       }}
                       className={`group rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all duration-300 relative overflow-hidden ${tier.highlight ? 'border border-[#1AA3B6]/30 bg-[#1AA3B6]/[0.02] shadow-[0_2px_10px_rgba(26,163,182,0.05)] hover:bg-[#1AA3B6]/[0.05]' : 'border border-[#EAF2F4] bg-white hover:border-[#1AA3B6]/50 hover:shadow-sm'}`}
@@ -529,21 +536,21 @@ export default function ProductDetails() {
             )}
 
             {/* Download Documents */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-row gap-3">
               <button
                 onClick={() => handleDownload('MSDS')}
-                className="w-full bg-[#E8F4F6] border border-[#1AA3B6]/20 shadow-md hover:shadow-lg rounded-xl py-3.5 px-4 flex items-center justify-center gap-2 hover:bg-[#1AA3B6] hover:text-white transition-all group"
+                className="flex-1 bg-[#E8F4F6] border border-[#1AA3B6] shadow-md hover:shadow-lg rounded-xl py-3 px-4 flex items-center justify-center gap-2 hover:bg-[#1AA3B6] hover:text-white transition-all group"
               >
                 <BsFileEarmarkText size={18} className="text-[#1AA3B6] group-hover:text-white" />
                 <span className="text-[#0B7285] font-bold text-[13px] group-hover:text-white">Download MSDS</span>
               </button>
               <button
                 onClick={() => handleDownload((product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'COA' : 'Draft COA')}
-                className="w-full bg-[#E8F4F6] border border-[#1AA3B6]/20 shadow-md hover:shadow-lg rounded-xl py-3.5 px-4 flex items-center justify-center gap-2 hover:bg-[#1AA3B6] hover:text-white transition-all group"
+                className="flex-1 bg-[#E8F4F6] border border-[#1AA3B6] shadow-md hover:shadow-lg rounded-xl py-3 px-4 flex items-center justify-center gap-2 hover:bg-[#1AA3B6] hover:text-white transition-all group"
               >
                 <TbCertificate size={18} className="text-[#1AA3B6] group-hover:text-white" />
                 <span className="text-[#0B7285] font-bold text-[13px] group-hover:text-white">
-                  {(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'Download COA' : 'Download Draft COA'}
+                  {(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'Download COA' : 'Draft COA'}
                 </span>
               </button>
             </div>
@@ -566,7 +573,7 @@ export default function ProductDetails() {
                     setQuoteFormType('quote');
                     setShowQuoteForm(true);
                   }}
-                  className="py-3 w-full bg-white text-[#0B7285] rounded-xl font-bold text-[15px] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+                  className="py-3 w-full bg-[#1AA3B6]/20 text-[#0B7285] border border-[#1AA3B6]/20 shadow-md hover:shadow-lg rounded-xl font-bold text-[15px] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
                 >
                   <FiSend size={16} /> Request a Quote
                 </button>
@@ -593,28 +600,31 @@ export default function ProductDetails() {
                 className="group bg-white rounded-2xl border border-[#EAF2F4] shadow-sm p-4 flex flex-col w-full mx-auto max-w-[380px]"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <span className="bg-[#1AA3B6] text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm">
-                    {rel.specifications?.catalogueNumber || rel.catalogueNumber || `GL-${rel._id.substring(0, 5).toUpperCase()}`}
+                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wider uppercase shadow-sm flex items-center gap-1.5 ${(rel.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#1AA3B6] text-white' : 'bg-orange-50 text-orange-600 border border-orange-100'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${(rel.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white animate-pulse' : 'bg-orange-500'}`}></span>
+                    {rel.availability || 'In Stock'}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(rel.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
-                      {rel.availability || 'In Stock'}
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (compareItems.some(item => item._id === rel._id)) {
-                          removeFromCompare(rel._id);
-                        } else {
-                          addToCompare(rel);
-                        }
-                      }}
-                      className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === rel._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
-                      title={compareItems.some(item => item._id === rel._id) ? "Remove from Compare" : "Add to Compare"}
-                    >
-                      <LuArrowLeftRight size={14} />
-                    </button>
+                    <div className="relative group/compare">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (compareItems.some(item => item._id === rel._id)) {
+                            removeFromCompare(rel._id);
+                          } else {
+                            addToCompare(rel);
+                          }
+                        }}
+                        className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === rel._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
+                      >
+                        <LuArrowLeftRight size={14} />
+                      </button>
+                      <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#12344D] text-white text-[10px] font-bold py-1 px-2 rounded opacity-0 group-hover/compare:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50 shadow-sm">
+                        Add To Compare
+                        <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#12344D] rotate-45"></div>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -622,14 +632,14 @@ export default function ProductDetails() {
                 <div className="relative w-full aspect-square max-h-[200px] mx-auto mb-3 flex items-center justify-center group/img">
                   <img
                     src={rel.image || "/images/demoprod.gif"}
-                    alt={rel.name}
+                    alt={rel.name?.split(';')[0]}
                     className="w-full h-full object-contain mix-blend-multiply drop-shadow-sm group-hover/img:scale-105 transition-transform duration-500"
                   />
                 </div>
 
                 <div className="text-center mb-4 mt-2">
                   <h3 className="font-extrabold text-heading text-[15px] leading-snug min-h-[40px] flex items-center justify-center line-clamp-2  transition-colors group-hover:text-[#1AA3B6]">
-                    {rel.name}
+                    {rel.name?.split(';')[0]}
                   </h3>
                 </div>
                 <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
@@ -708,29 +718,65 @@ export default function ProductDetails() {
             Useful product, supplier and regulatory search terms for this reference standard.
           </p>
 
-          <div className="flex flex-wrap gap-2.5">
-            {[
-              `Buy high quality ${product.name}`,
-              `Purchase ${product.name}`,
-              `${product.name} Suppliers`,
-              `${product.name} Manufacturers`,
-              `${product.name} Price`,
-              `Order ${product.name}`,
-              `Enquire ${product.name}`,
-              `${product.name} Cost`,
-              `${product.name} Supplier`,
-              `${product.name} Distributor`,
-              `${product.name} for Method Validation`,
-              `${product.name} for ANDA Filing`,
-              `${product.name} for Forced Degradation Studies`,
-              `${product.name} Identification Standards`,
-              `${product.name} for DMF Filing`,
-              `${product.name} Reference Standard`
-            ].map((term, i) => (
-              <span key={i} className="bg-background border border-border text-body px-3 py-1.5 rounded-lg font-semibold hover:border-[#1AA3B6] hover:text-[#1AA3B6] hover:bg-[#DDF8FB] transition-colors cursor-default text-xs">
-                {term}
-              </span>
-            ))}
+          <div className="flex flex-wrap items-center gap-y-2.5">
+            {(() => {
+              const nameBase = product.name?.split(';')[0];
+              const casBase = product.casNumber && product.casNumber !== 'N/A' ? product.casNumber : '';
+              const terms = [];
+
+              if (casBase) {
+                [
+                  `Buy high quality CAS ${casBase}`,
+                  `Purchase CAS ${casBase}`,
+                  `CAS ${casBase} Suppliers`,
+                  `CAS ${casBase} Manufacturers`,
+                  `CAS ${casBase} Price`,
+                  `Order CAS ${casBase}`,
+                  `Enquire CAS ${casBase}`,
+                  `CAS ${casBase} Cost`,
+                  `CAS ${casBase} Supplier`,
+                  `CAS ${casBase} Distributor`,
+                  `CAS ${casBase} for Method Validation`,
+                  `CAS ${casBase} for ANDA Filing`,
+                  `CAS ${casBase} for Forced Degradation Studies`,
+                  `CAS ${casBase} Identification Standards`,
+                  `CAS ${casBase} for DMF Filing`,
+                  `CAS ${casBase} Reference Standard`
+                ].forEach(t => terms.push(t));
+              }
+
+              if (nameBase) {
+                [
+                  `Buy high quality ${nameBase}`,
+                  `Purchase ${nameBase}`,
+                  `${nameBase} Suppliers`,
+                  `${nameBase} Manufacturers`,
+                  `${nameBase} Price`,
+                  `Order ${nameBase}`,
+                  `Enquire ${nameBase}`,
+                  `${nameBase} Cost`,
+                  `${nameBase} Supplier`,
+                  `${nameBase} Distributor`,
+                  `${nameBase} for Method Validation`,
+                  `${nameBase} for ANDA Filing`,
+                  `${nameBase} for Forced Degradation Studies`,
+                  `${nameBase} Identification Standards`,
+                  `${nameBase} for DMF Filing`,
+                  `${nameBase} Reference Standard`
+                ].forEach(t => terms.push(t));
+              }
+
+              return terms.map((term, i) => (
+                <div key={i} className="flex items-center">
+                  <h1 className="text-[12px] font-bold text-[#5B7280] hover:text-[#1AA3B6] transition-colors cursor-default leading-tight">
+                    {term}
+                  </h1>
+                  {i < terms.length - 1 && (
+                    <span className="text-[#D9E8EC] mx-2.5 select-none font-light">|</span>
+                  )}
+                </div>
+              ));
+            })()}
           </div>
         </div>
       </div>
@@ -923,7 +969,7 @@ export default function ProductDetails() {
                     </span>
                     <ul className="text-[#5B7280] text-[12px] font-medium leading-[1.6] space-y-1 list-disc pl-[20px]">
                       <li>
-                        {product.name} (CAS: {product.casNumber || 'N/A'})
+                        {product.name?.split(';')[0]} (CAS: {product.casNumber || 'N/A'})
                       </li>
                     </ul>
                   </div>
@@ -982,7 +1028,7 @@ export default function ProductDetails() {
               <div className="flex-1 flex items-center justify-center p-8 md:p-12 overflow-auto bg-[url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 3L37.32 13V33L20 43L2.68 33V13L20 3Z\' fill=\'none\' stroke=\'%23e2e8f0\' stroke-width=\'0.5\'/%3E%3C/svg%3E')]">
                 <img
                   src={product.image || "/images/demoprod.gif"}
-                  alt={product.name}
+                  alt={product.name?.split(';')[0]}
                   className="w-full h-auto max-h-[75vh] object-contain drop-shadow-2xl mix-blend-multiply"
                 />
               </div>

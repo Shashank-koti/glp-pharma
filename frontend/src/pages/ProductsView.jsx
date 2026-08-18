@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck, FiBox, FiCheckCircle, FiTool } from 'react-icons/fi';
+import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck, FiBox, FiCheckCircle, FiTool, FiFilter } from 'react-icons/fi';
+import { TbAtom, TbTestPipe } from 'react-icons/tb';
 import { BsLayersFill } from 'react-icons/bs';
 import { FaFlask, FaBalanceScale } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +41,7 @@ export default function ProductsView() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [availabilityFilter, setAvailabilityFilter] = useState('All');
+  const [categoryFilter, setCategoryFilter] = useState('All');
   const { addToCart, cartItems } = useCart();
   const { addToCompare, compareItems, removeFromCompare } = useCompare();
 
@@ -56,20 +58,59 @@ export default function ProductsView() {
         setLoading(true);
         setProducts([]);
         setPageMeta(null);
+        setCategoryFilter('All');
         let url;
         if (subCategory === 'search') {
           url = `https://glp-pharma-backend.vercel.app/api/products?search=${searchQueryParam}`;
-        } else {
-          url = `https://glp-pharma-backend.vercel.app/api/products/${subCategory}/subproducts`;
-        }
-        const res = await axios.get(url);
-        if (res.data.success) {
-          setProducts(res.data.data);
-          if (res.data.pagination) {
-            setPageMeta(res.data.pagination);
+          const res = await axios.get(url);
+          if (res.data.success) {
+            setProducts(res.data.data);
+            if (res.data.pagination) setPageMeta(res.data.pagination);
+          } else {
+            setProducts([]);
           }
         } else {
-          setProducts([]);
+          // Fetch main subproducts
+          url = `https://glp-pharma-backend.vercel.app/api/products/${subCategory}/subproducts`;
+          const res = await axios.get(url);
+          let allProducts = [];
+          if (res.data.success) {
+            // Tag each product with its type
+            allProducts = res.data.data.map(p => ({
+              ...p,
+              _categoryType: (p.category?.slug === 'nitroso-impurities') ? 'nitroso'
+                : (p.category?.slug === 'isotope-labelled-compounds') ? 'isotope'
+                  : 'reference'
+            }));
+            if (res.data.pagination) setPageMeta(res.data.pagination);
+          }
+
+          // Also fetch related nitroso & isotope products by searching the API name
+          const apiName = subCategory.replace(/-/g, ' ');
+          try {
+            const searchRes = await axios.get(`https://glp-pharma-backend.vercel.app/api/products?search=${encodeURIComponent(apiName)}`).catch(() => ({ data: { data: [] } }));
+
+            const existingIds = new Set(allProducts.map(p => p._id));
+
+            if (searchRes.data?.data) {
+              searchRes.data.data.forEach(p => {
+                if (!existingIds.has(p._id)) {
+                  const catSlug = p.category?.slug;
+                  if (catSlug === 'nitroso-impurities') {
+                    existingIds.add(p._id);
+                    allProducts.push({ ...p, _categoryType: 'nitroso' });
+                  } else if (catSlug === 'isotope-labelled-compounds') {
+                    existingIds.add(p._id);
+                    allProducts.push({ ...p, _categoryType: 'isotope' });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.error('Error fetching related products:', e);
+          }
+
+          setProducts(allProducts);
         }
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -82,11 +123,12 @@ export default function ProductsView() {
   }, [subCategory, searchQueryParam]);
 
   const handleLetterClick = (letter) => {
-    if (subCategory !== 'search' && categorySlug === 'api-impurities-and-reference-standards') {
+    if (subCategory !== 'search') {
+      const mainCategorySlug = pageMeta?.category?.slug || (products.length > 0 ? products[0].category?.slug : null) || 'api-impurities-and-reference-standards';
       if (letter === 'All') {
-        navigate(`/product-categories-view/${categorySlug}`);
+        navigate(`/product-categories-view/${mainCategorySlug}`);
       } else {
-        navigate(`/product-categories-view/${categorySlug}?letter=${letter}`);
+        navigate(`/product-categories-view/${mainCategorySlug}?letter=${letter}`);
       }
     } else {
       if (letter === 'All') {
@@ -98,12 +140,28 @@ export default function ProductsView() {
     }
   };
 
+  // Compute category counts for the filter badges
+  const categoryCounts = {
+    All: products.length,
+    reference: products.filter(p => p._categoryType === 'reference' || !p._categoryType).length,
+    nitroso: products.filter(p => p._categoryType === 'nitroso').length,
+    isotope: products.filter(p => p._categoryType === 'isotope').length,
+  };
+  const hasMultipleCategories = categoryCounts.nitroso > 0 || categoryCounts.isotope > 0;
+
   const filteredProducts = products.filter(product => {
     // Alphabet filter
     let letterMatch = true;
     if (currentLetter !== 'All') {
       if (currentLetter === '#') letterMatch = !/^[a-zA-Z]/.test(product.name);
       else letterMatch = product.name?.toUpperCase().startsWith(currentLetter);
+    }
+
+    // Category filter
+    let categoryMatch = true;
+    if (categoryFilter !== 'All') {
+      const type = product._categoryType || 'reference';
+      categoryMatch = type === categoryFilter;
     }
 
     // Availability filter
@@ -117,7 +175,7 @@ export default function ProductsView() {
       }
     }
 
-    return letterMatch && availabilityMatch;
+    return letterMatch && categoryMatch && availabilityMatch;
   });
 
   const categoryName = pageMeta?.category?.categoryName || (products.length > 0 ? products[0].category?.categoryName : null) || subCategory.replace(/-/g, ' ');
@@ -154,29 +212,31 @@ export default function ProductsView() {
       </div>
 
       {/* Alphabet Navigation */}
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 mb-6 relative z-20 -mt-16">
-        <div className="bg-white rounded-2xl shadow-sm p-3 md:p-4 border border-[#EAF2F4]">
+      <div className="w-max-[1600px] mx-auto px-2 sm:px-4 lg:px-6 mb-8 relative z-20 -mt-16">
+        <div className="bg-white/40 backdrop-blur-xl rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3 md:p-4 border border-white/60">
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
-              <div className="flex-1 flex items-center gap-4 overflow-x-auto scrollbar-hide min-w-0 px-1 pb-1">
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto scrollbar-hide min-w-0 px-2 pb-1">
                 <button
                   onClick={() => handleLetterClick('All')}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-4 h-[38px] rounded-full text-[14.5px] font-bold transition-colors ${currentLetter === 'All'
-                    ? 'bg-[#0B7285] text-white shadow-md'
-                    : 'bg-[#F0F6F8] text-body'
+                  className={`flex-shrink-0 flex items-center gap-1 px-4 h-[42px] rounded-full text-[14.5px] font-extrabold transition-all duration-300 backdrop-blur-md ${currentLetter === 'All'
+                    ? 'bg-gradient-to-r from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-105'
+                    : 'bg-white/60 hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6]'
                     }`}
                 >
                   <FiGrid size={16} /> All
                 </button>
 
-                <div className="flex items-center flex-1 justify-between min-w-[1050px] px-1">
+                <div className="flex items-center flex-1 justify-between min-w-[1050px] px-1 gap-1.5">
                   {alphabet.map(letter => {
                     const isActive = currentLetter === letter;
                     return (
                       <button
                         key={letter}
                         onClick={() => handleLetterClick(letter)}
-                        className={`flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-md text-[18px] font-bold transition-all ${isActive ? 'bg-[#0B7285] text-white shadow-sm' : 'text-[#12344D] hover:bg-[#F0F6F8] hover:text-[#0B7285]'
+                        className={`flex-shrink-0 w-[42px] h-[42px] flex items-center justify-center rounded-[14px] text-[17px] font-extrabold transition-all duration-300 backdrop-blur-md ${isActive
+                          ? 'bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-110'
+                          : 'bg-white hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6] hover:-translate-y-0.5'
                           }`}
                       >
                         {letter}
@@ -190,58 +250,109 @@ export default function ProductsView() {
         </div>
       </div>
 
-      {/* Breadcrumb Header */}
-      <div className="w-full  mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="bg-white rounded-[16px] shadow-sm border border-[#EAF2F4] p-3 md:px-4 md:py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+      {/* Combined Header & Filters */}
+      <div className="w-full xl:w-[98%] 2xl:w-[100%] max-w-[1700px] mx-auto px-3 sm:px-4 lg:px-6 mb-14">
+        <div className="bg-white rounded-[16px] shadow-sm border border-primary/15 overflow-hidden">
 
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <div className="shrink-0 bg-[#0B7285] text-white w-9 h-9 rounded-full flex items-center justify-center shadow-sm mt-0.5">
-              <BsLayersFill className="text-sm" />
+          {/* Top Section: Breadcrumb */}
+          <div className="relative p-3 md:px-5 md:py-2.5 flex flex-col md:flex-row items-center justify-between gap-3 border-b border-[#EAF2F4] overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#084553 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+
+            <div className="flex items-center gap-3 w-full md:w-auto relative z-10">
+              <div className="shrink-0 bg-[#084553] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md">
+                <BsLayersFill className="text-[16px]" />
+              </div>
+              <div className="text-[13px] sm:text-[14px] flex flex-wrap items-center uppercase tracking-wide">
+                <span className="text-[#084553] font-bold">{displaySubCategory}</span>
+                <span className="text-slate-300 mx-3 font-light">{'-'}</span>
+                <span className="text-body font-bold">{displayCategoryName}</span>
+              </div>
             </div>
-            <div className="text-[12px] sm:text-[13px] flex flex-wrap items-center">
-              <span className="text-[#0B7285] font-bold tracking-wide">{displaySubCategory}</span>
-              <span className="text-slate mx-2 font-medium">{'-'}</span>
-              <span className="text-body font-bold tracking-wide">{displayCategoryName}</span>
+
+            <div className="shrink-0 bg-[#F8FBFC] text-[#084553] px-5 py-2 rounded-xl flex items-center gap-2.5 font-bold border border-[#EAF2F4] shadow-sm w-full md:w-auto justify-center text-[13px] relative z-10">
+              <FaFlask className="text-[16px]" />
+              <span>{filteredProducts.length} {filteredProducts.length === 1 ? 'Product' : 'Products'} Found</span>
             </div>
           </div>
 
-          <div className="shrink-0 bg-[#F8FBFC] text-[#0B7285] px-4 py-2 rounded-lg flex items-center gap-2 font-bold border border-[#DDF8FB] w-full md:w-auto justify-center text-[13px]">
-            <FaFlask className="text-base" />
-            <span>{filteredProducts.length} {filteredProducts.length === 1 ? 'Product' : 'Products'} Found</span>
-          </div>
+          {/* Bottom Section: Filters */}
+          <div className="p-3 md:px-5 md:py-3 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-5 relative z-10 bg-white">
 
-        </div>
-      </div>
+            {/* Left Side: Category Filters */}
+            {subCategory !== 'search' && (
+              <div className="flex flex-col gap-2.5 flex-1">
+                {/* <div className="flex items-center justify-center gap-2">
+                  <FiFilter size={14} className="text-[#084553]" />
+                  <span className="text-[12.5px] font-bold text-[#084553] uppercase tracking-wider">Filter by Category</span>
+                </div> */}
+                <div className="flex flex-wrap gap-5 justify-evenly">
+                  {[
+                    { key: 'All', label: 'Pharmaceutical Reference Standards', icon: <FaFlask size={13} />, count: categoryCounts.All },
+                    { key: 'nitroso', label: 'Possible Nitroso Standards', icon: <TbTestPipe size={15} />, count: categoryCounts.nitroso },
+                    { key: 'isotope', label: 'Isotope Labelled Standards', icon: <TbAtom size={15} />, count: categoryCounts.isotope },
+                  ].map((filter) => (
+                    <button
+                      key={filter.key}
+                      onClick={() => setCategoryFilter(filter.key)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12px] font-bold transition-all duration-300 border ${categoryFilter === filter.key
+                        ? 'bg-[#084553] text-white border-[#084553] shadow-md'
+                        : 'border-[#084553]/40 text-[#475569] hover:border-[#084553]/90 hover:bg-white hover:shadow-sm'
+                        }`}
+                    >
+                      {filter.icon}
+                      <span className="max-w-[200px] sm:max-w-none truncate">{filter.label}</span>
+                      <span className={`ml-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full transition-colors duration-300 ${categoryFilter === filter.key
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[#E2E8F0] text-[#084553]'
+                        }`}>
+                        {filter.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
-      {/* Product List Header */}
-      <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="font-semibold text-body text-sm">
-          Showing {filteredProducts.length} of {products.length} products
-        </div>
-        <div className="flex bg-white rounded-lg p-1 border border-border shadow-sm items-center w-full sm:w-auto overflow-x-auto scrollbar-hide">
-          {['All', 'In Stock', 'Custom Synthesis'].map((filterType, index, arr) => (
-            <div key={filterType} className="flex items-center">
-              <button
-                onClick={() => setAvailabilityFilter(filterType)}
-                className={`flex items-center gap-1 px-4 py-1.5 text-[13px] font-bold rounded-md transition-colors ${availabilityFilter === filterType
-                  ? 'bg-[#25D366] text-white shadow-sm'
-                  : 'text-slate-500 hover:bg-slate-100 hover:text-[#059669]'
-                  }`}
-              >
-                {filterType === 'All' && <FiBox size={14} />}
-                {filterType === 'In Stock' && <FiCheckCircle size={14} />}
-                {filterType === 'Custom Synthesis' && <FiTool size={14} />}
-                {filterType}
-              </button>
-              {index < arr.length - 1 && (
-                <div className="w-px h-4 bg-slate-200 mx-1"></div>
-              )}
+            {/* Vertical Divider Line */}
+            {subCategory !== 'search' && (
+              <div className="hidden xl:block w-px self-stretch bg-gradient-to-b from-slate-500 to-slate-500 mx-16 opacity-70"></div>
+            )}
+
+            {/* Right Side: Stock Status */}
+            <div className="flex flex-col gap-2.5 shrink-0 pt-3 xl:pt-0 border-t border-[#EAF2F4] xl:border-0 mt-2 xl:mt-0">
+              {/* <div className="flex items-center gap-2">
+                <FiCheckCircle size={14} className="text-[#084553]" />
+                <span className="text-[12.5px] font-bold text-[#084553] uppercase tracking-wider">Availability</span>
+              </div> */}
+              <div className="flex bg-[#F8FBFC] rounded-xl p-1 border border-[#EAF2F4] shadow-sm items-center overflow-x-auto scrollbar-hide">
+                {['All', 'In Stock', 'Custom Synthesis'].map((filterType, index, arr) => (
+                  <div key={filterType} className="flex items-center">
+                    <button
+                      onClick={() => setAvailabilityFilter(filterType)}
+                      className={`flex items-center gap-1.5 px-4 py-1.5 text-[12px] font-bold rounded-lg transition-all duration-300 ${availabilityFilter === filterType
+                        ? 'bg-[#25D366] text-white shadow-md shadow-[#25D366]/20'
+                        : 'text-[#64748B] hover:bg-white hover:text-[#059669]'
+                        }`}
+                    >
+                      {filterType === 'All' && <FiBox size={13} />}
+                      {filterType === 'In Stock' && <FiCheckCircle size={13} />}
+                      {filterType === 'Custom Synthesis' && <FiTool size={13} />}
+                      {filterType}
+                    </button>
+                    {index < arr.length - 1 && (
+                      <div className="w-px h-4 bg-[#E2E8F0] mx-1"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+
+          </div>
         </div>
       </div>
 
-      <div className="w-full xl:w-[95%] 2xl:w-[92%] max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full xl:w-[98%] 2xl:w-[96%] max-w-[1700px] mx-auto px-3 sm:px-4 lg:px-6">
         {loading ? (
           <div className="py-16 flex flex-col items-center justify-center">
             <div className="w-8 h-8 border-4 border-[#EAF2F4] border-t-[#0B7285] rounded-full animate-spin"></div>
@@ -266,28 +377,31 @@ export default function ProductsView() {
                 className="w-full flex flex-col bg-white rounded-[20px] border border-[#EAF2F4] shadow-sm p-4 hover:shadow-[0_4px_20px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="bg-[#1AA3B6] text-white text-[11px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wide shadow-sm">
-                    {product.specifications?.catalogueNumber || product.catalogueNumber || `GL-${product._id.substring(0, 5).toUpperCase()}`}
+                  <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border-0 tracking-wide shadow-sm flex items-center gap-1.5 ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#1AA3B6] text-white' : 'bg-orange-50 text-orange-600 border border-orange-100'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-white animate-pulse' : 'bg-orange-500'}`}></span>
+                    {product.availability || 'In Stock'}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className={`text-[9px] font-bold px-2 py-1 rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.04)] tracking-wider uppercase ${(product.availability || 'In Stock').toLowerCase() === 'in stock' ? 'bg-[#D1FAE5] text-[#059669]' : 'bg-orange-50 text-orange-600'}`}>
-                      {product.availability || 'In Stock'}
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (compareItems.some(item => item._id === product._id)) {
-                          removeFromCompare(product._id);
-                        } else {
-                          addToCompare(product);
-                        }
-                      }}
-                      className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
-                      title={compareItems.some(item => item._id === product._id) ? "Remove from Compare" : "Add to Compare"}
-                    >
-                      <LuArrowLeftRight size={14} />
-                    </button>
+                    <div className="relative group/compare">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (compareItems.some(item => item._id === product._id)) {
+                            removeFromCompare(product._id);
+                          } else {
+                            addToCompare(product);
+                          }
+                        }}
+                        className={`p-1.5 rounded-md transition-all duration-300 active:scale-90 hover:scale-110 hover:shadow-md ${compareItems.some(item => item._id === product._id) ? 'bg-[#1AA3B6] text-white' : 'bg-[#E8F4F6] text-[#0B7285] hover:bg-[#1AA3B6] hover:text-white'}`}
+                      >
+                        <LuArrowLeftRight size={14} />
+                      </button>
+                      <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#12344D] text-white text-[10px] font-bold py-1 px-2 rounded opacity-0 group-hover/compare:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50 shadow-sm">
+                        Add To Compare
+                        <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#12344D] rotate-45"></div>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -301,8 +415,8 @@ export default function ProductsView() {
 
                 {/* Title */}
                 <div className="text-center mb-4">
-                  <h3 className="font-bold text-heading text-[15px] leading-snug min-h-[40px] flex items-center justify-center line-clamp-2">
-                    {product.name}
+                  <h3 className="font-bold text-[#1AA3B6] text-[15px] leading-snug min-h-[40px] flex items-center justify-center line-clamp-2 hover:text-heading">
+                    {product.name?.split(';')[0]}
                   </h3>
                 </div>
 
