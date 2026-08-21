@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX, FiChevronDown, FiSearch, FiGlobe, FiLoader, FiPhone, FiMail, FiUser, FiShoppingCart } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LuFlaskConical, LuShare2, LuAtom, LuHexagon, LuNetwork, LuDna, LuTestTubeDiagonal, LuLeaf, LuChevronRight, LuBriefcase, LuPhone, LuInfo, LuSettings, LuZap, LuMicroscope, LuSprout, LuArrowLeftRight } from 'react-icons/lu';
+import { LuFlaskConical, LuShare2, LuAtom, LuHexagon, LuNetwork, LuDna, LuTestTubeDiagonal, LuLeaf, LuChevronRight, LuBriefcase, LuPhone, LuInfo, LuSettings, LuZap, LuMicroscope, LuSprout, LuArrowLeftRight, LuBeaker } from 'react-icons/lu';
 import navImg from "/navImg.png";
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -50,6 +50,7 @@ export default function Navbar() {
     { _id: '8', categoryName: 'CATALYSTS', slug: 'catalysts', icon: LuAtom },
     { _id: '9', categoryName: 'FINE CHEMICALS', slug: 'fine-chemicals', icon: LuTestTubeDiagonal },
     { _id: '10', categoryName: 'AGRO CHEMICALS', slug: 'agro-chemicals', icon: LuLeaf },
+    { _id: '11', categoryName: 'Metabolites', slug: 'metabolites', icon: LuBeaker },
   ];
 
   useEffect(() => {
@@ -84,7 +85,7 @@ export default function Navbar() {
       setIsSearching(true);
       setShowSearchDropdown(true);
       try {
-        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/products?search=${searchQuery}&limit=5`);
+        const res = await axios.get(`https://glp-pharma-backend.vercel.app/api/products?search=${searchQuery.trim()}&limit=5`);
         if (res.data.success) {
           setSearchResults(res.data.data);
         }
@@ -100,9 +101,11 @@ export default function Navbar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
+    const trimmed = searchQuery.trim();
+    setSearchQuery(trimmed);
+    if (trimmed) {
       setShowSearchDropdown(false);
-      navigate(`/products-view/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/products-view/search?q=${encodeURIComponent(trimmed)}`);
     }
   };
 
@@ -120,7 +123,7 @@ export default function Navbar() {
 
       {/* Top Bar - Visible on all screens */}
       <div className="w-full relative z-50 transition-all duration-500 border-b bg-primary/15 border-border/60 text-black">
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-4 xl:px-6">
           <div className="flex justify-between items-center h-[40px] lg:h-[50px] text-[12px] lg:text-[13px] font-semibold tracking-wide">
             {/* Left Side: Contact Info */}
             <div className="hidden lg:flex items-center gap-6">
@@ -134,75 +137,7 @@ export default function Navbar() {
               </a>
             </div>
 
-            {/* Center: Search Bar */}
-            <div className="hidden md:flex flex-1 justify-center px-4 lg:px-8 z-[60] shrink" ref={searchRef}>
-              <form onSubmit={handleSearchSubmit} className="relative w-full max-w-[400px] lg:max-w-[400px] xl:max-w-[500px]">
-                <input
-                  type="text"
-                  placeholder=""
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => {
-                    setIsInputFocused(true);
-                    if (searchQuery.trim()) setShowSearchDropdown(true);
-                  }}
-                  onBlur={() => setIsInputFocused(false)}
-                  className="pl-4 pr-12 py-[12px] w-full border border-[#D9E8EC] rounded-full text-[13px] transition-all duration-300 focus:outline-none focus:border-[#1AA3B6] focus:ring-[3px] focus:ring-[#1AA3B6]/10 shadow-sm bg-white text-body"
-                />
-                {!searchQuery && !isInputFocused && (
-                  <div className="absolute inset-y-0 left-4 right-12 flex items-center pointer-events-none overflow-hidden" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
-                    <div className="w-full flex items-center h-full relative">
-                      <span className="absolute whitespace-nowrap text-[12.5px] font-semibold animate-placeholder-marquee text-primary/70">
-                        Product Name., CAS No., Catalogue Number., IUPAC Name., Mol. Formula.
-                      </span>
-                    </div>
-                  </div>
-                )}
-                <button type="submit" className="absolute top-1/2 -translate-y-1/2 right-1.5 w-[34px] h-[34px] bg-primary text-white flex items-center justify-center rounded-full cursor-pointer z-10 hover:bg-primary/90 transition-colors shadow-sm">
-                  {isSearching ? (
-                    <FiLoader className="animate-spin" size={16} />
-                  ) : (
-                    <FiSearch size={16} />
-                  )}
-                </button>
-              </form>
 
-              {/* Desktop Search Dropdown */}
-              <AnimatePresence>
-                {showSearchDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-[calc(100%+4px)] left-0 w-full bg-white/95 backdrop-blur-xl border border-border/60 shadow-xl rounded-xl overflow-hidden z-50 flex flex-col"
-                  >
-                    {isSearching ? (
-                      <div className="p-4 text-center text-body text-sm">Searching...</div>
-                    ) : searchResults.length > 0 ? (
-                      <div className="flex flex-col">
-                        <div className="px-4 py-2 bg-background border-b border-[#EAF2F4] font-bold text-slate-400 uppercase tracking-wider text-xs">
-                          {t('navbar.productsFound')}
-                        </div>
-                        {searchResults.map(prod => (
-                          <Link
-                            key={prod._id}
-                            to={`/products/${prod.slug}`}
-                            onClick={() => { setShowSearchDropdown(false); setSearchQuery(''); }}
-                            className="px-4 py-3 hover:bg-primary/5 border-b border-slate-50 last:border-none flex flex-col transition-colors group"
-                          >
-                            <span className="font-semibold text-heading group-hover:text-primary transition-colors text-sm">{prod.name}</span>
-                            <span className="text-body text-xs">{prod.casNumber ? `CAS: ${prod.casNumber}` : (prod.category?.categoryName || 'Product')}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="p-4 text-center text-body text-sm">No products found for "{searchQuery}"</div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
 
             {/* Right Side: Auth Links, Cart, & Language */}
             <div className="flex items-center justify-between w-full lg:w-auto lg:justify-end gap-3 lg:gap-4">
@@ -233,24 +168,24 @@ export default function Navbar() {
               </div>
 
               <div className="flex items-center gap-3 lg:gap-4">
-                <div className="w-px h-3.5 bg-slate-300 lg:hidden"></div>
+                <div className="w-px h-3.5 bg-slate-300"></div>
 
-                {/* Mobile Top Bar Compare */}
+                {/* Top Bar Compare */}
                 <Link
                   to="/compare"
-                  className="lg:hidden relative flex items-center gap-1 transition-colors group hover:text-primary text-heading"
+                  className="relative flex items-center gap-1 transition-colors group hover:text-primary text-heading"
                 >
                   <LuArrowLeftRight size={15} className="transition-colors text-primary" />
                   <span className="hidden sm:inline">Compare</span>
                   <span className="absolute -top-1.5 -right-2 w-3.5 h-3.5 text-[9px] flex items-center justify-center font-bold rounded-full bg-primary text-white">{compareItems?.length || 0}</span>
                 </Link>
 
-                <div className="lg:hidden w-px h-3.5 bg-slate-300"></div>
+                <div className="w-px h-3.5 bg-slate-300"></div>
 
-                {/* Mobile Top Bar Cart */}
+                {/* Top Bar Cart */}
                 <Link
                   to="/cart"
-                  className="lg:hidden relative flex items-center gap-1 transition-colors group hover:text-primary text-heading"
+                  className="relative flex items-center gap-1 transition-colors group hover:text-primary text-heading"
                 >
                   <FiShoppingCart size={15} className="transition-colors text-primary" />
                   <span className="hidden sm:inline">Cart</span>
@@ -307,16 +242,88 @@ export default function Navbar() {
 
       {/* Main Navbar */}
       <div className="relative z-40 transition-all duration-500 ">
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center gap-2 md:gap-6">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-4 xl:px-6">
+          <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-4 xl:gap-8">
             {/* Left Side: Logo */}
-            <Link to="/" className="flex items-center shrink-0 cursor-pointer relative z-10 w-[200px] sm:w-auto lg:w-[200px] xl:w-[300px]">
+            <Link to="/" className="flex items-center shrink-0 cursor-pointer relative z-10 w-[200px] sm:w-auto lg:w-[220px] xl:w-[320px]">
               <img
                 src={navImg}
                 alt="GLP Pharma Logo"
-                className="h-16 sm:h-20 md:h-[70px] lg:h-[75px] xl:h-[80px] object-contain object-left scale-[1.25] lg:scale-[1.25] xl:scale-[1.3] origin-left transition-transform duration-300"
+                className="h-16 sm:h-20 md:h-[70px] lg:h-[75px] xl:h-[80px] object-contain object-left scale-[1.1] lg:scale-[1.1] xl:scale-[1.2] origin-left transition-transform duration-300"
               />
             </Link>
+
+            {/* Center: Search Bar */}
+            <div className="hidden lg:flex flex-1 justify-end lg:pr-6 xl:pr-8 z-[60] shrink" ref={searchRef}>
+              <div className="relative w-full lg:max-w-[350px] xl:max-w-[420px] 2xl:max-w-[500px] -mr-4 xl:-mr-12">
+                <form onSubmit={handleSearchSubmit} className="relative w-full">
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value.trimStart())}
+                    onFocus={() => {
+                      setIsInputFocused(true);
+                      if (searchQuery.trim()) setShowSearchDropdown(true);
+                    }}
+                    onBlur={() => setIsInputFocused(false)}
+                    className="pl-4 pr-12 py-[13.5px]  w-full border border-[#D9E8EC] rounded-full text-[13px] transition-all duration-300 focus:outline-none focus:border-[#1AA3B6] focus:ring-[2px] focus:ring-[#1AA3B6]/20 shadow-sm bg-white text-body"
+                  />
+                  {!searchQuery && !isInputFocused && (
+                    <div className="absolute inset-y-0 left-4 right-12 flex items-center pointer-events-none overflow-hidden" style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                      <div className="w-full flex items-center h-full relative">
+                        <span className="absolute whitespace-nowrap text-[12.5px] font-semibold animate-placeholder-marquee text-primary/70">
+                          Search By : Product Name., CAS No., Catalogue Number., IUPAC Name., Mol. Formula.
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  <button type="submit" className="absolute top-1/2 -translate-y-1/2 right-1.5 w-[32px] h-[32px] bg-primary text-white flex items-center justify-center rounded-full cursor-pointer z-10 hover:bg-primary/90 transition-colors shadow-sm">
+                    {isSearching ? (
+                      <FiLoader className="animate-spin" size={16} />
+                    ) : (
+                      <FiSearch size={16} />
+                    )}
+                  </button>
+                </form>
+
+                {/* Desktop Search Dropdown */}
+                <AnimatePresence>
+                  {showSearchDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white/95 backdrop-blur-xl border border-border/60 shadow-xl rounded-xl overflow-hidden z-50 flex flex-col"
+                    >
+                      {isSearching ? (
+                        <div className="p-4 text-center text-body text-sm">Searching...</div>
+                      ) : searchResults.length > 0 ? (
+                        <div className="flex flex-col">
+                          <div className="px-4 py-2 bg-background border-b border-[#EAF2F4] font-bold text-slate-400 uppercase tracking-wider text-xs">
+                            {t('navbar.productsFound')}
+                          </div>
+                          {searchResults.map(prod => (
+                            <Link
+                              key={prod._id}
+                              to={`/products/${prod.slug}`}
+                              onClick={() => { setShowSearchDropdown(false); setSearchQuery(''); }}
+                              className="px-4 py-3 hover:bg-primary/5 border-b border-slate-50 last:border-none flex flex-col transition-colors group"
+                            >
+                              <span className="font-semibold text-heading group-hover:text-primary transition-colors text-sm">{prod.name}</span>
+                              <span className="text-body text-xs">{prod.casNumber ? `CAS: ${prod.casNumber}` : (prod.category?.categoryName || 'Product')}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="p-4 text-center text-body text-sm">No products found for "{searchQuery}"</div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
 
             {/* Middle: Desktop Menu */}
             <div className="hidden lg:flex items-center">
@@ -330,7 +337,7 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => setProductsOpen(!productsOpen)}
-                  className="relative flex items-center gap-1 px-3 py-2 text-sm font-semibold tracking-wider transition-all duration-300 group-hover:text-primary text-heading"
+                  className="relative flex items-center gap-1 px-2 xl:px-2 py-2 text-sm font-semibold tracking-wider transition-all duration-300 group-hover:text-primary text-heading"
                 >
                   {t('navbar.products')} <FiChevronDown className={`transition-transform duration-300 ${productsOpen ? 'rotate-180 text-primary' : ''}`} />
                 </button>
@@ -388,14 +395,13 @@ export default function Navbar() {
               {[
                 { name: t('navbar.about') || 'About', path: '/about' },
                 { name: t('navbar.services') || 'Services', path: '/services' },
-                { name: 'News', path: '/news' },
                 { name: 'Quick Enquiry', path: '/quick-enquiry' },
                 { name: t('navbar.gallery'), path: '/gallery' }
               ].map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className="px-4.5 py-2 text-sm font-semibold tracking-wider transition-all duration-300 group text-heading"
+                  className="px-2 xl:px-3.2 py-2 text-sm font-semibold tracking-wider transition-all duration-300 group text-heading"
                 >
                   <span className="relative inline-block pb-1 mt-0.5">
                     {item.name}
@@ -412,9 +418,9 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => setContactOpen(!contactOpen)}
-                  className="relative flex items-center px-3 gap-1 py-2 text-sm font-semibold tracking-wider whitespace-nowrap transition-all duration-300 group-hover:text-primary text-heading"
+                  className="relative flex items-center px-2 xl:px-3 gap-1 py-2 text-sm font-semibold tracking-wider whitespace-nowrap transition-all duration-300 group-hover:text-primary text-heading"
                 >
-                  Get in touch <FiChevronDown className={`transition-transform duration-300 ${contactOpen ? 'rotate-180 text-primary' : ''}`} />
+                  Get In Touch <FiChevronDown className={`transition-transform duration-300 ${contactOpen ? 'rotate-180 text-primary' : ''}`} />
                 </button>
 
                 <AnimatePresence>
@@ -426,7 +432,18 @@ export default function Navbar() {
                       transition={{ duration: 0.2, ease: "easeOut" }}
                       className="absolute top-full right-0 mt-2 w-[260px] bg-white shadow-2xl rounded-[20px] py-1 px-3 flex flex-col z-50 before:absolute before:-top-2 before:right-10 before:w-4 before:h-4 before:bg-white before:rotate-45"
                     >
-                      <Link to="/careers" onClick={() => setContactOpen(false)} className="group flex items-center justify-between px-3 py-1.5 border-b border-[#EAF2F4] last:border-b-0 hover:bg-primary/10 transition-all rounded-t-lg">
+                      <Link to="/news" onClick={() => setContactOpen(false)} className="group flex items-center justify-between px-3 py-1.5 border-b border-[#EAF2F4] last:border-b-0 hover:bg-primary/10 transition-all rounded-t-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-[28px] h-[28px] rounded-md bg-[#E8F4F6] flex items-center justify-center text-[#1AA3B6] transition-colors shrink-0">
+                            <LuInfo size={15} strokeWidth={2} />
+                          </div>
+                          <span className="text-body font-bold text-[12.5px] leading-tight group-hover:text-black transition-colors">
+                            News
+                          </span>
+                        </div>
+                        <LuChevronRight className="text-[#1AA3B6] transition-transform shrink-0 ml-2" size={14} strokeWidth={2.5} />
+                      </Link>
+                      <Link to="/careers" onClick={() => setContactOpen(false)} className="group flex items-center justify-between px-3 py-1.5 border-b border-[#EAF2F4] last:border-b-0 hover:bg-primary/10 transition-all">
                         <div className="flex items-center gap-3">
                           <div className="w-[28px] h-[28px] rounded-md bg-[#E8F4F6] flex items-center justify-center text-[#1AA3B6] transition-colors shrink-0">
                             <LuBriefcase size={15} strokeWidth={2} />
@@ -455,33 +472,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Right Side: Actions */}
-            <div className="hidden lg:flex items-center gap-2 shrink-0 ">
 
-              {/* Compare Button */}
-              <Link
-                to="/compare"
-                className="group relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-transparent hover:bg-primary/5 hover:border-primary/20 hover:text-primary text-heading"
-              >
-                <LuArrowLeftRight size={20} className="transition-colors duration-300 text-body group-hover:text-primary" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 text-[10px] flex items-center justify-center font-bold rounded-full bg-primary text-white">{compareItems?.length || 0}</span>
-                
-                {/* Custom Tooltip */}
-                <span className="absolute -bottom-9 left-1/2 -translate-x-1/2 bg-[#12344D] text-white text-[10px] font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50 shadow-sm">
-                  Add To Compare
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#12344D] rotate-45"></div>
-                </span>
-              </Link>
-
-              {/* Cart Button */}
-              <Link
-                to="/cart"
-                className="relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-transparent hover:bg-primary/5 hover:border-primary/20 hover:text-primary text-heading"
-              >
-                <FiShoppingCart size={20} className="transition-colors duration-300 text-body group-hover:text-primary" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 text-[10px] flex items-center justify-center font-bold rounded-full bg-primary text-white">{cartItems?.length || 0}</span>
-              </Link>
-            </div>
 
             {/* Mobile Icons & Toggle */}
             <div className="flex lg:hidden items-center gap-1 sm:gap-2 shrink-0">
@@ -518,7 +509,7 @@ export default function Navbar() {
                     type="text"
                     placeholder="Search products..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value.trimStart())}
                     onFocus={() => { if (searchQuery.trim()) setShowSearchDropdown(true); }}
                     className="w-full pl-4 pr-12 py-2.5 bg-background border border-border rounded-xl text-heading placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all text-sm"
                     autoFocus
@@ -585,7 +576,6 @@ export default function Navbar() {
                 <Link to="/" className="text-heading hover:text-primary py-3 border-b border-border transition-colors" onClick={() => setIsOpen(false)}>Home</Link>
                 <Link to="/about" className="text-heading hover:text-primary py-3 border-b border-border transition-colors" onClick={() => setIsOpen(false)}>{t('navbar.about') || 'About'}</Link>
                 <Link to="/services" className="text-heading hover:text-primary py-3 border-b border-border transition-colors" onClick={() => setIsOpen(false)}>{t('navbar.services') || 'Services'}</Link>
-                <Link to="/news" className="text-heading hover:text-primary py-3 border-b border-border transition-colors" onClick={() => setIsOpen(false)}>News</Link>
                 <Link to="/quick-enquiry" className="text-heading hover:text-primary py-3 border-b border-border transition-colors" onClick={() => setIsOpen(false)}>Quick Enquiry</Link>
 
                 <div className="py-2 border-b border-border">
@@ -648,6 +638,7 @@ export default function Navbar() {
                         className="overflow-hidden"
                       >
                         <div className="flex flex-col space-y-2 pl-4 pt-2 pb-2">
+                          <Link to="/news" className="text-heading hover:text-primary py-1.5 transition-colors text-sm" onClick={() => setIsOpen(false)}>News</Link>
                           <Link to="/careers" className="text-heading hover:text-primary py-1.5 transition-colors text-sm" onClick={() => setIsOpen(false)}>Careers</Link>
                           <Link to="/contact" className="text-heading hover:text-primary py-1.5 transition-colors text-sm" onClick={() => setIsOpen(false)}>Contact</Link>
                         </div>

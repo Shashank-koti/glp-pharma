@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck, FiBox, FiCheckCircle, FiTool, FiFilter } from 'react-icons/fi';
+import { FiChevronRight, FiChevronLeft, FiGrid, FiList, FiInfo, FiStar, FiTag, FiAlertCircle, FiShoppingCart, FiCheck, FiBox, FiCheckCircle, FiTool, FiFilter, FiShield, FiGlobe } from 'react-icons/fi';
 import { TbAtom, TbTestPipe } from 'react-icons/tb';
 import { BsLayersFill } from 'react-icons/bs';
 import { FaFlask, FaBalanceScale } from 'react-icons/fa';
@@ -123,8 +123,9 @@ export default function ProductsView() {
   }, [subCategory, searchQueryParam]);
 
   const handleLetterClick = (letter) => {
-    if (subCategory !== 'search') {
-      const mainCategorySlug = pageMeta?.category?.slug || (products.length > 0 ? products[0].category?.slug : null) || 'api-impurities-and-reference-standards';
+    const mainCategorySlug = pageMeta?.category?.slug || (products.length > 0 ? products[0].category?.slug : null) || 'api-impurities-and-reference-standards';
+    
+    if (subCategory !== 'search' && mainCategorySlug === 'api-impurities-and-reference-standards') {
       if (letter === 'All') {
         navigate(`/product-categories-view/${mainCategorySlug}`);
       } else {
@@ -140,28 +141,12 @@ export default function ProductsView() {
     }
   };
 
-  // Compute category counts for the filter badges
-  const categoryCounts = {
-    All: products.length,
-    reference: products.filter(p => p._categoryType === 'reference' || !p._categoryType).length,
-    nitroso: products.filter(p => p._categoryType === 'nitroso').length,
-    isotope: products.filter(p => p._categoryType === 'isotope').length,
-  };
-  const hasMultipleCategories = categoryCounts.nitroso > 0 || categoryCounts.isotope > 0;
-
-  const filteredProducts = products.filter(product => {
+  const productsMatchingOtherFilters = products.filter(product => {
     // Alphabet filter
     let letterMatch = true;
     if (currentLetter !== 'All') {
       if (currentLetter === '#') letterMatch = !/^[a-zA-Z]/.test(product.name);
       else letterMatch = product.name?.toUpperCase().startsWith(currentLetter);
-    }
-
-    // Category filter
-    let categoryMatch = true;
-    if (categoryFilter !== 'All') {
-      const type = product._categoryType || 'reference';
-      categoryMatch = type === categoryFilter;
     }
 
     // Availability filter
@@ -175,45 +160,45 @@ export default function ProductsView() {
       }
     }
 
-    return letterMatch && categoryMatch && availabilityMatch;
+    return letterMatch && availabilityMatch;
+  });
+
+  // Compute category counts for the filter badges based on current letter & availability
+  const mainCategorySlug = pageMeta?.category?.slug || (products.length > 0 ? products[0].category?.slug : null) || 'api-impurities-and-reference-standards';
+  const baseForCounts = mainCategorySlug === 'api-impurities-and-reference-standards' ? products : productsMatchingOtherFilters;
+
+  const categoryCounts = {
+    All: baseForCounts.length,
+    reference: baseForCounts.filter(p => p._categoryType === 'reference' || !p._categoryType).length,
+    nitroso: baseForCounts.filter(p => p._categoryType === 'nitroso').length,
+    isotope: baseForCounts.filter(p => p._categoryType === 'isotope').length,
+  };
+  const activeCategoriesCount = (categoryCounts.reference > 0 ? 1 : 0) + (categoryCounts.nitroso > 0 ? 1 : 0) + (categoryCounts.isotope > 0 ? 1 : 0);
+  const hasMultipleCategories = activeCategoriesCount > 1;
+  const isApiImpurities = mainCategorySlug === 'api-impurities-and-reference-standards';
+
+  const filteredProducts = productsMatchingOtherFilters.filter(product => {
+    // Category filter
+    if (categoryFilter !== 'All') {
+      const type = product._categoryType || 'reference';
+      return type === categoryFilter;
+    }
+    return true;
   });
 
   const categoryName = pageMeta?.category?.categoryName || (products.length > 0 ? products[0].category?.categoryName : null) || subCategory.replace(/-/g, ' ');
 
-  const displaySubCategory = subCategory === 'search' ? 'Search Results' : (pageMeta?.mainProduct?.heading || subCategory || 'D-GROUP - API-2').toUpperCase();
+  const displaySubCategory = subCategory === 'search' ? 'Search Results' : (pageMeta?.mainProduct?.heading || subCategory || 'D-Group - API-2');
   const displaySubCategoryStr = displaySubCategory.replace(/-/g, ' ');
-  const displayCategoryName = subCategory === 'search' ? `"${searchQueryParam}"` : (categoryName || 'API IMPURITIES AND REFERENCE STANDARDS').toUpperCase();
-  const isRedundant = displaySubCategoryStr === displayCategoryName;
+  const displayCategoryName = subCategory === 'search' ? `"${searchQueryParam}"` : (categoryName || 'API Impurities and Reference Standards');
+  const isRedundant = displaySubCategoryStr.toLowerCase() === displayCategoryName.toLowerCase();
 
   return (
     <div className="min-h-screen bg-[#fafbfc] font-sans pb-16 ">
 
-      {/* Hero Section */}
-      <div
-        className="w-full min-h-[420px] bg-cover bg-center bg-no-repeat relative bg-white"
-        style={{ backgroundImage: "url('/images/productsBG.png')" }}
-      >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-18">
-          <div className="max-w-[900px]">
-            <h1 className="text-[36px] md:text-[48px] lg:text-[54px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
-              <span className="text-[#084553]">{displaySubCategoryStr}</span>
-              {!isRedundant && (
-                <>
-                  <span className="hidden sm:inline text-[#12344D] mx-2 md:mx-4">-</span>
-                  <span className="block sm:inline text-[24px] md:text-[36px] lg:text-[44px] mt-1 sm:mt-0">{displayCategoryName}</span>
-                </>
-              )}
-            </h1>
-            <p className="text-body text-[15px] md:text-[16px] max-w-[500px] mb-8 leading-relaxed font-medium">
-              {pageMeta?.mainProduct?.content || pageMeta?.category?.description || "High-quality pharmaceutical impurities and reference standards for accurate research and analysis."}
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Alphabet Navigation */}
-      <div className="w-max-[1600px] mx-auto px-2 sm:px-4 lg:px-6 mb-8 relative z-20 -mt-16">
-        <div className="bg-white/40 backdrop-blur-xl rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3 md:p-4 border border-white/60">
+      <div className="w-max-[1600px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 pb-4 relative z-20">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3 md:p-4 border border-white/60">
           <div className="flex flex-col gap-3">
             <div className="flex items-center">
               <div className="flex-1 flex items-center gap-3 overflow-x-auto scrollbar-hide min-w-0 px-2 pb-1">
@@ -221,7 +206,7 @@ export default function ProductsView() {
                   onClick={() => handleLetterClick('All')}
                   className={`flex-shrink-0 flex items-center gap-1 px-4 h-[42px] rounded-full text-[14.5px] font-extrabold transition-all duration-300 backdrop-blur-md ${currentLetter === 'All'
                     ? 'bg-gradient-to-r from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-105'
-                    : 'bg-white/60 hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6]'
+                    : 'bg-white hover:bg-[#F8FBFC] text-[#12344D] border border-gray-200 shadow-sm hover:shadow-md hover:text-[#1AA3B6]'
                     }`}
                 >
                   <FiGrid size={16} /> All
@@ -236,7 +221,7 @@ export default function ProductsView() {
                         onClick={() => handleLetterClick(letter)}
                         className={`flex-shrink-0 w-[42px] h-[42px] flex items-center justify-center rounded-[14px] text-[17px] font-extrabold transition-all duration-300 backdrop-blur-md ${isActive
                           ? 'bg-gradient-to-br from-[#1AA3B6] to-[#0B7285] text-white shadow-[0_4px_15px_rgba(26,163,182,0.3)] border-0 scale-110'
-                          : 'bg-white hover:bg-white text-[#12344D] border border-white/80 shadow-sm hover:shadow-md hover:text-[#1AA3B6] hover:-translate-y-0.5'
+                          : 'bg-white hover:bg-[#F8FBFC] text-[#12344D] border border-gray-200 shadow-sm hover:shadow-md hover:text-[#1AA3B6] hover:-translate-y-0.5'
                           }`}
                       >
                         {letter}
@@ -250,103 +235,182 @@ export default function ProductsView() {
         </div>
       </div>
 
-      {/* Combined Header & Filters */}
-      <div className="w-full xl:w-[98%] 2xl:w-[100%] max-w-[1700px] mx-auto px-3 sm:px-4 lg:px-6 mb-14">
-        <div className="bg-white rounded-[16px] shadow-sm border border-primary/15 overflow-hidden">
+      {/* Hero & Filters Grid */}
+      <div className="w-full xl:w-[98%] 2xl:w-[100%] max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-16 flex flex-col lg:flex-row gap-12 lg:gap-8 items-center mb-8">
 
-          {/* Top Section: Breadcrumb */}
-          <div className="relative p-3 md:px-5 md:py-2.5 flex flex-col md:flex-row items-center justify-between gap-3 border-b border-[#EAF2F4] overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#084553 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+        {/* Left Side: Premium Hero Content */}
+        <div className="w-full lg:w-[48%] flex flex-col items-start px-2 lg:px-8">
 
-            <div className="flex items-center gap-3 w-full md:w-auto relative z-10">
-              <div className="shrink-0 bg-[#084553] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md">
-                <BsLayersFill className="text-[16px]" />
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-[15px] text-[#5B7280] font-medium mb-6 flex-wrap">
+            <Link to="/" className="hover:text-[#1AA3B6] transition-colors">Home</Link>
+            {/* <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+            <span className="text-slate-500">Our Products</span> */}
+            {!isRedundant && (
+              <>
+                <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+                <Link to={`/product-categories-view/${pageMeta?.category?.slug || 'api-impurities-and-reference-standards'}`} className="hover:text-[#1AA3B6] transition-colors">{displayCategoryName}</Link>
+              </>
+            )}
+            <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+            <span className="text-[#1AA3B6] font-semibold">{displaySubCategoryStr}</span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="mb-6">
+
+            {/* Product Name */}
+            <span
+              className="
+        block
+        text-[#084553]
+        text-[38px]
+        md:text-[48px]
+        lg:text-[56px]
+        leading-[1.05]
+        tracking-[-0.025em]
+        font-extrabold
+      "
+            >
+              {displaySubCategoryStr}
+            </span>
+
+            {/* Category */}
+            {!isRedundant && (
+              <span
+                className="
+                    block
+                    mt-3
+                    text-[#12344D]
+                    text-[16px]
+                    md:text-[20px]
+                    lg:text-[24px]
+                    leading-[1.2]
+                    tracking-[f-0.015em]
+                    font-bold capitalize"
+              >
+                {displayCategoryName}
+              </span>
+            )}
+
+          </h1>
+
+
+
+          {/* Description */}
+          <p
+            className="
+      text-[#5B7280]
+      text-[16px]
+      md:text-[17px]
+      max-w-[560px]
+      mb-8
+      leading-[1.75]
+      font-normal
+      tracking-[0.005em]
+    "
+          >
+            {pageMeta?.mainProduct?.content ||
+              pageMeta?.category?.description ||
+              "Explore our comprehensive range of high-quality pharmaceutical impurities and reference standards designed for precise analytical research."}
+          </p>
+
+          {/* Features Row */}
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 overflow-x-auto scrollbar-hide pb-2 lg:pb-0 ">
+
+            {/* Feature 1 */}
+            <div className="flex items-center gap-3">
+              <div className="w-[32px] h-[32px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0 border border-[#D9E8EC]">
+                <FiShield size={18} className="stroke-[2.5]" />
               </div>
-              <div className="text-[13px] sm:text-[14px] flex flex-wrap items-center uppercase tracking-wide">
-                <span className="text-[#084553] font-bold">{displaySubCategory}</span>
-                <span className="text-slate-300 mx-3 font-light">{'-'}</span>
-                <span className="text-body font-bold">{displayCategoryName}</span>
+              <div>
+                <h4 className="text-[14px] font-bold text-[#12344D]">Reliable Quality</h4>
+                <p className="text-[12px] text-[#5B7280] font-medium mt-0.5">Stringent quality control processes</p>
               </div>
             </div>
 
-            <div className="shrink-0 bg-[#F8FBFC] text-[#084553] px-5 py-2 rounded-xl flex items-center gap-2.5 font-bold border border-[#EAF2F4] shadow-sm w-full md:w-auto justify-center text-[13px] relative z-10">
-              <FaFlask className="text-[16px]" />
-              <span>{filteredProducts.length} {filteredProducts.length === 1 ? 'Product' : 'Products'} Found</span>
+            <div className="hidden md:block w-px h-10 bg-[#EAF2F4]"></div>
+
+            {/* Feature 2 */}
+            <div className="flex items-center gap-3">
+              <div className="w-[32px] h-[32px] rounded-full bg-[#084553] flex items-center justify-center text-white shrink-0 border border-[#D9E8EC]">
+                <FaFlask size={18} />
+              </div>
+              <div>
+                <h4 className="text-[14px] font-bold text-[#12344D]">Analytical Excellence</h4>
+                <p className="text-[12px] text-[#5B7280] font-medium mt-0.5">Ensuring accurate results</p>
+              </div>
             </div>
           </div>
 
-          {/* Bottom Section: Filters */}
-          <div className="p-3 md:px-5 md:py-3 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-5 relative z-10 bg-white">
+        </div>
 
-            {/* Left Side: Category Filters */}
-            {subCategory !== 'search' && (
-              <div className="flex flex-col gap-2.5 flex-1">
-                {/* <div className="flex items-center justify-center gap-2">
-                  <FiFilter size={14} className="text-[#084553]" />
-                  <span className="text-[12.5px] font-bold text-[#084553] uppercase tracking-wider">Filter by Category</span>
-                </div> */}
-                <div className="flex flex-wrap gap-5 justify-evenly">
-                  {[
-                    { key: 'All', label: 'Pharmaceutical Reference Standards', icon: <FaFlask size={13} />, count: categoryCounts.All },
-                    { key: 'nitroso', label: 'Possible Nitroso Standards', icon: <TbTestPipe size={15} />, count: categoryCounts.nitroso },
-                    { key: 'isotope', label: 'Isotope Labelled Standards', icon: <TbAtom size={15} />, count: categoryCounts.isotope },
-                  ].map((filter) => (
-                    <button
-                      key={filter.key}
-                      onClick={() => setCategoryFilter(filter.key)}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12px] font-bold transition-all duration-300 border ${categoryFilter === filter.key
-                        ? 'bg-[#084553] text-white border-[#084553] shadow-md'
-                        : 'border-[#084553]/40 text-[#475569] hover:border-[#084553]/90 hover:bg-white hover:shadow-sm'
-                        }`}
-                    >
-                      {filter.icon}
-                      <span className="max-w-[200px] sm:max-w-none truncate">{filter.label}</span>
-                      <span className={`ml-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full transition-colors duration-300 ${categoryFilter === filter.key
-                        ? 'bg-white/20 text-white'
-                        : 'bg-[#E2E8F0] text-[#084553]'
-                        }`}>
-                        {filter.count}
-                      </span>
-                    </button>
-                  ))}
-                </div>
+        {/* Right Side: Filters */}
+        <div className="w-full lg:w-[52%] lg:pr-8">
+          <div className="bg-white rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-gray-100 p-5 md:p-5">
+
+            {/* Top Row: Count & Availability */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+              <div className="shrink-0 bg-[#F8FBFC] text-[#084553] px-5 py-2 rounded-xl flex items-center gap-2.5 font-bold border border-[#EAF2F4] shadow-sm w-full md:w-auto justify-center text-[13px] relative z-10">
+                <FaFlask className="text-[16px]" />
+                <span>{filteredProducts.length} {filteredProducts.length === 1 ? 'Product' : 'Products'} Found</span>
               </div>
-            )}
 
-            {/* Vertical Divider Line */}
-            {subCategory !== 'search' && (
-              <div className="hidden xl:block w-px self-stretch bg-gradient-to-b from-slate-500 to-slate-500 mx-16 opacity-70"></div>
-            )}
+              <div className="flex bg-white rounded-xl p-1 border border-gray-200 w-full sm:w-auto shadow-sm">
+                {['All', 'In Stock', 'Custom Synthesis'].map((filterType) => (
+                  <button
+                    key={filterType}
+                    onClick={() => setAvailabilityFilter(filterType)}
+                    className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-5 py-2.5 text-[12px] font-bold rounded-lg transition-all duration-300 ${availabilityFilter === filterType
+                      ? 'bg-[#25D366] text-white shadow-md'
+                      : 'text-black hover:bg-[#084553]/10'
+                      }`}
+                  >
+                    {filterType === 'All' && <FiBox size={14} />}
+                    {filterType === 'In Stock' && <FiCheckCircle size={14} />}
+                    {filterType === 'Custom Synthesis' && <FiTool size={14} />}
+                    <span className="hidden sm:inline">{filterType}</span>
+                  </button>
 
-            {/* Right Side: Stock Status */}
-            <div className="flex flex-col gap-2.5 shrink-0 pt-3 xl:pt-0 border-t border-[#EAF2F4] xl:border-0 mt-2 xl:mt-0">
-              {/* <div className="flex items-center gap-2">
-                <FiCheckCircle size={14} className="text-[#084553]" />
-                <span className="text-[12.5px] font-bold text-[#084553] uppercase tracking-wider">Availability</span>
-              </div> */}
-              <div className="flex bg-[#F8FBFC] rounded-xl p-1 border border-[#EAF2F4] shadow-sm items-center overflow-x-auto scrollbar-hide">
-                {['All', 'In Stock', 'Custom Synthesis'].map((filterType, index, arr) => (
-                  <div key={filterType} className="flex items-center">
-                    <button
-                      onClick={() => setAvailabilityFilter(filterType)}
-                      className={`flex items-center gap-1.5 px-4 py-1.5 text-[12px] font-bold rounded-lg transition-all duration-300 ${availabilityFilter === filterType
-                        ? 'bg-[#25D366] text-white shadow-md shadow-[#25D366]/20'
-                        : 'text-[#64748B] hover:bg-white hover:text-[#059669]'
-                        }`}
-                    >
-                      {filterType === 'All' && <FiBox size={13} />}
-                      {filterType === 'In Stock' && <FiCheckCircle size={13} />}
-                      {filterType === 'Custom Synthesis' && <FiTool size={13} />}
-                      {filterType}
-                    </button>
-                    {index < arr.length - 1 && (
-                      <div className="w-px h-4 bg-[#E2E8F0] mx-1"></div>
-                    )}
-                  </div>
+
                 ))}
               </div>
             </div>
+
+            {/* Category Filters List */}
+            {subCategory !== 'search' && (isApiImpurities || hasMultipleCategories) && (
+              <div className="flex flex-col gap-3">
+                {[
+                  { key: 'All', label: 'Pharmaceutical Reference Standards', icon: <FaFlask size={18} />, count: categoryCounts.All },
+                  { key: 'nitroso', label: 'Possible Nitroso Standards', icon: <TbTestPipe size={18} />, count: categoryCounts.nitroso },
+                  { key: 'isotope', label: 'Stable Isotopes', icon: <TbAtom size={18} />, count: categoryCounts.isotope },
+                ].filter(filter => isApiImpurities || filter.count > 0).map((filter) => {
+                  const isActive = categoryFilter === filter.key;
+                  return (
+                    <button
+                      key={filter.key}
+                      onClick={() => setCategoryFilter(filter.key)}
+                      className={`w-full flex items-center justify-between px-5 py-2 rounded-[16px] transition-all duration-300 border-2 ${isActive
+                        ? 'bg-white border-[#084553] shadow-sm'
+                        : 'bg-white border-gray-100 hover:border-gray-200'
+                        }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isActive ? 'bg-transparent text-[#084553] shadow-md' : 'bg-transparent text-[#084553]'}`}>
+                          {filter.icon}
+                        </div>
+                        <span className={`text-[14px] font-extrabold ${isActive ? 'text-[#084553]' : 'text-slate-600'}`}>
+                          {filter.label}
+                        </span>
+                      </div>
+                      <span className={`text-[13px] font-black px-4 py-1.5 rounded-full ${isActive ? 'bg-[#084553] text-white' : 'bg-slate-100 text-slate-500'}`}>
+                        {filter.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
           </div>
         </div>
@@ -367,7 +431,7 @@ export default function ProductsView() {
             <p className="text-body text-sm">{t('products.noProdDesc')}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredProducts.map((product, idx) => (
               <motion.div
                 key={product._id}
@@ -428,8 +492,8 @@ export default function ProductsView() {
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>CAT No.</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-leftt w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
                   </div>
                   {/* row 1 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -437,8 +501,8 @@ export default function ProductsView() {
                       <FaFlask className="text-[#0B7285] text-[13px]" />
                       <span>CAS Number</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.casNumber || product.casNumber || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{product.specifications?.casNumber || product.casNumber || 'N/A'}</span>
                   </div>
                   {/* row 2 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -446,8 +510,8 @@ export default function ProductsView() {
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Formula</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.specifications?.molecularFormula || product.molecularFormula || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left uppercase w-1/2 truncate pl-1">{product.specifications?.molecularFormula || product.molecularFormula || 'N/A'}</span>
                   </div>
                   {/* row 3 */}
                   <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -455,8 +519,8 @@ export default function ProductsView() {
                       <FaBalanceScale className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Weight</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.molecularWeight || product.molecularWeight || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{product.specifications?.molecularWeight || product.molecularWeight || 'N/A'}</span>
                   </div>
                 </div>
 
@@ -491,6 +555,6 @@ export default function ProductsView() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }

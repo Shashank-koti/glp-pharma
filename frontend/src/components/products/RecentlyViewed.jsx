@@ -29,7 +29,7 @@ export default function RecentlyViewed({ currentProductId }) {
     // Listen for changes from other tabs or from the current tab
     window.addEventListener('storage', loadRecentlyViewed);
     window.addEventListener('recentlyViewedUpdated', loadRecentlyViewed);
-    
+
     return () => {
       window.removeEventListener('storage', loadRecentlyViewed);
       window.removeEventListener('recentlyViewedUpdated', loadRecentlyViewed);
@@ -46,7 +46,7 @@ export default function RecentlyViewed({ currentProductId }) {
         </h2>
         <p className="text-body mt-1 font-medium text-sm">Pick up right where you left off.</p>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {recentProducts.slice(0, 5).map(product => (
           <Link
@@ -75,42 +75,42 @@ export default function RecentlyViewed({ currentProductId }) {
                 {product.name}
               </h3>
             </div>
-            
+
             <div className="border border-[#EAF2F4] rounded-[12px] overflow-hidden mb-4 mt-auto">
               {/* row 0 */}
               <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">CAT No.</span>
                 </div>
-                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
+                <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{product.specifications?.catalogueNumber || product.catalogueNumber || 'N/A'}</span>
               </div>
               {/* row 1 */}
               <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">CAS</span>
                 </div>
-                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.casNumber || product.specifications?.casNumber || 'N/A'}</span>
+                <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{product.casNumber || product.specifications?.casNumber || 'N/A'}</span>
               </div>
               {/* row 2 */}
               <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">Mol. Formula</span>
                 </div>
-                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
+                <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-left uppercase w-1/2 truncate pl-1">{product.molecularFormula || 'N/A'}</span>
               </div>
               {/* row 3 */}
               <div className="flex items-center p-2.5 text-[11px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
                 <div className="flex items-center gap-2 text-slate-700 font-semibold uppercase tracking-wide w-1/2">
                   <span className="truncate">Mol. Weight</span>
                 </div>
-                <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
+                <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{product.molecularWeight || 'N/A'}</span>
               </div>
             </div>
-            
+
             <div className="mt-auto">
               <button
                 onClick={(e) => {

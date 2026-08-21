@@ -88,6 +88,15 @@ export default function ProductCategoriesView() {
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-20">
           <div className="max-w-[900px]">
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-[15px] text-[#5B7280] font-medium mb-6 flex-wrap">
+              <Link to="/" className="hover:text-[#1AA3B6] transition-colors">Home</Link>
+              <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+              <span className="text-slate-500">Our Products</span>
+              <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+              <span className="text-[#1AA3B6] font-semibold">{categoryName}</span>
+            </div>
+
             <h1 className="text-[24px] md:text-[36px] lg:text-[44px] font-[900] leading-[1.15] tracking-tight text-[#12344D] mb-5 uppercase">
               {categoryName.toUpperCase().includes(' AND ') ? (
                 <>

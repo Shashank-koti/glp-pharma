@@ -326,14 +326,21 @@ export default function ProductDetails() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="max-w-2xl w-full">
-              <div
-                onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-primary border border-[#084553]/60 rounded-full text-[10px] font-bold tracking-wider uppercase mb-4 shadow-sm bg-opacity-90 cursor-pointer hover:bg-[#DDF8FB] transition-colors"
-                title="Go Back"
-              >
-                <FiArrowLeft className="text-[14px]" />
-                {product.category?.categoryName || product.productType || "API IMPURITIES AND REFERENCE STANDARDS"}
+              {/* Breadcrumb */}
+              <div className="flex items-center gap-2 text-[15px] text-[#5B7280] font-medium mb-6 flex-wrap">
+                <Link to="/" className="hover:text-[#1AA3B6] transition-colors">Home</Link>
+                <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+                <Link to={`/product-categories-view/${product.category?.slug || 'api-impurities-and-reference-standards'}`} className="hover:text-[#1AA3B6] transition-colors">{product.category?.categoryName || 'API IMPURITIES'}</Link>
+                {product.mainProduct && (
+                  <>
+                    <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+                    <Link to={`/products-view/${product.mainProduct.p_link || product.mainProduct.slug}`} className="hover:text-[#1AA3B6] transition-colors">{product.mainProduct.heading || product.mainProduct.name}</Link>
+                  </>
+                )}
+                <FiChevronRight className="text-slate-400 text-[14px] mt-0.5" />
+                <span className="text-[#1AA3B6] font-semibold truncate max-w-[200px] sm:max-w-[400px]">{product.name?.split(';')[0]}</span>
               </div>
+
               <h1 className="font-extrabold text-heading mb-4 tracking-tight drop-shadow-sm text-3xl md:text-4xl">
                 {product.name?.split(';')[0]}
               </h1>
@@ -362,7 +369,7 @@ export default function ProductDetails() {
             <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#EAF2F4] p-4">
               <div className="flex items-center mb-6 border-b border-[#EAF2F4]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#1AA3B6] flex items-center justify-center text-white shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-[#1AA3B6] flex items-center justify-center text-white shadow-sm mb-1">
                     <BsFileEarmarkText size={20} />
                   </div>
                   <h2 className="font-bold text-heading text-lg">Technical Specifications</h2>
@@ -439,6 +446,16 @@ export default function ProductDetails() {
                 </h3>
                 <p className="text-[14px] text-body font-medium leading-relaxed">
                   <span className="font-extrabold text-heading">{product.name?.split(';')[0]}</span> Impurity is supplied with detailed characterization data compliant with regulatory guidelines.
+                </p>
+              </div>
+
+              {/* Disclaimer */}
+              <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 shadow-sm">
+                <h3 className="text-[13px] font-bold text-rose-600 uppercase tracking-wider mb-2 flex items-center gap-2">
+                  <FiInfo size={16} /> Disclaimer
+                </h3>
+                <p className="text-[14px] text-rose-900/80 font-medium leading-relaxed">
+                  The PASL product information reflects existing knowledge at the time of webpage creation. The purchaser or user is responsible for verifying item accuracy at the time of order, as specifications may change without notice.
                 </p>
               </div>
             </div>
@@ -649,8 +666,8 @@ export default function ProductDetails() {
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>CAT No.</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.catalogueNumber || rel.catalogueNumber || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{rel.specifications?.catalogueNumber || rel.catalogueNumber || 'N/A'}</span>
                   </div>
                   {/* row 1 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -658,8 +675,8 @@ export default function ProductDetails() {
                       <FaFlask className="text-[#0B7285] text-[13px]" />
                       <span>CAS Number</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.casNumber || rel.casNumber || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{rel.specifications?.casNumber || rel.casNumber || 'N/A'}</span>
                   </div>
                   {/* row 2 */}
                   <div className="flex items-center p-2.5 border-b border-[#EAF2F4] text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -667,8 +684,8 @@ export default function ProductDetails() {
                       <FiTag className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Formula</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right uppercase w-1/2 truncate pl-1">{rel.specifications?.molecularFormula || rel.molecularFormula || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left uppercase w-1/2 truncate pl-1">{rel.specifications?.molecularFormula || rel.molecularFormula || 'N/A'}</span>
                   </div>
                   {/* row 3 */}
                   <div className="flex items-center p-2.5 text-[12px] bg-white group/row hover:bg-[#F8FAFC] transition-colors relative">
@@ -676,8 +693,8 @@ export default function ProductDetails() {
                       <FaBalanceScale className="text-[#0B7285] text-[13px]" />
                       <span>Mol. Weight</span>
                     </div>
-                    <div className="block w-px h-5 bg-border group-hover/row:bg-[#1AA3B6]/30 transition-colors mx-2"></div>
-                    <span className="font-bold text-heading text-right w-1/2 truncate pl-1">{rel.specifications?.molecularWeight || rel.molecularWeight || 'N/A'}</span>
+                    <div className="block w-[1.5px] h-5 bg-slate-300 group-hover/row:bg-[#1AA3B6]/50 transition-colors mx-2"></div>
+                    <span className="font-bold text-heading text-left w-1/2 truncate pl-1">{rel.specifications?.molecularWeight || rel.molecularWeight || 'N/A'}</span>
                   </div>
                 </div>
                 <div className="mt-auto pt-2 flex gap-3">
@@ -720,8 +737,27 @@ export default function ProductDetails() {
 
           <div className="flex flex-wrap items-center gap-y-2.5">
             {(() => {
-              const nameBase = product.name?.split(';')[0];
-              const casBase = product.casNumber && product.casNumber !== 'N/A' ? product.casNumber : '';
+              const nameParts = (product.name || '').split(';');
+              const nameBase = nameParts[0]?.trim();
+              const nameSynonyms = nameParts.slice(1).map(s => s.trim()).filter(Boolean);
+
+              const rawCas = product.specifications?.casNumber || product.casNumber;
+              const casBase = rawCas && !['N/A', 'NA', '-', 'TBD', '', 'NOT APPLICABLE'].includes(rawCas.toUpperCase().trim()) ? rawCas : '';
+
+              let rawSynonyms = product.synonyms || product.specifications?.synonyms || '';
+              let synonymsList = [];
+              if (Array.isArray(rawSynonyms)) {
+                synonymsList = rawSynonyms.map(s => String(s).trim());
+              } else if (typeof rawSynonyms === 'string') {
+                synonymsList = rawSynonyms.split(',').map(s => s.trim());
+              }
+
+              if (nameSynonyms.length > 0) {
+                synonymsList = [...synonymsList, ...nameSynonyms];
+              }
+
+              synonymsList = [...new Set(synonymsList.filter(s => s && !['N/A', 'NA', '-', 'TBD'].includes(s.toUpperCase())))];
+
               const terms = [];
 
               if (casBase) {
@@ -764,6 +800,28 @@ export default function ProductDetails() {
                   `${nameBase} for DMF Filing`,
                   `${nameBase} Reference Standard`
                 ].forEach(t => terms.push(t));
+              }
+
+              if (synonymsList.length > 0) {
+                synonymsList.forEach(syn => {
+                  [
+                    `Buy high quality ${syn}`,
+                    `Purchase ${syn}`,
+                    `${syn} Suppliers`,
+                    `${syn} Manufacturers`,
+                    `${syn} Price`,
+                    `Order ${syn}`,
+                    `Enquire ${syn}`,
+                    `${syn} Cost`,
+                    `${syn} Supplier`,
+                    `${syn} Distributor`,
+                    `${syn} for Method Validation`,
+                    `${syn} for ANDA Filing`,
+                    `${syn} for Forced Degradation Studies`,
+                    `${syn} Identification Standards`,
+                    `${syn} Reference Standard`
+                  ].forEach(t => terms.push(t));
+                });
               }
 
               return terms.map((term, i) => (
